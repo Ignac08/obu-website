@@ -1,0 +1,4 @@
+---
+const { src, alt, eager = false } = Astro.props;
+---
+<div class="photo pic"><img src={src} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" /></div>

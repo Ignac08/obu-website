@@ -1,0 +1,16 @@
+---
+import { BLOG_CATS } from "../lib/site";
+const { p } = Astro.props;
+const c = BLOG_CATS[p.data.category];
+const also = p.data.also ? BLOG_CATS[p.data.also] : null;
+---
+<a class="post" href={`/${p.id}/`} data-cats={[p.data.category, p.data.also].filter(Boolean).join(" ")}>
+  <img class="pimg" src={p.data.image} alt="" loading="lazy" style={`border-bottom-color:${c.color}`} />
+  <div class="pbody">
+    <div class="meta"><span class="pill" style={`background:${c.color}`}>{c.name}</span>{also && <span class="pill" style={`background:${also.color}`}>{also.name}</span>}</div>
+    <h3>{p.data.title}</h3>
+    <p class="muted">{p.data.summary}</p>
+    <p class="meta">By {p.data.author}</p>
+    <span class="go">Read article →</span>
+  </div>
+</a>

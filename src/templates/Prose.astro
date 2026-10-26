@@ -1,0 +1,9 @@
+---
+import PageHead from "../components/PageHead.astro";
+import LeadForm from "../components/LeadForm.astro";
+const { entry, Content } = Astro.props;
+const d = entry.data;
+---
+<PageHead crumbs={[[d.h1]]} title={d.h1} lead={d.lead} />
+<section class="band"><div class="wrap"><div class="prose"><Content /></div></div></section>
+<LeadForm />

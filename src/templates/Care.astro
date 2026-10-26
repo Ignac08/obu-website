@@ -1,0 +1,67 @@
+---
+// Daycare / boarding page, for all locations or one location.
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import CareTable from "../components/CareTable.astro";
+import Reviews from "../components/Reviews.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { LOC, SITE, money, reviewsFor, addressLine, mapsUrl, locUrl, LOCATIONS } from "../lib/site";
+const { entry, Content, hasBody } = Astro.props;
+const d = entry.data;
+const daycare = d.service === "daycare";
+const L = d.location ? LOC[d.location] : null;
+const label = daycare ? "Daycare" : "Boarding";
+const reviews = reviewsFor(entry.id, { location: L?.key, limit: 4 });
+const prices = L ? L[daycare ? "daycare" : "boarding"] : null;
+const img = L ? `/img/loc-${L.key}.jpg` : daycare ? "/img/daycare.jpg" : "/img/boarding.jpg";
+const alt = L ? `The ${L.name} property` : daycare ? "Daycare playgroup splashing in the Silverdale creek" : "Two happy boarding dogs in the yard";
+const otherPage = L ? (daycare ? L.boardingPage : L.daycarePage) : "";
+---
+<PageHead crumbs={L ? [[label, daycare ? "/dog-daycare/" : "/dog-boarding/"], [d.town || L.name]] : [[label]]} eyebrow={L ? `${label} · ${L.area}` : `Dog ${label.toLowerCase()}`} title={d.h1} lead={d.lead}>
+  <div class="row">
+    {L ? <a class="btn primary" href={L.bookingUrl} rel="noopener">Book {label.toLowerCase()} at {L.name}</a> : <a class="btn primary" href="/locations/">Book {label.toLowerCase()}</a>}
+    <a class="btn ghost" href="#lead">Ask a question</a>
+  </div>
+  <Pic slot="side" src={img} alt={alt} eager />
+</PageHead>
+
+{L ? (
+  <section class="band"><div class="wrap side">
+    <div class="stack" style="gap:40px">
+      <div class="grid g2">
+        <div class="infocard" style="box-shadow:none"><h3>{label} prices</h3>
+          {[["1 dog", prices.one], ["2 dogs (same family)", prices.two], ["3 dogs (same family)", prices.three]].filter((x) => x[1]).map((x) => <div class="kv"><span>{x[0]}</span><b class="num">{money(x[1] as number)}</b></div>)}
+          <p class="muted" style="font-size:14px">{daycare ? `Per day, up to ${L.daycareHours} hours` : "Per 24 hours"}. Plus tax.</p>
+        </div>
+        <div class="infocard" style="box-shadow:none"><h3>Drop-off &amp; pick-up</h3>
+          <div class="kv"><span>Drop-off</span><b>{L.dropOff}</b></div><div class="kv"><span>Pick-up</span><b>{L.pickUp}</b></div>
+          <p class="muted" style="font-size:14px">{daycare ? "Payment on the day; multi-date bookings are paid on the first date." : "Payment on the first day. Bring your dog's food, treats and favourite toys."}</p>
+        </div>
+      </div>
+      {L.bus && <div class="infocard" style="background:var(--sunSoft);box-shadow:none;border:0"><h3>Daycare bus</h3><p>{SITE.busNote}</p></div>}
+      {hasBody && <div class="prose"><Content /></div>}
+      {reviews.length > 0 && <div class="stack"><h2>What owners say</h2><Reviews items={reviews} cols="g2" /></div>}
+    </div>
+    <aside class="infocard" style="position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)">
+      <a class="btn primary" href={L.bookingUrl} rel="noopener">Book at {L.name}</a>
+      <a class="btn ghost" href="#lead">Ask a question</a>
+      <div><p style="font-weight:700">{addressLine(L)}</p><p class="muted" style="font-size:14px">{L.areaNote}</p><a href={mapsUrl(L)} style="color:var(--cta);font-weight:600">Get directions</a></div>
+      <p class="muted" style="font-size:14px">{L.name} has its own booking account. Phone support {SITE.phoneHours}.</p>
+      <a href={otherPage} style="font-weight:700;color:var(--cta)">{daycare ? "Boarding" : "Daycare"} at {L.name} →</a>
+      <a href={locUrl(L)} style="font-weight:700;color:var(--cta)">About our {L.name} location →</a>
+    </aside>
+  </div></section>
+) : (
+  <>
+    <section class="band"><div class="wrap stack" style="gap:24px"><h2>{label} prices</h2><CareTable type={d.service} />
+      <p class="muted" style="font-size:14px">{daycare ? "Per day, plus tax. Up to 12 hours at Stave Falls and Silverdale, 10 hours elsewhere. Multi-date bookings are paid on the first date; a cancelled date becomes a credit." : `Per night, plus tax. Payment on the first day. ${SITE.holidayPremium} Bring your dog's food, treats and favourite toys.`}</p>
+      <div class="row">{LOCATIONS.map((l) => <a class="chip" href={daycare ? l.daycarePage : l.boardingPage} style="text-decoration:none">{label} in {l.name}</a>)}</div>
+    </div></section>
+    {daycare && (
+      <section class="band sun"><div class="wrap split"><div class="stack"><p class="eyebrow">Stave Falls &amp; Silverdale</p><h2>Daycare bus: we pick up and drop off</h2><p class="lead">{SITE.busNote}</p><img class="inline-pic" src="/img/g-bus2.jpg" alt="The Obedience Unleashed daycare bus" loading="lazy" /></div>
+        <div class="stack"><h3>Good to know</h3><ul class="list"><li>Rabies and DHPP required; Bordetella optional</li><li>Puppies welcome from about 4 months, after their full series</li><li>Bring food, treats and any medication</li><li>Tours by arrangement</li><li>Dogs aggressive toward staff may be refused; we'll refer you to a facility that can help</li></ul></div></div></section>
+    )}
+    {hasBody && <section class="band"><div class="wrap"><div class="prose"><Content /></div></div></section>}
+  </>
+)}
+<LeadForm title={L ? `Questions about ${label.toLowerCase()} at ${L.name}?` : daycare ? "Book a daycare trial day" : "Planning a trip?"} sub={daycare ? "Tell us about your dog and which location suits you." : "Send us your dates and we'll help you lock in a suite."} loc={L?.key} need={label} />

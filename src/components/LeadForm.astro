@@ -1,0 +1,40 @@
+---
+// Every page ends with this form. Netlify Forms receives it and emails the office (recipients are set in Netlify).
+import { LOCATIONS, SITE, PHONE_HREF } from "../lib/site";
+const {
+  title = "Talk to our team",
+  sub = "Tell us about your dog. Our office will call or email you back.",
+  loc = "",
+  need = "",
+} = Astro.props;
+const needs = ["Puppy Class", "Obedience Bootcamp", "Off Leash Freedom", "Board and Train", "Behaviour consultation", "Daycare", "Boarding", "Group walks", "Service dog assessment", "Something else"];
+const page = Astro.url.pathname;
+---
+<section class="band deep" id="lead"><div class="wrap split">
+  <div class="stack">
+    <p class="eyebrow" style="color:var(--sun)">Free advice, no pressure</p>
+    <h2>{title}</h2>
+    <p class="lead">{sub}</p>
+    <div class="stack" style="gap:6px;margin-top:8px">
+      <p class="muted">Prefer to talk now?</p>
+      <a href={PHONE_HREF} style="font-family:var(--display);font-weight:800;font-size:32px;text-decoration:none;color:var(--deepInk)">{SITE.phone}</a>
+      <p class="muted">{SITE.phoneHours}</p>
+    </div>
+  </div>
+  <form class="formcard lead-form" name="contact" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="contact" />
+    <input type="hidden" name="page" value={page} />
+    <input type="hidden" name="subject" value="Website enquiry" />
+    <p class="hp"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+    <div class="fgrid">
+      <label>Your name<input name="name" required autocomplete="name" /></label>
+      <label>Dog's name &amp; age<input name="dog" placeholder="e.g. Milo, 2 years" /></label>
+      <label>Email<input name="email" type="email" autocomplete="email" /></label>
+      <label>Phone<input name="phone" type="tel" autocomplete="tel" /></label>
+      <label>Closest location<select name="location"><option value="">Choose…</option>{LOCATIONS.map((l) => <option value={l.name} selected={loc === l.key}>{l.name}{l.key === "stavefalls" || l.key === "silverdale" ? " (Maple Ridge / Mission)" : ""}</option>)}</select></label>
+      <label>I'm interested in<select name="interest"><option value="">Choose…</option>{needs.map((n) => <option selected={n === need}>{n}</option>)}</select></label>
+      <label class="full">What's going on with your dog?<textarea name="message" placeholder="Pulling on leash, reactive to other dogs, new puppy…"></textarea></label>
+      <div class="full stack" style="gap:10px"><button class="btn primary" type="submit">Send to our team</button><p class="fmsg muted" style="font-size:14px" aria-live="polite">{SITE.replyPromise}</p></div>
+    </div>
+  </form>
+</div></section>

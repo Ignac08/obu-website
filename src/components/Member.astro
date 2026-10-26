@@ -1,0 +1,8 @@
+---
+import { initials } from "../lib/site";
+const { p } = Astro.props;
+---
+<article class="member">
+  <div class="top">{p.photo ? <img src={p.photo} alt={p.name} loading="lazy" width="84" height="84" /> : <div class="av" aria-hidden="true">{initials(p.name)}</div>}<div><b>{p.name}</b><span>{p.role}</span></div></div>
+  {p.bio && <p>{p.bio}</p>}
+</article>

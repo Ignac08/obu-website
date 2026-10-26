@@ -1,0 +1,9 @@
+---
+import Icon from "./Icon.astro";
+const { href, icon, name, tag, text, plain = false } = Astro.props;
+---
+{plain ? (
+  <div class="tile" style="padding:20px"><h3>{name}</h3></div>
+) : (
+  <a class="tile" href={href}><span class="ic"><Icon name={icon} /></span><span class="tag">{tag}</span><h3>{name}</h3><p class="muted">{text}</p><span class="go">Learn more →</span></a>
+)}

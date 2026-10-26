@@ -1,0 +1,22 @@
+{
+  "note": "Classes are capped. Puppy Class max 8.",
+  "classes": [
+    {"course": "ol", "location": "silverdale", "start": "2026-11-03", "time": "5:00pm", "dates": "5 one-hour sessions"},
+    {"course": "l2", "location": "silverdale", "start": "2026-11-03", "time": "6:15pm", "dates": ""},
+    {"course": "puppy", "location": "silverdale", "start": "2026-11-04", "time": "5:00pm", "dates": "Wednesdays Nov 4, 18, 25, Dec 2, 9"},
+    {"course": "l1", "location": "silverdale", "start": "2026-11-04", "time": "6:15pm", "dates": ""},
+    {"course": "puppy", "location": "silverdale", "start": "2026-11-07", "time": "10:15am", "dates": "Saturdays Nov 7, 14, 21, 28, Dec 5"},
+    {"course": "l1", "location": "silverdale", "start": "2026-11-07", "time": "11:30am", "dates": ""},
+    {"course": "ol", "location": "silverdale", "start": "2026-11-08", "time": "1:30pm", "dates": ""},
+    {"course": "ol", "location": "chilliwack", "start": "2026-11-08", "time": "12:00pm", "dates": ""},
+    {"course": "l1", "location": "chilliwack", "start": "2026-11-08", "time": "1:15pm", "dates": "Sundays Nov 8, 15, 22, 29, Dec 6"},
+    {"course": "puppy", "location": "chilliwack", "start": "2026-11-09", "time": "5:00pm", "dates": "Mondays Nov 9, 16, 23, 30, Dec 7"},
+    {"course": "l2", "location": "chilliwack", "start": "2026-11-09", "time": "6:15pm", "dates": ""},
+    {"course": "puppy", "location": "kamloops", "start": "", "time": "", "dates": ""},
+    {"course": "l1", "location": "kamloops", "start": "", "time": "", "dates": ""},
+    {"course": "puppy", "location": "cochrane", "start": "", "time": "", "dates": ""},
+    {"course": "l1", "location": "cochrane", "start": "", "time": "", "dates": ""},
+    {"course": "l2", "location": "cochrane", "start": "", "time": "", "dates": ""},
+    {"course": "ol", "location": "cochrane", "start": "", "time": "", "dates": ""}
+  ]
+}

@@ -1,0 +1,110 @@
+---
+import Tile from "../components/Tile.astro";
+import LocCard from "../components/LocCard.astro";
+import SchedTable from "../components/SchedTable.astro";
+import Reviews from "../components/Reviews.astro";
+import Pic from "../components/Pic.astro";
+import Duo from "../components/Duo.astro";
+import Quiz from "../components/Quiz.astro";
+import LeadForm from "../components/LeadForm.astro";
+import PostCard from "../components/PostCard.astro";
+import Icon from "../components/Icon.astro";
+import { LOCATIONS, SITE, REVIEWS, schedule, money, minClassPrice, LOC } from "../lib/site";
+import { getCollection } from "astro:content";
+const { entry } = Astro.props;
+const posts = (await getCollection("blog")).sort((a, b) => +b.data.date - +a.data.date);
+const homePosts = [posts.find((p) => p.data.featured), posts.find((p) => p.id === "puppy-socialization-is-paramount"), posts.find((p) => p.id === "the-place-command-a-handy-trick")].filter(Boolean);
+const minDaycare = Math.min(...LOCATIONS.map((l) => l.daycare.one));
+const minBoarding = Math.min(...LOCATIONS.map((l) => l.boarding.one));
+const bt = [...new Set(LOCATIONS.map((l) => l.boardTrain))].sort((a, b) => b - a);
+const GALLERY = [["g-creek","Splash time in the Silverdale creek","big"],["g-bridge","Five friends, one bridge"],["g-frenchie","Field trip in Chilliwack"],["g-bus","The daycare bus, Maple Ridge to Mission","wide"],["g-birthday","Birthday boy at daycare","tall"],["g-run","Zoomies in the yard"],["g-class","Group class, everyone on place","wide"],["g-yard","Playgroup at Stave Falls"],["g-pond","Pond day at Stave Falls"],["g-ball","Indoor play in Cochrane"]];
+---
+<section class="hero-photo"><div class="wrap hero">
+  <div class="stack" style="gap:22px">
+    <p class="eyebrow">Training · Daycare · Boarding · 5 locations in BC &amp; Alberta</p>
+    <h1>Happier dogs. <span class="hl">Calmer homes.</span></h1>
+    <p class="lead">From first puppy class to fixing serious behaviour problems, our certified trainers help you build the relationship you wanted when you brought your dog home.</p>
+    <div class="row"><a class="btn primary" href="#lead">Get a free recommendation</a><a class="btn ghost" href="/locations/">Book at your location</a></div>
+    <div class="proof"><span><b>{SITE.googleRating}</b><span class="stars" aria-label={`${SITE.googleRating} stars`}>★★★★★</span> {SITE.googleReviewCount} Google reviews</span><span><b>{SITE.foundedYear}</b>family-run since</span><span><b>{SITE.staffCount}</b>staff</span></div>
+  </div>
+</div></section>
+<section class="quiz-band"><div class="wrap"><Quiz /></div></section>
+
+<section class="band tint" style="padding-block:28px"><div class="wrap trust">
+  {SITE.credentials.map((t) => <span class="chip"><Icon name="check" size={16} />{t}</span>)}
+</div></section>
+
+<section class="band"><div class="wrap stack" style="gap:36px">
+  <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:10px"><p class="eyebrow">What do you need?</p><h2>Find the right fit for your dog</h2></div><a class="btn ghost" href="/rates/">See all rates</a></div>
+  <div class="grid g4">
+    <Tile href="/puppy-class/" icon="puppy" name="Puppy Class" tag="New puppy" text="Biting, potty, crate and the basics, from 10 weeks." />
+    <Tile href="/obedience-bootcamp-level-1/" icon="leash" name="Obedience Bootcamp" tag="Pulls, won't listen" text="Level 1 and 2 group classes. Loose leash, recall, focus." />
+    <Tile href="/off-leash-freedom/" icon="run" name="Off Leash Freedom" tag="Runs off" text="Recall you can trust at the park and on the trail." />
+    <Tile href="/board-and-train/" icon="home" name="Board and Train" tag="Reactive, anxious, aggressive" text="4 weeks live-in rehabilitation, all-inclusive." />
+    <Tile href="/dog-daycare/" icon="sun" name="Daycare" tag="Bored at home" text={`Playgroups, walks, rest and photo updates. From ${money(minDaycare)}/day.`} />
+    <Tile href="/dog-boarding/" icon="moon" name="Boarding" tag="You're travelling" text={`Climate-controlled suites and supervised play. From ${money(minBoarding)}/night.`} />
+    <Tile href="/behavioural-consultation/" icon="chat" name="Behaviour Consult" tag="Not sure yet" text={`30–45 min with a trainer and a plan of action. ${money(SITE.consultPrice)}.`} />
+    <Tile href="/group-walks/" icon="tree" name="Group Walks" tag="Socialization" text="Weekend walks at local parks. $15 drop-in." />
+  </div>
+</div></section>
+
+<section class="band sun"><div class="wrap stack" style="gap:36px">
+  <div class="stack" style="gap:10px"><p class="eyebrow">How it works</p><h2>From first call to a dog you're proud of</h2></div>
+  <div class="steps">
+    <div class="step"><h3>Tell us about your dog</h3><p class="muted" style="margin-top:8px">Call, fill in the form or take the 30-second quiz. We'll point you to the right program.</p></div>
+    <div class="step"><h3>Meet your trainer</h3><p class="muted" style="margin-top:8px">Start a class or book a {money(SITE.consultPrice)} consultation. Your trainer builds a plan around your goals.</p></div>
+    <div class="step"><h3>See real change</h3><p class="muted" style="margin-top:8px">Notes and videos after classes, follow-up support, and group walks to keep the skills sharp.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap stack" style="gap:32px">
+  <div class="stack" style="gap:10px"><p class="eyebrow">Our locations</p><h2>Five properties built for dogs</h2><p class="lead">Each location has its own booking account, so pick the one closest to you. Two of them serve Maple Ridge and Mission: Stave Falls on the north end of the border and Silverdale on the south end.</p></div>
+  <div class="grid g5">{LOCATIONS.map((l) => <LocCard l={l} />)}</div>
+</div></section>
+
+<section class="band deep"><div class="wrap split">
+  <div class="stack" style="gap:20px">
+    <p class="eyebrow" style="color:var(--sun)">Board and Train</p>
+    <h2>Four weeks that change how your dog lives</h2>
+    <p class="lead">For dog-dog or human aggression, resource guarding, separation anxiety, severe fear and leash reactivity. Every day: 2 walks or hikes, 4 training sessions and supervised social time. Then 10 hours of follow-up with you.</p>
+    <div class="price-pills">
+      {bt.map((p) => <div class="pp"><span class="muted">{LOCATIONS.filter((l) => l.boardTrain === p && l.key !== "stavefalls").map((l) => l.key === "silverdale" ? "Maple Ridge / Mission" : l.name).join(" & ")}</span><b>{money(p)}</b></div>)}
+    </div>
+    <p class="muted" style="font-size:14px">All-in for 4 weeks, boarding included. Plus tax.</p>
+    <div class="row"><a class="btn sun" href="/board-and-train/">How Board and Train works</a></div>
+  </div>
+  <Pic src="/img/bt-band.jpg" alt="Kim, one of our trainers, with her Malinois" />
+</div></section>
+
+<section class="band"><div class="wrap stack" style="gap:28px">
+  <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:10px"><p class="eyebrow">Upcoming class starts</p><h2>Grab a spot before it fills</h2></div><p class="muted">Classes are capped. Puppy Class max 8.</p></div>
+  <SchedTable rows={schedule((r) => !r.tba).slice(0, 6)} />
+  <a class="btn ghost" href="/training/" style="align-self:flex-start">All classes &amp; dates</a>
+</div></section>
+
+<section class="band tint"><div class="wrap stack" style="gap:32px">
+  <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:10px"><p class="eyebrow">{SITE.googleRating} ★ from {SITE.googleReviewCount} Google reviews</p><h2>What dog owners say</h2></div><a class="btn ghost" href="/testimonials/">More reviews</a></div>
+  <Reviews items={REVIEWS.filter((r) => r.featured).slice(0, 6)} />
+</div></section>
+
+<section class="band"><div class="wrap stack" style="gap:28px">
+  <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:10px"><p class="eyebrow">Life at Obedience Unleashed</p><h2>A good day, every day</h2></div><a class="btn ghost" href="/dog-daycare/">See daycare</a></div>
+  <div class="gallery">{GALLERY.map((g) => <figure class={g[2] || undefined}><img src={`/img/${g[0]}.jpg`} alt={g[1]} loading="lazy" /><figcaption>{g[1]}</figcaption></figure>)}</div>
+</div></section>
+
+<section class="band sun"><div class="wrap split">
+  <Duo />
+  <div class="stack" style="gap:18px">
+    <p class="eyebrow">Our story</p>
+    <h2>It started on a camping trip in Golden Ears Park</h2>
+    <p class="lead">Marie and Andy Krzus founded Obedience Unleashed in Maple Ridge in {SITE.foundedYear}. Andy has trained police, search and rescue and assistance dogs, and helped write BC's Guide and Service Dog assessment. Today our {SITE.staffCount} staff share one mission:</p>
+    <p style="font-family:var(--display);font-size:26px;font-weight:700">“{SITE.mission}”</p>
+    <div class="row"><a class="btn ghost" href="/about/">Meet the team</a></div>
+  </div>
+</div></section>
+
+<section class="band tint"><div class="wrap stack" style="gap:28px">
+  <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:10px"><p class="eyebrow">From our blog</p><h2>Tips from our trainers</h2></div><a class="btn ghost" href="/blog/">All articles</a></div>
+  <div class="grid g3">{homePosts.map((p) => <PostCard p={p} />)}</div>
+</div></section>
+<LeadForm title="Not sure which program fits?" sub="Tell us what's going on and a trainer will recommend the best next step. No obligation." />

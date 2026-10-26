@@ -1,0 +1,23 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { WALKS, SITE, upcomingWalks, fmtDate } from "../lib/site";
+const { entry, Content, hasBody } = Astro.props;
+const d = entry.data;
+const groups = WALKS.groups.map((g) => upcomingWalks(g.key)!);
+---
+<PageHead crumbs={[["Training", "/training/"], ["Group Walks"]]} eyebrow="Obedience &amp; socialization" title={d.h1} lead={d.lead}>
+  <div class="row">{SITE.walkPrices.split(" · ").map((x) => <span class="chip">{x}</span>)}</div>
+  <Pic slot="side" src="/img/walks.jpg" alt="Group walk meet-up in a park" eager />
+</PageHead>
+<section class="band"><div class="wrap stack" style="gap:24px">
+  <div class="grid g3">{groups.map((g) => (
+    <div class="infocard"><h3>{g.title}</h3><p class="muted" style="font-size:14px">{g.time}</p>
+      {g.walks.length ? g.walks.map((w) => <div class="kv"><b style="white-space:nowrap">{fmtDate(w.date)}</b><span style="text-align:right">{w.place}</span></div>) : <p class="muted">New dates coming soon. Ask us to let you know.</p>}
+    </div>))}
+  </div>
+  <p class="muted">{WALKS.note}</p>
+</div></section>
+{hasBody && <section class="band tint"><div class="wrap"><div class="prose"><Content /></div></div></section>}
+<LeadForm need="Group walks" />

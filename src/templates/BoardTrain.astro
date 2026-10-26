@@ -1,0 +1,38 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import Reviews from "../components/Reviews.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { LOCATIONS, money, reviewsFor, SITE } from "../lib/site";
+const { entry, Content, hasBody } = Astro.props;
+const d = entry.data;
+const groups = [["Stave Falls & Silverdale", LOCATIONS.find((l) => l.key === "silverdale")!.boardTrain], ...LOCATIONS.filter((l) => !["stavefalls", "silverdale"].includes(l.key)).map((l) => [l.name, l.boardTrain])];
+const reviews = reviewsFor(entry.id, { service: "boardtrain", limit: 2 });
+---
+<PageHead crumbs={[["Training", "/training/"], ["Board and Train"]]} eyebrow="4-week live-in program" title={d.h1} lead={d.lead}>
+  <div class="row"><a class="btn primary" href="#lead">Book the initial consultation</a></div>
+  <Pic slot="side" src="/img/boardtrain.jpg" alt="A Malinois sitting calmly in a sunny field" eager />
+</PageHead>
+<section class="band"><div class="wrap stack" style="gap:28px"><h2>Is it right for your dog?</h2><div class="grid g3">{["Dog-dog aggression","Human aggression","Food and resource guarding","Separation anxiety","Severe fear","On-leash reactivity"].map((x) => <div class="tile" style="padding:20px"><h3>{x}</h3></div>)}</div></div></section>
+<section class="band sun"><div class="wrap split">
+  <div class="stack"><h2>Every day of the program</h2><div class="row" style="gap:40px;margin-top:10px">{[["2","walks or hikes"],["4","training sessions"],["+","supervised social time"]].map((x) => <div><p style="font-family:var(--display);font-size:72px;font-weight:900;line-height:1">{x[0]}</p><p class="muted">{x[1]}</p></div>)}</div></div>
+  <div class="stack"><h2>Skills your dog comes home with</h2><ul class="list cols2">{["Sit / stay","Down / stay","Place","Heel","Come / recall","Crate training","Potty training","Waiting for food","Waiting at thresholds"].map((x) => <li>{x}</li>)}</ul></div>
+</div></section>
+<section class="band"><div class="wrap stack" style="gap:28px"><h2>How it works</h2><div class="steps">
+  <div class="step"><h3>Initial consultation</h3><p class="muted" style="margin-top:8px">A trainer meets your dog, confirms the program fits and sets goals with you. ({money(SITE.consultPrice)})</p></div>
+  <div class="step"><h3>Four weeks with us</h3><p class="muted" style="margin-top:8px">Daily structure, training and exercise, with email and phone updates throughout.</p></div>
+  <div class="step"><h3>Go-home lesson + 10 hours follow-up</h3><p class="muted" style="margin-top:8px">A 1-hour private lesson, 3 hours of Off Leash Freedom class and 6 hours of group walks.</p></div>
+</div></div></section>
+<section class="band deep"><div class="wrap stack" style="gap:24px"><h2>One price, everything included</h2><p class="lead">Four weeks of training, boarding and follow-up. Plus tax. Training supplies extra.</p>
+  <div class="price-pills">{groups.map((x) => <div class="pp"><span class="muted">{x[0]}</span><b>{money(x[1] as number)}</b></div>)}</div>
+  <figure class="rev" style="max-width:720px;margin-top:12px;color:var(--ink)"><span class="stars" aria-label="5 stars">★★★★★</span><blockquote>“Enrolling her in the Board and Train program was one of the best decisions we could have made.”</blockquote><figcaption>Jeep n Jay</figcaption></figure>
+</div></section>
+{hasBody && <section class="band"><div class="wrap"><div class="prose"><Content /></div></div></section>}
+<section class="band tint"><div class="wrap stack" style="max-width:860px"><h2>Questions</h2><div>
+  <details open><summary>Can it be shorter than four weeks?</summary><p>For returning dogs, sometimes, case by case. Dogs with major issues need at least four weeks.</p></details>
+  <details><summary>Will I hear how my dog is doing?</summary><p>Yes. Your trainer keeps in touch by email and phone during the program and after it ends.</p></details>
+  <details><summary>What's included in the price?</summary><p>Four weeks of boarding and daily training, the go-home lesson, and 10 hours of follow-up classes and walks. Training supplies are extra.</p></details>
+</div>
+{reviews.length > 0 && <div style="margin-top:28px"><Reviews items={reviews} cols="g2" /></div>}
+</div></section>
+<LeadForm title="Book your Board and Train consultation" sub="Tell us what your dog is struggling with. A trainer will call you to talk it through." need="Board and Train" />

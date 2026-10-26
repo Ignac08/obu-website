@@ -1,0 +1,61 @@
+{
+  "key": "kamloops",
+  "order": 4,
+  "name": "Kamloops",
+  "slug": "kamloops",
+  "area": "Kamloops",
+  "areaNote": "Barnhartvale, east Kamloops",
+  "color": "#FFB394",
+  "street": "9015 Barnhartvale Rd",
+  "city": "Kamloops",
+  "region": "BC",
+  "postal": "",
+  "country": "CA",
+  "blurb": "6 acres in Barnhartvale with a dedicated 80 x 25 ft boarding building, 4 x 4 ft suites and a birch-chip yard.",
+  "dropOff": "7:15–9am",
+  "pickUp": "5:30–7pm",
+  "bookingUrl": "https://kamloopsobedienceunleashed.propetware.com",
+  "daycare": {
+    "one": 35,
+    "two": 0,
+    "three": 0
+  },
+  "daycareHours": 10,
+  "boarding": {
+    "one": 47.5,
+    "two": 70,
+    "three": 90
+  },
+  "boardTrain": 3500,
+  "classes": {
+    "puppy": 379.99,
+    "l1": 379.99,
+    "l2": 0,
+    "ol": 0
+  },
+  "consult": true,
+  "classNote": "",
+  "offers": [
+    "Daycare",
+    "Boarding",
+    "Puppy Class",
+    "Bootcamp Level 1",
+    "Behaviour consults",
+    "Board and Train",
+    "15-min training walk add-on ($15)"
+  ],
+  "bus": false,
+  "walks": "",
+  "teamPage": "/meet-the-team-kamloops/",
+  "daycarePage": "/dog-daycare-kamloops/",
+  "boardingPage": "/dog-boarding-kamloops/",
+  "team": [
+    {
+      "name": "Daymon & Heidi Skelton",
+      "role": "Head Trainers, Managers",
+      "photo": "/img/team/kamloops-daymon-heidi-skelton.jpg",
+      "bio": "Daymon and Heidi are professional dog trainers who enjoys meeting with clients for behavioural consultations and classes to tailor training to their needs. They provide a professional atmosphere and believe training with your dog should be fun and exciting. Heidi also manages the boarding and daycare facility. She has a strong passion for all animals and is available to answer any questions clients may have."
+    }
+  ],
+  "reviewUrl": ""
+}

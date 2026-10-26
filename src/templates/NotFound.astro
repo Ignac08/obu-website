@@ -1,0 +1,14 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Tile from "../components/Tile.astro";
+const { entry } = Astro.props;
+---
+<PageHead title={entry.data.h1} lead="The page may have moved when we refreshed our website. Try one of these instead.">
+  <div class="row"><a class="btn primary" href="/">Home</a><a class="btn ghost" href="/contact-us/">Contact us</a></div>
+</PageHead>
+<section class="band"><div class="wrap grid g4">
+  <Tile href="/training/" icon="leash" name="Training" tag="Classes" text="Puppy, obedience, off-leash and Board and Train." />
+  <Tile href="/dog-daycare/" icon="sun" name="Daycare" tag="Day care" text="Playgroups, walks and photo updates." />
+  <Tile href="/dog-boarding/" icon="moon" name="Boarding" tag="Overnight" text="Climate-controlled suites and supervised play." />
+  <Tile href="/locations/" icon="home" name="Locations" tag="5 locations" text="Find the one closest to you." />
+</div></section>

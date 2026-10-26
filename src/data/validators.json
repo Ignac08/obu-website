@@ -1,0 +1,40 @@
+{
+  "validators": [
+    {
+      "name": "Andy",
+      "role": "Validator - Lower Mainland"
+    },
+    {
+      "name": "Marie",
+      "role": "Office Manager"
+    },
+    {
+      "name": "Trever",
+      "role": "Validator - Lower Mainland"
+    },
+    {
+      "name": "Rob",
+      "role": "Validator - Vancouver Island"
+    },
+    {
+      "name": "David",
+      "role": "Validator - Vancouver Island"
+    },
+    {
+      "name": "Daymon",
+      "role": "Validator - Kamloops"
+    },
+    {
+      "name": "Lisa",
+      "role": "Validator - Kelowna/Penticton"
+    },
+    {
+      "name": "Sheri",
+      "role": "Validator - Prince George"
+    },
+    {
+      "name": "Melissa",
+      "role": "Validator - Lower Mainland"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import SchedTable from "../components/SchedTable.astro";
+import Person from "../components/Person.astro";
+import Reviews from "../components/Reviews.astro";
+import LeadForm from "../components/LeadForm.astro";
+import QRCode from "qrcode";
+import { LOC, SITE, PHONE_HREF, money, schedule, upcomingWalks, fmtDate, addressLine, mapsUrl, reviewsFor, SERVICE_LOCAL_PAGE, SVC } from "../lib/site";
+const { entry } = Astro.props;
+const L = LOC[entry.data.location];
+const sched = L.key === "stavefalls" ? [] : schedule((r) => r.location === L.key);
+const w = L.walks ? upcomingWalks(L.walks) : null;
+const qr = L.reviewUrl ? await QRCode.toString(L.reviewUrl, { type: "svg", margin: 1 }) : "";
+const reviews = reviewsFor(`locations/${L.slug}`, { location: L.key, limit: 4 });
+const classNames: Record<string, string> = { puppy: "Puppy Class", l1: "Bootcamp Level 1", l2: "Bootcamp Level 2", ol: "Off Leash Freedom" };
+const links = [
+  ["Daycare", L.daycarePage], ["Boarding", L.boardingPage],
+  ...Object.keys(classNames).filter((k) => (L.classes as any)[k]).map((k) => [classNames[k], SERVICE_LOCAL_PAGE[k]?.[L.key] ?? SVC[k].page]),
+  ...(L.consult ? [["Behaviour consult", SERVICE_LOCAL_PAGE.consult[L.key] ?? "/behavioural-consultation/"]] : []),
+  ["Board and Train", "/board-and-train/"], ["Meet the team", L.teamPage],
+];
+---
+<PageHead crumbs={[["Locations", "/locations/"], [L.name]]} eyebrow={`${L.area} · ${L.areaNote}`} title={`${L.name} dog training, daycare &amp; boarding`} lead={L.blurb}>
+  <div class="row">{L.offers.map((o) => <span class="chip">{o}</span>)}</div>
+  <Pic slot="side" src={`/img/loc-${L.key}.jpg`} alt={`The ${L.name} property`} eager />
+</PageHead>
+<section class="band"><div class="wrap side">
+  <div class="stack" style="gap:44px">
+    <div class="stack"><h2>{L.name} prices</h2>
+      <div class="grid g2">
+        <div class="infocard" style="box-shadow:none"><h3><a href={L.daycarePage} style="text-decoration:none">Daycare</a></h3><div class="kv"><span>{L.daycare.two ? "1 / 2 / 3 dogs" : "1 dog"}</span><b class="num">{[L.daycare.one, L.daycare.two, L.daycare.three].filter(Boolean).map(money).join(" / ")}</b></div><p class="muted" style="font-size:14px">Up to {L.daycareHours} hours</p></div>
+        <div class="infocard" style="box-shadow:none"><h3><a href={L.boardingPage} style="text-decoration:none">Boarding</a></h3><div class="kv"><span>1 / 2 / 3 dogs</span><b class="num">{[L.boarding.one, L.boarding.two, L.boarding.three].filter(Boolean).map(money).join(" / ")}</b></div><p class="muted" style="font-size:14px">Per 24 hours</p></div>
+        <div class="infocard" style="box-shadow:none"><h3>Training</h3>
+          {Object.entries(classNames).filter(([k]) => (L.classes as any)[k]).map(([k, n]) => <div class="kv"><a href={SERVICE_LOCAL_PAGE[k]?.[L.key] ?? SVC[k].page} style="text-decoration:none">{n}</a><b class="num">{money((L.classes as any)[k])}</b></div>)}
+          {L.consult && <div class="kv"><span>Behaviour consult</span><b>{money(SITE.consultPrice)}</b></div>}
+          {L.classNote && <p class="muted">{L.classNote}</p>}
+        </div>
+        <div class="infocard" style="box-shadow:none"><h3><a href="/board-and-train/" style="text-decoration:none">Board and Train</a></h3><p style="font-family:var(--display);font-size:40px;font-weight:900">{money(L.boardTrain)}</p><p class="muted" style="font-size:14px">4 weeks, all-in, boarding included</p></div>
+      </div><p class="muted" style="font-size:14px">All prices plus tax.</p>
+    </div>
+    {sched.length > 0 && <div class="stack"><h2>Upcoming classes</h2><SchedTable rows={sched} /></div>}
+    {w && <div class="stack"><h2>{w.title} group walks, {w.time}</h2>{w.walks.length ? <div class="tbox"><table style="min-width:420px"><tbody>{w.walks.map((x) => <tr><td><b>{fmtDate(x.date)}</b></td><td>{x.place}</td></tr>)}</tbody></table></div> : <p class="muted">New dates coming soon.</p>}<p class="muted" style="font-size:14px">{SITE.walkPrices}</p></div>}
+    {L.bus && <div class="infocard" style="background:var(--sunSoft);box-shadow:none;border:0"><h3>Daycare bus</h3><p>{SITE.busNote}</p></div>}
+    <div class="stack"><h2>Meet the {L.name} team</h2><div class="team">{L.team.map((p) => <Person p={p} />)}</div><a href={L.teamPage} style="font-weight:700;color:var(--cta)">Read the team's bios →</a></div>
+    {reviews.length > 0 && <div class="stack"><h2>What owners say</h2><Reviews items={reviews} cols="g2" /></div>}
+    {qr && <div class="qr"><Fragment set:html={qr.replace("<svg", '<svg class="code" role="img" aria-label="QR code for Google reviews"')} /><div class="stack" style="gap:6px"><h3 style="color:var(--sun)">Loved your visit?</h3><p>Scan or tap to review {L.name} on Google.</p><a href={L.reviewUrl} style="color:var(--deepInk);font-weight:700" rel="noopener">Leave a review</a></div></div>}
+    <div class="stack" style="gap:10px"><h3>Explore {L.name}</h3><div class="row">{links.map(([n, u]) => <a class="chip" href={u} style="text-decoration:none">{n}</a>)}</div></div>
+  </div>
+  <aside class="infocard" style="position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)">
+    <a class="btn primary" href={L.bookingUrl} rel="noopener">Book at {L.name}</a>
+    <a class="btn ghost" href="#lead">Ask a question</a>
+    <div><p style="font-weight:700">{addressLine(L)}</p><a href={mapsUrl(L)} style="color:var(--cta);font-weight:600">Get directions</a></div>
+    <div><div class="kv"><span>Drop-off</span><b>{L.dropOff}</b></div><div class="kv"><span>Pick-up</span><b>{L.pickUp}</b></div></div>
+    <a href={PHONE_HREF} style="font-family:var(--display);font-weight:800;font-size:22px;text-decoration:none">{SITE.phone}</a>
+    <p class="muted" style="font-size:14px">Phone support {SITE.phoneHours}. {L.name} has its own booking account.</p>
+  </aside>
+</div></section>
+<LeadForm title={`Questions about ${L.name}?`} sub="Ask about availability, a tour or the right program. We'll get right back to you." loc={L.key} />
+<style is:global>.qr svg.code{flex:none;width:96px;height:96px;border-radius:12px;background:#fff;padding:6px}</style>

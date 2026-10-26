@@ -1,0 +1,44 @@
+---
+import PageHead from "../components/PageHead.astro";
+import PostCard from "../components/PostCard.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { BLOG_CATS } from "../lib/site";
+import { getCollection } from "astro:content";
+const { entry } = Astro.props;
+const d = entry.data;
+const posts = (await getCollection("blog")).sort((a, b) => +b.data.date - +a.data.date);
+const f = posts.find((p) => p.data.featured) ?? posts[0];
+const count = (k: string) => posts.filter((p) => p.data.category === k || p.data.also === k).length;
+---
+<PageHead crumbs={[["Blog"]]} eyebrow="Tips from our trainers" title={d.h1} lead={d.lead}>
+  <div slot="side" class="grid g2">{Object.entries(BLOG_CATS).map(([k, c]) => <button class="topic" type="button" data-cat={k} style={`background:${c.color}`}><b>{c.name}</b><span>{c.blurb}</span><span style="font-weight:700">{count(k)} articles →</span></button>)}</div>
+</PageHead>
+<section class="band"><div class="wrap stack" style="gap:28px">
+  <a class="feature" href={`/${f.id}/`}><div class="fart photo pic" style="border-radius:0"><img src={f.data.image} alt="" loading="lazy" /><div class="cap"><b>Featured</b>{BLOG_CATS[f.data.category].name}</div></div><div class="fbody"><p class="eyebrow">Featured article</p><h2>{f.data.title}</h2><p class="lead">{f.data.summary}</p><span style="font-weight:700;color:var(--cta)">Read article →</span></div></a>
+  <div id="articles" class="stack" style="gap:16px"><h2>All articles</h2>
+    <div class="cats" role="group" aria-label="Filter by topic"><button class="cat" type="button" data-cat="all" aria-pressed="true">All</button>{Object.entries(BLOG_CATS).map(([k, c]) => <button class="cat" type="button" data-cat={k} aria-pressed="false">{c.name}</button>)}</div>
+    <p class="muted" id="blogcount">{posts.length} articles</p>
+    <div class="grid g3" id="bloglist">{posts.map((p) => <PostCard p={p} />)}</div>
+    {Object.entries(BLOG_CATS).map(([k, c]) => <div class="row cta-cat" data-for={k} hidden style="margin-top:12px;justify-content:space-between;background:var(--bg2);border-radius:20px;padding:20px 24px"><p style="font-weight:700">Want hands-on help? {c.cta[0]} puts these tips into practice.</p><a class="btn primary" href={c.cta[1]}>{c.cta[0]}</a></div>)}
+  </div>
+</div></section>
+<LeadForm title="Have a training question?" sub="Tell us what's going on with your dog. Our trainers are happy to help." />
+<script>
+  const names: Record<string, string> = { puppy: "Puppies", training: "Training tips", care: "Daycare & boarding", local: "Local guides" };
+  document.addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLElement>("[data-cat]");
+    if (!b) return;
+    const cat = b.dataset.cat!;
+    let n = 0;
+    document.querySelectorAll<HTMLElement>("#bloglist .post").forEach((p) => {
+      const show = cat === "all" || p.dataset.cats!.split(" ").includes(cat);
+      p.hidden = !show;
+      if (show) n++;
+    });
+    document.querySelectorAll<HTMLElement>(".cat").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.cat === cat)));
+    document.querySelectorAll<HTMLElement>(".cta-cat").forEach((c) => (c.hidden = c.dataset.for !== cat));
+    document.getElementById("blogcount")!.textContent = `${n} article${n === 1 ? "" : "s"}${names[cat] ? " in " + names[cat] : ""}`;
+    if (b.classList.contains("topic")) document.getElementById("articles")?.scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+<style>#bloglist .post[hidden]{display:none}</style>

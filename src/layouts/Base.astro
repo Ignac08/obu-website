@@ -1,0 +1,134 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE, NOINDEX, LOCATIONS, addressLine } from "../lib/site";
+
+const { title, description, section = "", noindex = false, image = "/img/hero.jpg", schema = [], ogType = "website", fullTitle = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const pageTitle = fullTitle ? title : `${title} | Obedience Unleashed`;
+const ogImage = new URL(image, Astro.site).href;
+const robots = NOINDEX || noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large";
+
+const org = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://obedienceunleashed.com/#org",
+  name: SITE.businessName,
+  alternateName: SITE.shortName,
+  url: "https://obedienceunleashed.com/",
+  logo: "https://obedienceunleashed.com/img/logo.png",
+  telephone: SITE.phone,
+  foundingDate: String(SITE.foundedYear),
+  founder: [{ "@type": "Person", name: "Andy Krzus" }, { "@type": "Person", name: "Marie Therese Krzus" }],
+  sameAs: [SITE.instagram].filter(Boolean),
+  aggregateRating: { "@type": "AggregateRating", ratingValue: SITE.googleRating, reviewCount: SITE.googleReviewCount },
+  subOrganization: LOCATIONS.map((l) => ({ "@id": `https://obedienceunleashed.com/locations/${l.slug}/#business` })),
+};
+const ld = [org, ...schema];
+---
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta name="robots" content={robots} />
+  <meta name="google-site-verification" content={SITE.googleSiteVerification} />
+  <meta name="theme-color" content="#FFC83D" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content="Obedience Unleashed" />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Figtree:wght@400;500;600;700&display=swap" />
+  <script type="application/ld+json" set:html={JSON.stringify(ld.length === 1 ? ld[0] : ld)} />
+  {!NOINDEX && SITE.googleTagManager && (
+    <script is:inline define:vars={{ id: SITE.googleTagManager }}>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',id);
+    </script>
+  )}
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <Header section={section} />
+  <main id="main"><slot /></main>
+  <Footer />
+  <script>
+    const btn = document.getElementById("menuBtn");
+    const nav = document.getElementById("nav");
+    btn?.addEventListener("click", () => {
+      const open = nav!.classList.toggle("open");
+      btn.setAttribute("aria-expanded", String(open));
+    });
+
+    // Lead forms: post to Netlify in the background and thank the visitor in place.
+    document.querySelectorAll<HTMLFormElement>("form.lead-form").forEach((f) => {
+      f.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const msg = f.querySelector(".fmsg") as HTMLElement;
+        const name = (f.elements.namedItem("name") as HTMLInputElement).value.trim();
+        const email = (f.elements.namedItem("email") as HTMLInputElement).value.trim();
+        const phone = (f.elements.namedItem("phone") as HTMLInputElement).value.trim();
+        if (!name || (!email && !phone)) {
+          msg.textContent = "Please add your name and an email or phone number so we can reach you.";
+          msg.classList.add("err");
+          return;
+        }
+        const interest = (f.elements.namedItem("interest") as HTMLSelectElement).value;
+        const loc = (f.elements.namedItem("location") as HTMLSelectElement).value;
+        (f.elements.namedItem("subject") as HTMLInputElement).value =
+          `Website enquiry: ${name}${interest ? " · " + interest : ""}${loc ? " · " + loc : ""}`;
+        const btn = f.querySelector("button[type=submit]") as HTMLButtonElement;
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+        try {
+          const body = new URLSearchParams(new FormData(f) as any).toString();
+          const r = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
+          if (!r.ok) throw new Error(String(r.status));
+          f.innerHTML = `<div class="ok" role="status">Thanks, ${name.replace(/[<>&"]/g, "")}! Your message is on its way to our office. We reply within one business day.</div>`;
+          (window as any).dataLayer?.push({ event: "lead_form_submit", interest, location: loc });
+        } catch {
+          btn.disabled = false;
+          btn.textContent = "Send to our team";
+          msg.textContent = "Sorry, that didn't send. Please call us or try again.";
+          msg.classList.add("err");
+        }
+      });
+    });
+
+    // Class dates that have passed since the last rebuild show as TBA.
+    const today = new Date().toLocaleDateString("en-CA");
+    document.querySelectorAll<HTMLElement>("tr[data-start]").forEach((tr) => {
+      if (tr.dataset.start! >= today) return;
+      tr.querySelector(".when")!.innerHTML = '<span class="tba">TBA</span>';
+      tr.querySelector(".act")!.innerHTML = '<a href="#lead" style="font-weight:700;color:var(--cta)">Get notified</a>';
+    });
+
+    // Quiz recommendations prefill the form.
+    document.addEventListener("click", (e) => {
+      const pf = (e.target as HTMLElement).closest<HTMLElement>("[data-prefill]");
+      if (!pf) return;
+      const f = document.querySelector<HTMLFormElement>("form.lead-form");
+      if (!f) return;
+      const s = f.elements.namedItem("interest") as HTMLSelectElement;
+      const l = f.elements.namedItem("location") as HTMLSelectElement;
+      if (pf.dataset.prefill) s.value = pf.dataset.prefill;
+      if (pf.dataset.loc) l.value = pf.dataset.loc;
+    });
+  </script>
+</body>
+</html>

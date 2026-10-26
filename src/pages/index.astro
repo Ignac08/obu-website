@@ -1,0 +1,10 @@
+---
+import Base from "../layouts/Base.astro";
+import Home from "../templates/Home.astro";
+import { getEntry } from "astro:content";
+import { schemaFor } from "../lib/render";
+const entry = (await getEntry("pages", "index"))!;
+---
+<Base title={entry.data.title} description={entry.data.description} schema={schemaFor(entry)}>
+  <Home entry={entry} />
+</Base>

@@ -1,0 +1,28 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import Tile from "../components/Tile.astro";
+import SchedTable from "../components/SchedTable.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { SITE, schedule, money, minClassPrice, LOCATIONS } from "../lib/site";
+const { entry } = Astro.props;
+const d = entry.data;
+const from = (k: string) => `From ${money(minClassPrice(k))}.`;
+const bt = LOCATIONS.map((l) => l.boardTrain);
+---
+<PageHead crumbs={[["Training"]]} eyebrow="Training programs" title={d.h1} lead={d.lead}>
+  <Pic slot="side" src="/img/training.jpg" alt="Group class in a field with dogs and handlers" eager />
+</PageHead>
+<section class="band"><div class="wrap stack" style="gap:28px"><h2>Choose a program</h2><div class="grid g3">
+  <Tile href="/puppy-class/" icon="puppy" name="Puppy Class" tag="10 wk – 6 mo" text={`5 x 1 hr, max 8 puppies. ${from("puppy")}`} />
+  <Tile href="/obedience-bootcamp-level-1/" icon="leash" name="Bootcamp Level 1" tag="7 mo – 10 yrs" text={`Loose leash, recall, distractions. ${from("l1")}`} />
+  <Tile href="/obedience-bootcamp-level-2/" icon="badge" name="Bootcamp Level 2" tag="After Level 1" text={`Toy rewards and real-life proofing. ${from("l2")}`} />
+  <Tile href="/off-leash-freedom/" icon="run" name="Off Leash Freedom" tag="After a consult" text={`Reliable off-leash recall. ${money(minClassPrice("ol"))}.`} />
+  <Tile href="/board-and-train/" icon="home" name="Board and Train" tag="Serious behaviour" text={`4 weeks all-in. ${money(Math.min(...bt))}–${money(Math.max(...bt))}.`} />
+  <Tile href="/behavioural-consultation/" icon="chat" name="Behaviour Consult" tag="Start here" text={`30–45 min plan of action. ${money(SITE.consultPrice)}.`} />
+  <Tile href="/group-walks/" icon="tree" name="Group Walks" tag="Socialization" text="Weekend walks at local parks. $15 drop-in." />
+  <Tile href="/service-dog-assessments/" icon="badge" name="Service Dog Assessments" tag="Province of BC" text={`Official BC Guide and Service Dog assessments. ${money(SITE.serviceDogFee)}.`} />
+  <a class="tile" href={SITE.coursesUrl}><span class="tag">Train at home</span><h3>Video courses</h3><p class="muted">Online training courses on the Obedience Unleashed portal.</p><span class="go">Go to courses →</span></a>
+</div></div></section>
+<section class="band tint"><div class="wrap stack" style="gap:24px"><h2>All upcoming class starts</h2><SchedTable rows={schedule()} /><p class="muted" style="font-size:14px">Maple Ridge / Mission classes are held at Silverdale, 9221 Woodward St. Prices plus tax.</p></div></section>
+<LeadForm />

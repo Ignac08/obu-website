@@ -1,0 +1,110 @@
+{
+  "key": "chilliwack",
+  "order": 3,
+  "name": "Chilliwack",
+  "slug": "chilliwack",
+  "area": "Chilliwack / Abbotsford",
+  "areaNote": "Greendale, on the Abbotsford / Chilliwack border",
+  "color": "#8CCBFF",
+  "street": "6933 Chadsey Rd",
+  "city": "Chilliwack",
+  "region": "BC",
+  "postal": "V2R 4K8",
+  "country": "CA",
+  "blurb": "5 acres just off Hwy 1 in Greendale, on the Abbotsford / Chilliwack border, with fenced yards and a climate-controlled area.",
+  "dropOff": "7–10am",
+  "pickUp": "3–6pm",
+  "bookingUrl": "https://chilliwackobedienceunleashed.propetware.com",
+  "daycare": {
+    "one": 45,
+    "two": 81,
+    "three": 117
+  },
+  "daycareHours": 10,
+  "boarding": {
+    "one": 60,
+    "two": 108,
+    "three": 156
+  },
+  "boardTrain": 4000,
+  "classes": {
+    "puppy": 328,
+    "l1": 328,
+    "l2": 328,
+    "ol": 834.75
+  },
+  "consult": true,
+  "classNote": "",
+  "offers": [
+    "Daycare",
+    "Boarding",
+    "Puppy Class",
+    "Bootcamp Level 1 & 2",
+    "Off Leash Freedom",
+    "Behaviour consults",
+    "Board and Train",
+    "Group walks"
+  ],
+  "bus": false,
+  "walks": "chilliwack",
+  "teamPage": "/meet-the-team-chilliwack/",
+  "daycarePage": "/dog-daycare-chilliwack/",
+  "boardingPage": "/chilliwack-boarding-and-daycare/",
+  "team": [
+    {
+      "name": "Deb",
+      "role": "Trainer",
+      "photo": "/img/team/chilliwack-deb.jpg",
+      "bio": "Deb is a Dog Trainer with over 10 years of experience in the Animal Industry and 18 years of experience in Public Service. She has a Bachelor’s degree with a specialization in Animal Behaviour and has completed numerous courses in animal welfare. As a Trainer she is dedicated to helping dogs and their owners get more out of their training programs. On her days off she enjoys spending time with family, hiking and training with her own dogs."
+    },
+    {
+      "name": "Maddy",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/chilliwack-maddy.jpg",
+      "bio": "Maddy started in the dog boarding/daycare industry in 2019. She is finishing her Bachelor’s degree in Psychology and working toward her Master’s Degree in Counselling. Maddy owns two dogs: Kane (Rotti cross), Berklee (Golden Retriever) and a Siamese cat named Baker. She is passionate about rescue and giving animals second chances. In her spare time she likes to go on road trips, watch movies and paint."
+    },
+    {
+      "name": "Lauren",
+      "role": "Kennel Assistant",
+      "photo": "",
+      "bio": "Lauren is a full-time student and works part time at Obedience Unleashed. She has an 8 year old lab named Rosie. She plays basketball and has a 3rd degree black belt in Taekwondo. In her spare time she enjoys listening to records and going for walks in nature."
+    },
+    {
+      "name": "Trinity P.",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/chilliwack-trinity-p.jpg",
+      "bio": "Trinity has worked for several years at large boarding/daycare facilities and has also cared for police/service dogs. She is currently completing a Bachelor’s degree in Education and has successfully finished courses in dog first aid, behaviour, social cues and administering canine medication. She has two dogs named Harley and Josie and enjoys camping with them. Some of her hobbies include playing baseball and teaching her dogs new tricks."
+    },
+    {
+      "name": "Clarinda",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/chilliwack-clarinda.jpg",
+      "bio": "Clarinda brings 6 years of experience working in the animal industry with horses at a local stable, volunteering with the Langley Animal Protection Society and the Ravine Park Salmon Hatchery. She is passionate about furthering her education and has completed Pet First Aid and Dog Handler courses. In her free time she enjoys cycling and hiking."
+    },
+    {
+      "name": "Emily",
+      "role": "Kennel Assistant",
+      "photo": "",
+      "bio": ""
+    },
+    {
+      "name": "Ava",
+      "role": "Kennel Assistant",
+      "photo": "",
+      "bio": ""
+    },
+    {
+      "name": "Megan",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/chilliwack-megan.jpg",
+      "bio": "Megan has been an art hobbyist since she was young. After high-school she travelled around Europe/United Kingdom and then pursued schooling in Ceramics. She lives on a farm and has worked with farm animals, both poultry and dairy cows. Currently she is diving deeper into her passion for painting and drawing. In her spare time she enjoys going for walks with her dog Clark."
+    },
+    {
+      "name": "Kendra",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/chilliwack-kendra.jpg",
+      "bio": "Kendra was born and raised in Calgary. She loves all animals and has previous experience working at the Calgary Zoo and a local dog boarding facility. Her hobbies include gardening, going for nature walks, crocheting dog sweaters and hanging out with her two English Cocker Spaniels Lana and Cyrus."
+    }
+  ],
+  "reviewUrl": ""
+}

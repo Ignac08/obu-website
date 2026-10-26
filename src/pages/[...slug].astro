@@ -1,0 +1,40 @@
+---
+import Base from "../layouts/Base.astro";
+import Post from "../templates/Post.astro";
+import { getCollection, render } from "astro:content";
+import { TEMPLATES, sectionFor, schemaFor } from "../lib/render";
+
+export async function getStaticPaths() {
+  const pages = (await getCollection("pages")).filter((p) => !["index", "404"].includes(p.id));
+  const posts = await getCollection("blog");
+  return [
+    ...pages.map((entry) => ({ params: { slug: entry.id }, props: { entry } })),
+    ...posts.map((post) => ({ params: { slug: post.id }, props: { post } })),
+  ];
+}
+const { entry, post } = Astro.props;
+let Content: any, hasBody = false;
+if (entry) {
+  ({ Content } = await render(entry));
+  hasBody = !!entry.body?.trim();
+} else {
+  ({ Content } = await render(post));
+}
+const T = entry ? TEMPLATES[entry.data.template] : null;
+const BASE = "https://obedienceunleashed.com";
+const articleLd = post && [{
+  "@context": "https://schema.org", "@type": "BlogPosting", headline: post.data.title, description: post.data.description,
+  datePublished: post.data.date.toISOString().slice(0, 10), image: BASE + post.data.image,
+  author: { "@type": post.data.author.startsWith("Andy") ? "Person" : "Organization", name: post.data.author.replace(/ \(republished\)/, "") },
+  publisher: { "@id": `${BASE}/#org` }, mainEntityOfPage: `${BASE}/${post.id}/`,
+}];
+---
+{entry ? (
+  <Base title={entry.data.title} description={entry.data.description} section={sectionFor(entry.data)} noindex={entry.data.noindex} schema={schemaFor(entry)} image={entry.data.image}>
+    <T entry={entry} Content={Content} hasBody={hasBody} />
+  </Base>
+) : (
+  <Base title={post.data.title} description={post.data.description} section="blog" schema={articleLd} image={post.data.image} ogType="article">
+    <Post post={post} Content={Content} />
+  </Base>
+)}

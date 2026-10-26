@@ -1,0 +1,20 @@
+---
+import { LOCATIONS, money } from "../lib/site";
+const { type } = Astro.props;
+---
+<div class="tbox"><table>
+  <thead><tr><th>Location</th><th>1 dog</th><th>2 dogs</th><th>3 dogs</th><th>Drop-off</th><th>Pick-up</th><th><span style="position:absolute;left:-9999px">Book</span></th></tr></thead>
+  <tbody>
+    {LOCATIONS.map((l) => {
+      const p = l[type as "daycare" | "boarding"];
+      return (
+        <tr>
+          <td><a href={type === "daycare" ? l.daycarePage : l.boardingPage} style="text-decoration:none"><b>{l.name}</b></a><div class="muted" style="font-size:13px">{l.area}</div></td>
+          {[p.one, p.two, p.three].map((x) => <td class="num">{x ? money(x) : "—"}</td>)}
+          <td>{l.dropOff}</td><td>{l.pickUp}</td>
+          <td><a href={l.bookingUrl} rel="noopener" style="font-weight:700;color:var(--cta)">Book</a></td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table></div>

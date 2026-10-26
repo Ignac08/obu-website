@@ -1,0 +1,25 @@
+---
+import Icon from "./Icon.astro";
+import { SITE, PHONE_HREF } from "../lib/site";
+const { section = "" } = Astro.props;
+const NAV = [
+  ["training", "/training/", "Training"], ["boardandtrain", "/board-and-train/", "Board &amp; Train"], ["daycare", "/dog-daycare/", "Daycare"],
+  ["boarding", "/dog-boarding/", "Boarding"], ["locations", "/locations/", "Locations"], ["rates", "/rates/", "Rates"],
+  ["servicedogs", "/service-dog-assessments/", "Service Dogs"], ["about", "/about/", "About"], ["blog", "/blog/", "Blog"],
+];
+---
+<header class="site">
+  <div class="wrap hbar">
+    <a class="logo" href="/" aria-label="Obedience Unleashed home">
+      <img class="lg lg-d" src="/img/logo.png" alt="Obedience Unleashed dog training" width="173" height="60" /><img class="lg lg-l" src="/img/logo-light.png" alt="" width="173" height="60" />
+    </a>
+    <nav class="main" id="nav" aria-label="Main">
+      {NAV.map(([k, href, label]) => <a href={href} class={k === section ? "on" : undefined} aria-current={k === section ? "page" : undefined} set:html={label} />)}
+    </nav>
+    <div class="hcta">
+      <a class="phone" href={PHONE_HREF}>{SITE.phone}</a>
+      <a class="btn primary" href="#lead">Get started</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><Icon name="menu" size={22} /></button>
+    </div>
+  </div>
+</header>

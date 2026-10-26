@@ -1,0 +1,48 @@
+---
+// "Find the right program" quiz from the design. Data comes from the location files so prices stay current.
+import { LOCATIONS, classPrice, money, SVC, SITE } from "../lib/site";
+const data = LOCATIONS.map((l) => ({
+  key: l.key, name: l.name,
+  daycare: money(l.daycare.one), boarding: money(l.boarding.one), bt: money(l.boardTrain),
+  puppy: classPrice("puppy", l.key), l1: classPrice("l1", l.key), ol: classPrice("ol", l.key),
+  locPage: `/locations/${l.slug}/`,
+}));
+const pages = { puppy: SVC.puppy.page, l1: SVC.l1.page, ol: SVC.ol.page, bt: "/board-and-train/", care: "/dog-daycare/", consult: SVC.consult.page };
+---
+<div id="quiz" class="quiz" data-locs={JSON.stringify(data)} data-pages={JSON.stringify(pages)} data-consult={money(SITE.consultPrice)}></div>
+<script>
+  const el = document.getElementById("quiz")!;
+  const LOCS: any[] = JSON.parse(el.dataset.locs!);
+  const PAGES: any = JSON.parse(el.dataset.pages!);
+  const money = (n: number) => "$" + (Number.isInteger(n) ? n.toLocaleString("en-CA") : n.toFixed(2));
+  const Q: any = { step: 0, age: null, goal: null, loc: null };
+  const opt = (a: string, v: string, label: string) => `<button class="opt" type="button" data-a="${a}" data-v="${v}">${label}</button>`;
+  function render() {
+    const pct = [10, 45, 80, 100][Q.step];
+    let body = "";
+    if (Q.step === 0) body = `<p class="qstep">Question 1 of 3</p><h3>How old is your dog?</h3><div class="opts">${opt("age","puppy","Under 6 months")}${opt("age","young","6 months – 2 years")}${opt("age","adult","2 – 10 years")}${opt("age","senior","10+ years")}</div>`;
+    if (Q.step === 1) body = `<p class="qstep">Question 2 of 3</p><h3>What would help most?</h3><div class="opts">${opt("goal","manners","Better manners &amp; listening")}${opt("goal","recall","Off-leash recall")}${opt("goal","behaviour","Reactivity, aggression or anxiety")}${opt("goal","care","Care while I work or travel")}</div>`;
+    if (Q.step === 2) body = `<p class="qstep">Question 3 of 3</p><h3>Which location is closest?</h3><div class="opts">${LOCS.map((l) => opt("loc", l.key, l.name + (l.key === "stavefalls" || l.key === "silverdale" ? " <small>(Maple Ridge / Mission)</small>" : ""))).join("")}</div>`;
+    if (Q.step === 3) {
+      const L = LOCS.find((l) => l.key === Q.loc);
+      let name, price, link, why, need;
+      if (Q.goal === "care") { name = "Daycare & Boarding"; need = "Daycare"; price = `${L.daycare}/day · ${L.boarding}/night`; link = L.locPage; why = "Playgroups, walks, rest and photo updates, with certified staff."; }
+      else if (Q.goal === "behaviour") { name = "Board and Train"; need = "Board and Train"; price = `${L.bt} all-in`; link = PAGES.bt; why = `Start with a ${el.dataset.consult} behaviour consultation so a trainer can confirm the best plan.`; }
+      else if (Q.age === "puppy") { name = "Puppy Class"; need = "Puppy Class"; price = L.puppy ? money(L.puppy) : "Ask us"; link = PAGES.puppy; why = "5 one-hour classes, max 8 puppies, notes and video every week."; }
+      else if (Q.goal === "recall" && L.ol) { name = "Off Leash Freedom"; need = "Off Leash Freedom"; price = money(L.ol); link = PAGES.ol; why = "Begins with a private consultation, then 5 one-hour sessions."; }
+      else { name = "Obedience Bootcamp Level 1"; need = "Obedience Bootcamp"; price = L.l1 ? money(L.l1) : "Ask us"; link = PAGES.l1; why = "Loose-leash walking, recall and focus around distractions."; }
+      body = `<p class="qstep">Your recommendation</p><div class="result stack" style="gap:8px"><h3>${name}</h3><p class="price">${price}</p><p>${why}</p><p class="muted" style="font-size:14px">At ${L.name}${Q.loc === "stavefalls" && Q.goal !== "care" ? " (classes held at Silverdale)" : ""}</p></div>
+        <div class="row"><a class="btn primary" href="#lead" data-prefill="${need}" data-loc="${L.name}">Get a call back</a><a class="btn ghost" href="${link}">Learn more</a></div><button class="linkish" type="button" data-a="reset">Start over</button>`;
+    }
+    el.innerHTML = `<div class="stack" style="gap:16px"><div class="row" style="justify-content:space-between"><span style="font-family:var(--display);font-weight:800;font-size:18px">Find the right program</span><span class="muted" style="font-size:14px">30 seconds</span></div><div class="progress" aria-hidden="true"><i style="width:${pct}%"></i></div>${body}</div>`;
+  }
+  el.addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLElement>("[data-a]");
+    if (!b) return;
+    if (b.dataset.a === "reset") { Q.step = 0; Q.age = Q.goal = Q.loc = null; }
+    else { Q[b.dataset.a!] = b.dataset.v; Q.step++; }
+    render();
+    el.querySelector<HTMLElement>(".opt, .btn")?.focus({ preventScroll: true });
+  });
+  render();
+</script>

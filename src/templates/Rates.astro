@@ -1,0 +1,37 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { LOCATIONS, SITE, money, classPrice } from "../lib/site";
+const { entry } = Astro.props;
+const d = entry.data;
+const cp = (s: string) => (l: any) => (l.key === "stavefalls" ? "at Silverdale" : classPrice(s, l.key) ? money(classPrice(s, l.key)) : "—");
+const p3 = (p: any) => [p.one, p.two, p.three].filter(Boolean).map(money).join(" / ");
+const rows: [string, (l: any) => string][] = [
+  ["Daycare (1 / 2 / 3 dogs)", (l) => p3(l.daycare)],
+  ["Boarding (1 / 2 / 3 dogs)", (l) => p3(l.boarding)],
+  ["Puppy Class (5 x 1 hr)", cp("puppy")],
+  ["Bootcamp Level 1", cp("l1")],
+  ["Bootcamp Level 2", cp("l2")],
+  ["Off Leash Freedom", cp("ol")],
+  ["Behaviour consult", (l) => (l.consult ? money(SITE.consultPrice) : "at Silverdale")],
+  ["Board and Train (4 wk, all-in)", (l) => money(l.boardTrain)],
+];
+---
+<PageHead crumbs={[["Rates"]]} eyebrow="Rates" title={d.h1} lead={d.lead}>
+  <Pic slot="side" src="/img/rates.jpg" alt="A happy dog under the Obedience Unleashed sign" eager />
+</PageHead>
+<section class="band"><div class="wrap stack" style="gap:24px">
+  <div class="tbox"><table>
+    <thead><tr><th>Service</th>{LOCATIONS.map((l) => <th>{l.name}</th>)}</tr></thead>
+    <tbody>{rows.map((r) => <tr><td><b>{r[0]}</b></td>{LOCATIONS.map((l) => <td class="num">{r[1](l)}</td>)}</tr>)}</tbody>
+  </table></div>
+  <p class="muted" style="font-size:14px">All prices plus tax. Daycare is up to 12 hours at Stave Falls and Silverdale and up to 10 hours elsewhere; boarding is per 24 hours. Maple Ridge / Mission group classes and consultations run at Silverdale. Kamloops: private 15-minute training walk add-on $15. Cochrane: private 30-minute walk add-on $15.</p>
+  <div class="grid g3">
+    <div class="infocard" style="box-shadow:none"><h3>Extras</h3><p class="muted">{SITE.extras}</p></div>
+    <div class="infocard" style="box-shadow:none"><h3>Holiday premium</h3><p class="muted">{SITE.holidayPremium} Holiday dates: {SITE.holidayDates}.</p></div>
+    <div class="infocard" style="box-shadow:none"><h3>Other services</h3><div class="kv"><span>Service dog assessment</span><b>{money(SITE.serviceDogFee)}</b></div><div class="kv"><span>Group walks</span><b style="text-align:right">{SITE.walkPrices}</b></div></div>
+  </div>
+  <div class="note-card"><h3>Payment</h3><p class="muted" style="margin-top:6px">{SITE.paymentNote}</p></div>
+</div></section>
+<LeadForm />

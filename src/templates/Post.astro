@@ -1,0 +1,22 @@
+---
+import PageHead from "../components/PageHead.astro";
+import PostCard from "../components/PostCard.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { BLOG_CATS } from "../lib/site";
+import { getCollection } from "astro:content";
+const { post, Content } = Astro.props;
+const d = post.data;
+const c = BLOG_CATS[d.category];
+const related = (await getCollection("blog")).filter((p) => p.id !== post.id && (p.data.category === d.category || p.data.also === d.category)).slice(0, 3);
+const needMap: Record<string, string> = { puppy: "Puppy Class", training: "Obedience Bootcamp", care: "Daycare", local: "" };
+---
+<PageHead crumbs={[["Blog", "/blog/"], [c.name]]} eyebrow={c.name} title={d.title} lead={d.summary}>
+  <p class="muted" style="font-size:15px">By {d.author}</p>
+  <img slot="side" class="post-hero" src={d.image} alt="" />
+</PageHead>
+<section class="band"><div class="wrap side">
+  <article class="prose"><Content /></article>
+  <aside class="infocard" style="position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)"><h3>Want hands-on help?</h3><p class="muted">{c.cta[0]} puts these tips into practice with a certified trainer.</p><a class="btn primary" href={c.cta[1]}>{c.cta[0]}</a><a class="btn ghost" href="#lead">Ask a trainer</a></aside>
+</div></section>
+{related.length > 0 && <section class="band tint"><div class="wrap stack" style="gap:24px"><h2>More {c.name.toLowerCase()} articles</h2><div class="grid g3">{related.map((p) => <PostCard p={p} />)}</div></div></section>}
+<LeadForm title="Have a training question?" sub="Tell us what's going on with your dog. Our trainers are happy to help." need={needMap[d.category]} />

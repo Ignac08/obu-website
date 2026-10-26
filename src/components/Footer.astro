@@ -1,0 +1,28 @@
+---
+import { LOCATIONS, SITE, PHONE_HREF, addressLine, locUrl } from "../lib/site";
+const year = new Date().getFullYear();
+---
+<footer class="site">
+  <div class="wrap">
+    <div class="fcols">
+      <div class="stack" style="gap:10px">
+        <img src="/img/logo-light.png" alt="Obedience Unleashed dog training" width="162" height="56" style="height:56px;width:auto;align-self:flex-start" loading="lazy" />
+        <p>Dog Training Inc. Founded {SITE.foundedYear} in Maple Ridge, BC by Marie and Andy Krzus.</p>
+        <a href={PHONE_HREF} style="color:var(--deepInk);font-family:var(--display);font-weight:800;font-size:22px;text-decoration:none">{SITE.phone}</a>
+        <p>Phone support {SITE.phoneHours}</p>
+      </div>
+      {LOCATIONS.map((l) => (
+        <div><h4><a href={locUrl(l)} style="color:inherit;text-decoration:none">{l.name}</a></h4><p>{l.street}<br />{l.city}, {l.region}{l.postal && ` ${l.postal}`}</p><p style="font-size:13px;margin-top:4px">{l.area}</p></div>
+      ))}
+    </div>
+    <div class="row" style="justify-content:space-between;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);font-size:14px">
+      <span>© {year} {SITE.businessName} · IACP member · BBB Accredited A+</span>
+      <span class="row" style="gap:18px"><a href="/rates/">Rates</a><a href="/testimonials/">Reviews</a><a href="/group-walks/">Group walks</a><a href="/blog/">Blog</a><a href={SITE.coursesUrl}>Video courses</a><a href="/contact-us/">Contact</a></span>
+    </div>
+  </div>
+</footer>
+<div class="mbar" aria-label="Quick actions">
+  <a class="btn ghost" href={PHONE_HREF}>Call</a>
+  <a class="btn sun" href="/locations/">Book</a>
+  <a class="btn primary" href="#lead">Ask us</a>
+</div>

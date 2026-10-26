@@ -1,0 +1,15 @@
+---
+import PageHead from "../components/PageHead.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { LOCATIONS, SITE, PHONE_HREF, addressLine, mapsUrl, locUrl } from "../lib/site";
+const { entry } = Astro.props;
+const d = entry.data;
+---
+<PageHead crumbs={[["Contact"]]} eyebrow="Get in touch" title={d.h1} lead={d.lead}>
+  <div slot="side" class="infocard"><p class="muted">Call us</p><a href={PHONE_HREF} style="font-family:var(--display);font-size:36px;font-weight:900;text-decoration:none">{SITE.phone}</a><p class="muted">{SITE.phoneHours}</p>
+    {LOCATIONS.map((l) => <div class="kv"><a href={locUrl(l)} style="text-decoration:none">{l.name}</a><a href={l.bookingUrl} rel="noopener" style="color:var(--cta);font-weight:700">Book online</a></div>)}</div>
+</PageHead>
+<section class="band"><div class="wrap grid g5">{LOCATIONS.map((l) => (
+  <div class="stack" style="gap:6px"><h3>{l.name}</h3><p class="muted" style="font-size:14px">{l.area}</p><p>{addressLine(l)}</p><p class="muted" style="font-size:14px">Drop-off {l.dropOff}<br />Pick-up {l.pickUp}</p><a href={mapsUrl(l)} style="color:var(--cta);font-weight:600">Directions</a></div>
+))}</div></section>
+<LeadForm title="Send us a message" sub="Tell us a little about your dog and what you're hoping for." />

@@ -1,0 +1,13 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Reviews from "../components/Reviews.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { REVIEWS, SITE } from "../lib/site";
+const { entry } = Astro.props;
+const d = entry.data;
+const featured = REVIEWS.filter((r) => r.featured);
+const rest = REVIEWS.filter((r) => !r.featured);
+---
+<PageHead crumbs={[["Reviews"]]} eyebrow={`${SITE.googleRating} ★ from ${SITE.googleReviewCount} Google reviews`} title={d.h1} lead={d.lead} />
+<section class="band"><div class="wrap stack" style="gap:28px"><Reviews items={featured} /><Reviews items={rest} /></div></section>
+<LeadForm />

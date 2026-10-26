@@ -1,0 +1,8 @@
+---
+import { money, addressLine, locUrl } from "../lib/site";
+const { l } = Astro.props;
+---
+<a class="loc" href={locUrl(l)}>
+  <div class="top" style={`background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.6)),url(/img/loc-${l.key}.jpg) center/cover;border-bottom:6px solid ${l.color}`}>{l.area}</div>
+  <div class="body"><h3>{l.name}</h3><p class="muted" style="font-size:14px">{addressLine(l)}</p><p class="from">Daycare {money(l.daycare.one)} · Boarding {money(l.boarding.one)}</p><span class="go">Visit location →</span></div>
+</a>

@@ -1,0 +1,69 @@
+---
+// Training service page. Used for the main page (all locations) and each location version.
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import SchedTable from "../components/SchedTable.astro";
+import Reviews from "../components/Reviews.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { LOCATIONS, LOC, SVC, SITE, MARKER, schedule, classPrice, money, reviewsFor, addressLine, mapsUrl, SERVICE_LOCAL_PAGE, locUrl } from "../lib/site";
+const { entry, Content, hasBody } = Astro.props;
+const d = entry.data;
+const S = SVC[d.service];
+const L = d.location ? LOC[d.location] : null;
+const rows = schedule((r) => r.course === S.key && (!L || r.location === L.key));
+const priceLocs = LOCATIONS.filter((l) => l.key !== "stavefalls" && classPrice(S.key, l.key));
+const needMap: Record<string, string> = { puppy: "Puppy Class", l1: "Obedience Bootcamp", l2: "Obedience Bootcamp", ol: "Off Leash Freedom", consult: "Behaviour consultation" };
+const reviews = reviewsFor(entry.id, { service: S.key, location: L?.key, limit: 3 });
+const where = L ? (L.key === "silverdale" ? "Silverdale, on the Maple Ridge / Mission border" : L.name) : "";
+const price = L ? classPrice(S.key, L.key) : 0;
+const others = L ? Object.entries(SERVICE_LOCAL_PAGE[S.key] ?? {}).filter(([k, u]) => k !== L.key && k !== "stavefalls" && u !== `/${entry.id}/`) : [];
+---
+<PageHead crumbs={L ? [["Training", "/training/"], [S.name, S.page], [d.town || L.name]] : [["Training", "/training/"], [S.name]]} eyebrow={L ? `${S.tag} · ${d.town || L.name}` : S.tag} title={d.h1} lead={d.lead || S.intro}>
+  <div class="row">
+    {L ? <a class="btn primary" href={L.bookingUrl} rel="noopener">Book at {L.name}</a> : <a class="btn primary" href="#lead">Ask about {S.name}</a>}
+    {L ? <a class="btn ghost" href="#lead">Ask a question</a> : <a class="btn ghost" href="/locations/">Book online</a>}
+  </div>
+  <Pic slot="side" src={S.image} alt={S.alt} eager />
+</PageHead>
+
+<section class="band"><div class="wrap side">
+  <div class="stack" style="gap:40px">
+    {L && <p class="lead" style="max-width:none">{S.intro}</p>}
+    <div class="stack"><h2>{S.key === "consult" ? "What happens at the consultation" : "What your dog learns"}</h2><ul class="list cols2">{S.learn.map((x: string) => <li>{x}</li>)}</ul></div>
+    {S.qa.length > 0 && <div class="stack"><h2>Your questions, answered in class</h2><ul class="list cols2">{S.qa.map((x: string) => <li>{x}</li>)}</ul></div>}
+    {S.key !== "consult" && (rows.length > 0 ? <div class="stack"><h2>Upcoming starts{L && ` in ${L.key === "silverdale" ? "Maple Ridge / Mission" : L.name}`}</h2><SchedTable rows={rows} showCourse={false} /></div>
+      : L && <div class="note-card"><b>New dates coming soon.</b> Send us a message below and we'll let you know when the next {S.name} starts at {L.name}.</div>)}
+    {S.marker && <div class="stack"><h2>Our method: marker training</h2><p class="muted">{MARKER}</p></div>}
+    {S.key === "consult" && (
+      <div class="stack"><h2>Is a consultation the right first step?</h2>
+        <p class="muted">The consultation is for adult or young adult dogs (over 7 months) with behavioural challenges. If you have a young puppy, or an adult dog without behaviour problems, you don't need one: call us at {SITE.phone} or send a message below (both free), or book straight into <a href="/puppy-class/">Puppy Class</a> or <a href="/obedience-bootcamp-level-1/">Obedience Bootcamp Level 1</a>.</p>
+        <p class="muted">The consultation is a one-time chance for the trainer to observe your dog and discuss a program. It isn't an active training session or an in-depth behavioural assessment.</p>
+      </div>
+    )}
+    {hasBody && <div class="prose"><Content /></div>}
+    {reviews.length > 0 && <div class="stack"><h2>What owners say</h2><Reviews items={reviews} cols="g2" /></div>}
+    {others.length > 0 && <div class="stack" style="gap:10px"><h3>{S.name} at our other locations</h3><div class="row">{others.map(([k, u]) => <a class="chip" href={u} style="text-decoration:none">{LOC[k].key === "silverdale" ? "Maple Ridge / Mission" : LOC[k].name}</a>)}</div></div>}
+  </div>
+  <aside class="infocard" style="position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)">
+    {L ? (
+      <>
+        <h3>{S.name} at {L.name}</h3>
+        {price ? <p style="font-family:var(--display);font-size:40px;font-weight:900;line-height:1">{money(price)}</p> : <p class="muted">Ask us about availability.</p>}
+        <p class="muted" style="font-size:14px">{S.length} · plus tax</p>
+        <a class="btn primary" href={L.bookingUrl} rel="noopener">Reserve a spot</a>
+        <div><p style="font-weight:700">{addressLine(L)}</p><p class="muted" style="font-size:14px">{L.areaNote}</p><a href={mapsUrl(L)} style="color:var(--cta);font-weight:600">Get directions</a></div>
+        <ul class="list" style="font-size:15px">{S.requirements.map((x: string) => <li>{x}</li>)}</ul>
+        <a href={locUrl(L)} style="font-weight:700;color:var(--cta)">About our {L.name} location →</a>
+      </>
+    ) : (
+      <>
+        <h3>Price by location</h3>
+        {priceLocs.map((l) => <div class="kv"><a href={SERVICE_LOCAL_PAGE[S.key]?.[l.key] ?? locUrl(l)} style="text-decoration:none">{l.key === "silverdale" ? "Maple Ridge / Mission" : l.name}</a><b>{money(classPrice(S.key, l.key))}</b></div>)}
+        <p class="muted" style="font-size:14px">{S.length}, plus tax.</p>
+        <ul class="list" style="font-size:15px">{S.requirements.map((x: string) => <li>{x}</li>)}</ul>
+        <a class="btn primary" href="#lead">Reserve a spot</a>
+      </>
+    )}
+  </aside>
+</div></section>
+<LeadForm title={`Questions about ${S.name}?`} sub="Tell us about your dog and we'll help you pick the right start date and location." loc={L?.key} need={needMap[S.key]} />

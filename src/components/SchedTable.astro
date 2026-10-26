@@ -1,0 +1,24 @@
+---
+import { LOC, SVC, classPrice, money, fmtDate, SERVICE_LOCAL_PAGE } from "../lib/site";
+const { rows, showCourse = true } = Astro.props;
+const locLabel = (k: string) => (k === "silverdale" ? "Silverdale (Maple Ridge / Mission)" : LOC[k]?.name ?? k);
+---
+<div class="tbox"><table>
+  <thead><tr>{showCourse && <th>Class</th>}<th>Location</th><th>First class</th><th>Price</th><th><span class="sr">Book</span></th></tr></thead>
+  <tbody>
+    {rows.map((s: any) => {
+      const p = classPrice(s.course, s.location);
+      const page = SERVICE_LOCAL_PAGE[s.course]?.[s.location] ?? SVC[s.course]?.page;
+      return (
+        <tr data-start={s.tba ? undefined : s.start}>
+          {showCourse && <td><a href={page} style="text-decoration:none"><b>{SVC[s.course]?.name.replace("Obedience ", "")}</b></a></td>}
+          <td>{locLabel(s.location)}</td>
+          <td class="when">{s.tba ? <span class="tba">TBA</span> : <>{fmtDate(s.start)}{s.time && `, ${s.time}`}{s.dates && <div class="muted" style="font-size:13px">{s.dates}</div>}</>}</td>
+          <td class="num">{p ? money(p) : "—"}</td>
+          <td class="act">{s.tba ? <a href="#lead" style="font-weight:700;color:var(--cta)">Get notified</a> : <a href={LOC[s.location].bookingUrl} rel="noopener" style="font-weight:700;color:var(--cta)">Book</a>}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table></div>
+<style>.sr{position:absolute;left:-9999px}</style>

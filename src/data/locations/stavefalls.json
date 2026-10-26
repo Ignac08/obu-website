@@ -1,0 +1,149 @@
+{
+  "key": "stavefalls",
+  "order": 1,
+  "name": "Stave Falls",
+  "slug": "stave-falls",
+  "area": "Maple Ridge / Mission",
+  "areaNote": "North end of the Maple Ridge / Mission border",
+  "color": "#FFC83D",
+  "street": "12658 Powell St",
+  "city": "Mission",
+  "region": "BC",
+  "postal": "",
+  "country": "CA",
+  "blurb": "On the north end of the Maple Ridge / Mission border: 10 acres of forest trails and open fields. A licensed and inspected commercial kennel with permits from the City of Mission and the Fraser Valley Regional District.",
+  "dropOff": "7:45–10am",
+  "pickUp": "4:30–7:15pm",
+  "bookingUrl": "https://obedienceunleashed.propetware.com",
+  "daycare": {
+    "one": 48,
+    "two": 86.4,
+    "three": 124.8
+  },
+  "daycareHours": 12,
+  "boarding": {
+    "one": 63,
+    "two": 113.4,
+    "three": 163.8
+  },
+  "boardTrain": 4000,
+  "classes": {
+    "puppy": 0,
+    "l1": 0,
+    "l2": 0,
+    "ol": 0
+  },
+  "consult": false,
+  "classNote": "Maple Ridge / Mission group classes run at our Silverdale location, on the south end of the border.",
+  "offers": [
+    "Daycare",
+    "Boarding",
+    "Daycare bus",
+    "Board and Train",
+    "Group walks"
+  ],
+  "bus": true,
+  "walks": "mission",
+  "teamPage": "/meet-the-team-stave-falls/",
+  "daycarePage": "/dog-daycare-maple-ridge-mission/",
+  "boardingPage": "/dog-boarding-mission/",
+  "team": [
+    {
+      "name": "Hannah",
+      "role": "Trainer",
+      "photo": "/img/team/stavefalls-hannah.jpg",
+      "bio": "Hannah has worked at Obedience Unleashed for 6 years as a Dog trainer and Senior Assistant at our Daycare/Boarding/Training facility. She brings rich multidisciplinary experience from her 8 years competing in 4H with dogs & llamas and 5 years as a professional handler for CKC show dogs competing in obedience, agility, conformation, and rally-obedience. She has earned her Excellent title in rally-obedience and is working toward her Master’s title with her current dog Oakley."
+    },
+    {
+      "name": "Melissa B.",
+      "role": "Trainer",
+      "photo": "/img/team/stavefalls-melissa-b.jpg",
+      "bio": "Melissa has a Bachelor’s Degree in Archaeology with a specialization in Forensics and enjoyed a successful 15 year career in Sales & Customer Service before deciding to become a Professional Dog Trainer in 2021. She brings 17 years of animal training and competition experience with horses in dressage. She grew up with dogs, has done agility training and earned Canine Good Citizen & Canine Good Neighbour titles. She currently competes actively with her dog Luna and most recently earned her novice and intermediate titles in rally-obedience."
+    },
+    {
+      "name": "Morgan",
+      "role": "Trainer",
+      "photo": "/img/team/stavefalls-morgan.jpg",
+      "bio": "Morgan’s true passion is working with dogs and she loves making owners feel comfortable with training dogs in our care. She brings 6+ years of dog industry experience to our team. She owns 2 dogs, Levi (Border Collie cross) and Georgia (St. Bernard cross), and is always trying new enrichment activities and obedience training for them. Morgan loves camping and hiking with her dogs (rain or shine), and she enjoys balancing outdoor activity with a good snuggle or movie on the couch."
+    },
+    {
+      "name": "Nadia",
+      "role": "Senior Kennel Assistant",
+      "photo": "/img/team/stavefalls-nadia.jpg",
+      "bio": "Nadia works full time for Obedience Unleashed and is studying toward a Bachelor’s Degree in Nursing. She brings a wealth of experience with animals, living on their family farm raising cows, goats, sheep and chickens. She also has two dogs: a Doberman named Ace and Great Pyrenees named Angel. Nadia’s hobbies include baking, reading and spending time with animals."
+    },
+    {
+      "name": "Clara",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-clara.jpg",
+      "bio": "Clara has worked part-time in our Daycare/Boarding facility since 2019 and has successfully completed Dog Handler Academy and Pet First Aid courses. She is pursuing her Bachelor’s Degree in Business Administration, plus teaches Highland Dance and Piano. In her spare time she enjoys crafts, hiking and training with her 1 year old German Shepherd Willa."
+    },
+    {
+      "name": "Ashley",
+      "role": "Senior Kennel Assistant",
+      "photo": "/img/team/stavefalls-ashley.jpg",
+      "bio": "Ashley has worked for Obedience Unleashed since 2020. She has completed our Puppy and Off Leash Obedience classes plus dog manners/first aid workshops. In her spare time, Ashley enjoys hiking with her Border Collie named Maple, organizing, cooking and travelling."
+    },
+    {
+      "name": "Finn",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-finn.jpg",
+      "bio": "Finn is a full time student and works part time for Obedience Unleashed. He lives with his family on acreage with his dogs Whiley (Newfoundland/Lab), Lincoln (Australian Shepherd) and Hazel (Australian Shepherd/Border Collie)."
+    },
+    {
+      "name": "Ally",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-ally.jpg",
+      "bio": "Ally is a full time student and has worked part time at Obedience Unleashed since 2022. Her hobbies include volunteering with horses at a local barn and spending time with her pup Tucker."
+    },
+    {
+      "name": "Annie",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-annie.jpg",
+      "bio": "Annie is a full time student and has worked part time at Obedience Unleashed since 2020. She has competed in 4H Agility, Obedience and Showmanship. She enjoys hiking with her Belgian Malinois Paco."
+    },
+    {
+      "name": "Soleil",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-soleil.jpg",
+      "bio": "Soleil is pursuing a career in Firefighting and has worked part time for Obedience Unleashed since 2024. She has 3 years of experience with pet sitting and dog walking. Her hobbies include track, working out, painting and spending time with her small mixed breed family dog."
+    },
+    {
+      "name": "Emma",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-emma.jpg",
+      "bio": "Emma is pursuing a Bachelor’s Degree in Science and has worked part time for Obedience Unleashed since 2022. She has completed Dog Handler Academy courses. When she isn’t hanging out with pups, she teaches and performs Scottish Dance and enjoys going to the gym."
+    },
+    {
+      "name": "Paxton",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-paxton.jpg",
+      "bio": "Paxton is pursuing a Bachelor’s Degree in Biology and started working part time at Obedience Unleashed in 2023. He plays guitar in a local band and enjoys camping, skiing and hiking. At home he has two dogs – a Golden Retriever/Border Collie and a Golden Retriever/Boxer."
+    },
+    {
+      "name": "Kathrine",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-kathrine.jpg",
+      "bio": "Kathrine brings over 10 years of animal care experience to our team. She has worked for many years managing the calving program at a local dairy farm and has worked part time for Obedience Unleashed since 2023. In her spare time she enjoys hiking with her 1 year old Chocolate lab named Donkey."
+    },
+    {
+      "name": "Shaun",
+      "role": "Operations",
+      "photo": "/img/team/stavefalls-shaun.jpg",
+      "bio": "Shaun works in Operations and we are so grateful for his incredible attention to detail and pride of workmanship. He has worked for Obedience Unleashed since 2023. Outside of work he enjoys spending time with his family, running his hobby farm and hunting."
+    },
+    {
+      "name": "Leagh",
+      "role": "Operations",
+      "photo": "/img/team/stavefalls-leagh.jpg",
+      "bio": "Leagh works in Operations and is a true “super-man” for all of our locations helping to build, fix and maintain our facilities. He has worked at Obedience Unleashed since 2021, is a creative artist (check out “Stave Falls Creations”) and owns a Pitbull/Husky cross named Felix."
+    },
+    {
+      "name": "Karson",
+      "role": "Kennel Assistant",
+      "photo": "/img/team/stavefalls-karson.jpg",
+      "bio": "Karson started working part time for Obedience Unleashed in 2025. He also works shifts at our Silverdale location so you may see him there. In his spare time he enjoys camping, hiking, fishing and playing hockey. At home he has a Labrador Retriever named Toby."
+    }
+  ],
+  "reviewUrl": ""
+}

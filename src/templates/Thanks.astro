@@ -1,0 +1,8 @@
+---
+import PageHead from "../components/PageHead.astro";
+import { SITE, PHONE_HREF } from "../lib/site";
+const { entry } = Astro.props;
+---
+<PageHead title={entry.data.h1} lead={`Our office will call or email you back. ${SITE.replyPromise}`}>
+  <div class="row"><a class="btn primary" href="/">Back to home</a><a class="btn ghost" href={PHONE_HREF}>Call {SITE.phone}</a></div>
+</PageHead>

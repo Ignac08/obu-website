@@ -1,0 +1,19 @@
+# Topic, author, image and summary for each migrated blog post (from the approved design).
+def p(cat, author, img, summary, also="", featured=False, description=""):
+    return dict(category=cat, author=author, img=img, summary=summary, also=also, featured=featured, description=description or summary)
+
+POSTS = {
+ "10-signs-your-dog-is-bored-or-lonely-while-youre-at-work": p("care","Obedience Unleashed","b-bored","Destructive chewing, barking and escape attempts can all mean your dog needs more to do during the workday. Learn the signs and how structured daycare helps.",featured=True),
+ "how-often-should-your-dog-go-to-daycare": p("care","Obedience Unleashed","b-howoften","Age, energy level, temperament, health and your own schedule all shape the right number of daycare days for your dog."),
+ "is-dog-daycare-good-for-socialization-what-cochrane-and-calgary-dog-owners-should-know": p("care","Obedience Unleashed","b-social","Well-run, supervised daycare can build social skills, but it isn't the right fit for every dog. Here's how to tell.",also="local",description="Learn how structured dog daycare can support healthy socialization, confidence, play skills, and behaviour for dogs in Cochrane and Calgary."),
+ "cochrane-dog-owners-winter-survival-guide-training-exercise-and-paw-care-for-alberta-winters": p("local","Obedience Unleashed","b-winter","Keep your dog active, trained and paw-healthy through an Alberta winter, with indoor training ideas and smarter cold-weather walks.",description="Learn how to keep your dog active, comfortable, and engaged through Cochrane winters with exercise, indoor activities, paw care, and daycare tips."),
+ "keeping-your-dog-safe-in-kamloops-extreme-seasons": p("local","Obedience Unleashed","b-kamloops","Hot summers, cold winters and rattlesnake season: paw protection, heatstroke, trail choices and snake-avoidance training.",description="Learn how to protect your dog from summer heat, rattlesnakes, and winter cold in Kamloops with practical safety tips for every season."),
+ "new-to-mission-with-a-puppy-a-locals-guide-to-raising-a-well-socialized-dog-in-silverdale": p("puppy","Obedience Unleashed","b-mission","Safe socialization for new puppy owners in Mission and Silverdale: working with your vet on vaccines and using local spots for controlled exposure.",also="local",description="Learn how to safely socialize your puppy around Mission and Silverdale with local outings, vet guidance, leash skills, dog meetings, and training tips."),
+ "puppy-socialization-is-paramount": p("puppy","Andy Krzus","b-socialization","Socialization means exposing your pup to everyday life and people of all ages, and training should start the day your puppy comes home."),
+ "potty-training-for-you-and-your-puppy": p("puppy","Obedience Unleashed","b-potty","A regular bathroom schedule, one outdoor spot, a consistent cue and the crate. Patience and consistency bring results."),
+ "top-10-things-to-teach-your-dog": p("puppy","Linda Michaels (republished)","b-top10","Early priorities for a new dog: housetraining, handling for the vet and groomer, bite inhibition, socialization and chew toys.",also="training"),
+ "the-place-command-a-handy-trick": p("training","Andy Krzus","b-place","Step by step: teach your dog to stay on a mat or bed until released. A lifesaver when guests arrive."),
+ "biking-with-your-dog": p("training","Andy Krzus","b-biking","How Andy taught his two dogs to heel beside his bike, moving from leash walking to off-leash riding."),
+ "destructive-chewing": p("training","Dr. Ian Dunbar (republished)","b-chewing","Chewing is normal and necessary. Learn how stuffed chew toys and short-term confinement teach your dog what to chew."),
+ "how-to-stop-dogs-from-digging": p("training","Republished article","b-digging","Boredom, attention-seeking or hunting critters: why dogs dig, and how exercise, a digging spot and consistency help."),
+}

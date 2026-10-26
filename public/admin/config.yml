@@ -1,0 +1,315 @@
+# Site editor for Marie and the office (Sveltia CMS). Every save is a commit to GitHub; the site rebuilds in about a minute.
+backend:
+  name: github
+  repo: Ignac08/obu-website
+  branch: main
+  commit_messages:
+    create: "Add {{collection}} “{{slug}}” (site editor)"
+    update: "Update {{collection}} “{{slug}}” (site editor)"
+    delete: "Delete {{collection}} “{{slug}}” (site editor)"
+    uploadMedia: "Upload “{{path}}” (site editor)"
+    deleteMedia: "Delete “{{path}}” (site editor)"
+
+site_url: https://obuk9.com
+display_url: https://obuk9.com
+logo_url: /img/logo.png
+media_folder: public/img/uploads
+public_folder: /img/uploads
+
+collections:
+  # ---------------- Class dates ----------------
+  - name: schedule
+    label: Class dates
+    description: Upcoming class start dates. A date in the past shows as “TBA” on the site until you add the next one.
+    files:
+      - name: schedule
+        label: Class start dates
+        file: src/data/schedule.json
+        fields:
+          - { name: note, label: Note shown under the schedule, widget: string, required: false }
+          - name: classes
+            label: Classes
+            label_singular: class
+            widget: list
+            summary: "{{fields.course}} · {{fields.location}} · {{fields.start}} {{fields.time}}"
+            fields:
+              - name: course
+                label: Class
+                widget: select
+                options:
+                  - { label: Puppy Class, value: puppy }
+                  - { label: Obedience Bootcamp Level 1, value: l1 }
+                  - { label: Obedience Bootcamp Level 2, value: l2 }
+                  - { label: Off Leash Freedom, value: ol }
+              - name: location
+                label: Location
+                widget: select
+                options:
+                  - { label: "Silverdale (Maple Ridge / Mission)", value: silverdale }
+                  - { label: Chilliwack, value: chilliwack }
+                  - { label: Kamloops, value: kamloops }
+                  - { label: "Cochrane, AB", value: cochrane }
+              - { name: start, label: First class date (leave empty for TBA), widget: datetime, time_format: false, format: YYYY-MM-DD, required: false }
+              - { name: time, label: "Start time (e.g. 5:00pm)", widget: string, required: false }
+              - { name: dates, label: "All class dates (optional, e.g. Wednesdays Nov 4, 18, 25, Dec 2, 9)", widget: string, required: false }
+
+  # ---------------- Group walks ----------------
+  - name: walks
+    label: Group walks
+    files:
+      - name: walks
+        label: Group walk dates
+        file: src/data/walks.json
+        fields:
+          - { name: note, label: Note shown on the walks page, widget: text }
+          - name: groups
+            label: Areas
+            widget: list
+            allow_add: false
+            allow_remove: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: key, label: Key (don't change), widget: hidden }
+              - { name: title, label: Area name, widget: string }
+              - { name: time, label: "Day and time (e.g. Sundays, 9am)", widget: string }
+              - name: walks
+                label: Walks
+                label_singular: walk
+                widget: list
+                summary: "{{fields.date}} · {{fields.place}}"
+                fields:
+                  - { name: date, label: Date, widget: datetime, time_format: false, format: YYYY-MM-DD }
+                  - { name: place, label: Place and address, widget: string }
+
+  # ---------------- Locations ----------------
+  - name: locations
+    label: Locations, prices & teams
+    label_singular: location
+    description: Prices, hours, booking links and the team for each location.
+    folder: src/data/locations
+    format: json
+    extension: json
+    create: false
+    delete: false
+    identifier_field: name
+    summary: "{{name}}"
+    sortable_fields: [order, name]
+    fields:
+      - { name: key, label: Key (don't change), widget: hidden }
+      - { name: order, label: Order, widget: hidden }
+      - { name: slug, label: Web address (don't change), widget: hidden }
+      - { name: name, label: Location name, widget: string }
+      - { name: area, label: "Area served (e.g. Maple Ridge / Mission)", widget: string }
+      - { name: areaNote, label: Short location note, widget: string }
+      - { name: color, label: Accent colour, widget: color, required: false }
+      - { name: street, label: Street address, widget: string }
+      - { name: city, label: City, widget: string }
+      - { name: region, label: Province, widget: string }
+      - { name: postal, label: Postal code, widget: string, required: false }
+      - { name: country, label: Country, widget: hidden }
+      - { name: blurb, label: Description, widget: text }
+      - { name: dropOff, label: Drop-off hours, widget: string }
+      - { name: pickUp, label: Pick-up hours, widget: string }
+      - { name: bookingUrl, label: Online booking link, widget: string, hint: "Today: ProPetware. Later: the OBU Portal." }
+      - { name: reviewUrl, label: Google review link (shows a QR code when filled in), widget: string, required: false }
+      - name: daycare
+        label: Daycare price per day (0 = not offered)
+        widget: object
+        fields:
+          - { name: one, label: 1 dog, widget: number, value_type: float, step: 0.01 }
+          - { name: two, label: 2 dogs, widget: number, value_type: float, step: 0.01 }
+          - { name: three, label: 3 dogs, widget: number, value_type: float, step: 0.01 }
+      - { name: daycareHours, label: Daycare max hours, widget: number, value_type: int }
+      - name: boarding
+        label: Boarding price per night (0 = not offered)
+        widget: object
+        fields:
+          - { name: one, label: 1 dog, widget: number, value_type: float, step: 0.01 }
+          - { name: two, label: 2 dogs, widget: number, value_type: float, step: 0.01 }
+          - { name: three, label: 3 dogs, widget: number, value_type: float, step: 0.01 }
+      - { name: boardTrain, label: Board and Train 4 weeks all-in, widget: number, value_type: float }
+      - name: classes
+        label: Class prices (0 = not offered here)
+        widget: object
+        fields:
+          - { name: puppy, label: Puppy Class, widget: number, value_type: float, step: 0.01 }
+          - { name: l1, label: Bootcamp Level 1, widget: number, value_type: float, step: 0.01 }
+          - { name: l2, label: Bootcamp Level 2, widget: number, value_type: float, step: 0.01 }
+          - { name: ol, label: Off Leash Freedom, widget: number, value_type: float, step: 0.01 }
+      - { name: consult, label: Offers behaviour consultations, widget: boolean }
+      - { name: classNote, label: Note when classes are elsewhere, widget: string, required: false }
+      - { name: offers, label: Services offered (chips), widget: list }
+      - { name: bus, label: Daycare bus available, widget: boolean }
+      - { name: walks, label: Group walks area key, widget: hidden }
+      - { name: teamPage, widget: hidden }
+      - { name: daycarePage, widget: hidden }
+      - { name: boardingPage, widget: hidden }
+      - name: team
+        label: Team
+        label_singular: team member
+        widget: list
+        summary: "{{fields.name}} · {{fields.role}}"
+        fields:
+          - { name: name, label: Name, widget: string }
+          - { name: role, label: Role, widget: string }
+          - { name: photo, label: Photo (square works best), widget: image, required: false }
+          - { name: bio, label: Bio, widget: text, required: false }
+
+  # ---------------- Business settings ----------------
+  - name: settings
+    label: Business settings
+    files:
+      - name: settings
+        label: Phone, hours, notes & leadership
+        file: src/data/settings.json
+        fields:
+          - { name: businessName, label: Business name, widget: string }
+          - { name: shortName, label: Short name, widget: string }
+          - { name: phone, label: Phone, widget: string }
+          - { name: phoneHours, label: Phone hours, widget: string }
+          - { name: replyPromise, label: Reply promise under forms, widget: string }
+          - { name: formRecipients, label: "Form emails go to (change these in Netlify too)", widget: list }
+          - { name: googleRating, label: Google rating, widget: number, value_type: float, step: 0.1 }
+          - { name: googleReviewCount, label: Google review count, widget: number, value_type: int }
+          - { name: foundedYear, label: Founded, widget: number, value_type: int }
+          - { name: staffCount, label: Staff count, widget: string }
+          - { name: portalUrl, label: OBU Portal link, widget: string }
+          - { name: coursesUrl, label: Video courses link, widget: string }
+          - { name: instagram, label: Instagram link, widget: string, required: false }
+          - { name: linkedin, label: LinkedIn link, widget: string, required: false }
+          - { name: mission, label: Mission statement, widget: string }
+          - { name: credentials, label: Credentials (chips on the home page), widget: list }
+          - { name: busNote, label: Daycare bus note, widget: text }
+          - { name: extras, label: Extras (rates page), widget: text }
+          - { name: holidayPremium, label: Holiday premium note, widget: text }
+          - { name: holidayDates, label: Holiday premium dates, widget: text }
+          - { name: paymentNote, label: Payment policy, widget: text }
+          - { name: consultPrice, label: Behaviour consultation price, widget: number, value_type: float }
+          - { name: serviceDogFee, label: Service dog assessment fee, widget: number, value_type: float }
+          - { name: walkPrices, label: Group walk prices, widget: string }
+          - name: leadership
+            label: Leadership (shown on every team page)
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: role, label: Role, widget: string }
+              - { name: photo, label: Photo, widget: image, required: false }
+              - { name: bio, label: Bio, widget: text, required: false }
+          - { name: googleTagManager, label: Google Tag Manager ID, widget: string, required: false }
+          - { name: googleSiteVerification, label: Google site verification code, widget: string, required: false }
+
+  # ---------------- Reviews ----------------
+  - name: reviews
+    label: Reviews
+    description: Only add real reviews, copied word for word.
+    files:
+      - name: reviews
+        label: Client reviews
+        file: src/data/reviews.json
+        fields:
+          - name: reviews
+            label: Reviews
+            label_singular: review
+            widget: list
+            summary: "{{fields.author}} · {{fields.text | truncate(60)}}"
+            fields:
+              - { name: text, label: Review, widget: text }
+              - { name: author, label: Name, widget: string }
+              - { name: source, label: "Source (e.g. Google review)", widget: string, required: false }
+              - { name: featured, label: Show on the home page, widget: boolean, default: false }
+              - { name: pages, label: "Show on these pages (page addresses, e.g. puppy-class-mission)", widget: list, required: false }
+              - name: service
+                label: Service
+                widget: select
+                required: false
+                options: ["", puppy, l1, l2, ol, consult, boardtrain, daycare, boarding]
+              - name: location
+                label: Location
+                widget: select
+                required: false
+                options: ["", stavefalls, silverdale, chilliwack, kamloops, cochrane]
+
+  # ---------------- Services ----------------
+  - name: services
+    label: Training programs
+    files:
+      - name: services
+        label: Program descriptions
+        file: src/data/services.json
+        fields:
+          - name: services
+            label: Programs
+            widget: list
+            allow_add: false
+            allow_remove: false
+            summary: "{{fields.name}}"
+            fields:
+              - { name: key, widget: hidden }
+              - { name: page, widget: hidden }
+              - { name: icon, widget: hidden }
+              - { name: name, label: Name, widget: string }
+              - { name: tag, label: Short tag, widget: string }
+              - { name: length, label: Length, widget: string }
+              - { name: short, label: One-line summary, widget: string }
+              - { name: intro, label: Introduction, widget: text }
+              - { name: learn, label: What your dog learns, widget: list }
+              - { name: qa, label: Q&A topics, widget: list, required: false }
+              - { name: requirements, label: Requirements, widget: list }
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: Photo description, widget: string }
+              - { name: marker, label: Show marker training section, widget: boolean }
+          - { name: markerTraining, label: Marker training text, widget: text }
+
+  # ---------------- Blog ----------------
+  - name: blog
+    label: Blog posts
+    label_singular: blog post
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} · {{date}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Search description (about 150 characters), widget: text }
+      - { name: summary, label: Card summary, widget: text }
+      - { name: date, label: Date, widget: datetime, time_format: false, format: YYYY-MM-DD }
+      - { name: author, label: Author, widget: string, default: Obedience Unleashed }
+      - name: category
+        label: Topic
+        widget: select
+        options:
+          - { label: Puppies, value: puppy }
+          - { label: Training tips, value: training }
+          - { label: "Daycare & boarding", value: care }
+          - { label: Local guides, value: local }
+      - name: also
+        label: Second topic (optional)
+        widget: select
+        required: false
+        options: ["", puppy, training, care, local]
+      - { name: image, label: Card image, widget: image }
+      - { name: featured, label: Featured on the blog page, widget: boolean, default: false }
+      - { name: body, label: Article, widget: markdown }
+
+  # ---------------- Page text & SEO ----------------
+  - name: pages
+    label: Page text & SEO
+    label_singular: page
+    description: Search title, description and extra text for each page. Prices, dates and teams update automatically from the other sections.
+    folder: src/content/pages
+    create: false
+    delete: false
+    summary: "{{title}}"
+    fields:
+      - { name: title, label: Search title, widget: string }
+      - { name: description, label: Search description (about 150 characters), widget: text }
+      - { name: h1, label: Main heading, widget: string, required: false }
+      - { name: lead, label: Intro sentence, widget: text, required: false }
+      - { name: template, widget: hidden }
+      - { name: service, widget: hidden }
+      - { name: location, widget: hidden }
+      - { name: town, widget: hidden }
+      - { name: noindex, widget: hidden }
+      - { name: body, label: Page text, widget: markdown, required: false }

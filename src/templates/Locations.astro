@@ -1,0 +1,17 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import LocCard from "../components/LocCard.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { LOCATIONS } from "../lib/site";
+const { entry } = Astro.props;
+const d = entry.data;
+---
+<PageHead crumbs={[["Locations"]]} eyebrow="5 locations" title={d.h1} lead={d.lead}>
+  <Pic slot="side" src="/img/locations.jpg" alt="Five dogs lined up on a bridge at one of our properties" eager />
+</PageHead>
+<section class="band"><div class="wrap stack" style="gap:28px">
+  <div class="note-card"><b>Maple Ridge or Mission?</b> Both our Stave Falls and Silverdale locations sit on the Maple Ridge / Mission border. Stave Falls is at the north end, Silverdale at the south end. Group classes for both run at Silverdale.</div>
+  <div class="grid g5">{LOCATIONS.map((l) => <LocCard l={l} />)}</div>
+</div></section>
+<LeadForm />

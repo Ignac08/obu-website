@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {"key": "mission", "title": "Mission | Maple Ridge", "time": "9am", "walks": [
+      {"date": "2026-10-31", "place": "Hayward Lake, 31284 Dewdney Trunk Rd, Mission (main rec parking lot)"},
+      {"date": "2026-12-13", "place": "Albion Fairgrounds, 23448 105 Ave, Maple Ridge (field by Planet Ice)"},
+      {"date": "2026-12-20", "place": "Cliff Park, 25086 116 Ave, Maple Ridge"}
+    ]},
+    {"key": "chilliwack", "title": "Chilliwack | Abbotsford", "time": "Sundays, 9am", "walks": [
+      {"date": "2026-11-01", "place": "45450 Petawawa Rd, Chilliwack"},
+      {"date": "2026-11-15", "place": "45450 Petawawa Rd, Chilliwack"},
+      {"date": "2026-11-29", "place": "45450 Petawawa Rd, Chilliwack"},
+      {"date": "2026-12-13", "place": "45450 Petawawa Rd, Chilliwack"},
+      {"date": "2026-12-20", "place": "45450 Petawawa Rd, Chilliwack"}
+    ]},
+    {"key": "cochrane", "title": "Cochrane, AB", "time": "Sundays, 9am", "walks": []}
+  ],
+  "note": "Rain or shine. A formal obedience meet-and-greet happens before the walk. Guests welcome. Aggressive dogs may need muzzles. All dogs leashed and supervised."
+}

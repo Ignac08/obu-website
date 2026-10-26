@@ -1,0 +1,24 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Pic from "../components/Pic.astro";
+import Person from "../components/Person.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { SITE, VALIDATORS, money } from "../lib/site";
+const { entry, Content, hasBody } = Astro.props;
+const d = entry.data;
+---
+<PageHead crumbs={[["Service Dog Assessments"]]} eyebrow="Province of BC" title={d.h1} lead={d.lead}>
+  <div class="row"><a class="btn primary" href="#lead">Ask about an assessment</a></div>
+  <Pic slot="side" src="/img/servicedogs.jpg" alt="A handler and her dog by the river" eager />
+</PageHead>
+<section class="band"><div class="wrap side">
+  <div class="stack" style="gap:28px">
+    <div class="stack"><h2>About the assessment</h2><p class="lead">Andy Krzus was contracted in 2015 to help write the test and hire and train validators. The assessment has 40 exercises and a team must pass all of them. It evaluates handler control, public safety, and calm, stable, reliable behaviour, on leash with regular collars only.</p></div>
+    {hasBody && <div class="prose"><Content /></div>}
+    <div class="stack"><h2>Meet the validator team</h2><div class="team">{VALIDATORS.map((v: any) => <Person p={v} />)}</div></div>
+  </div>
+  <aside class="infocard" style="position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)"><h3>Assessment fee</h3><p style="font-family:var(--display);font-size:44px;font-weight:900">{money(SITE.serviceDogFee)}</p><p class="muted">Per dog, due 7 days before the assessment. Therapy and emotional support animals are not eligible.</p>
+    <div><p style="font-weight:700">Program contact</p><p class="muted" style="font-size:15px">Security Programs: 1-855-857-0185 option 5<br /><a href="mailto:guideandservicedogs@gov.bc.ca" style="color:var(--cta)">guideandservicedogs@gov.bc.ca</a></p></div>
+    <a class="btn primary" href="#lead">Contact us</a></aside>
+</div></section>
+<LeadForm title="Questions about your assessment?" sub="Our office coordinates validators across BC." need="Service dog assessment" />

@@ -1,0 +1,16 @@
+---
+// Page header band: breadcrumbs, eyebrow, h1, lead, optional buttons (default slot) and a picture (slot "side").
+const { crumbs = [], eyebrow = "", title, lead = "" } = Astro.props;
+---
+<section class="phead"><div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a>{crumbs.map((c: [string, string?]) => c[1] ? <> / <a href={c[1]}>{c[0]}</a></> : <> / {c[0]}</>)}</nav>
+  <div class="split">
+    <div class="stack">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1 set:html={title} />
+      {lead && <p class="lead">{lead}</p>}
+      <slot />
+    </div>
+    <slot name="side" />
+  </div>
+</div></section>

@@ -1,0 +1,14 @@
+---
+const { items, cols = "g3" } = Astro.props;
+---
+{items.length > 0 && (
+  <div class={`grid ${cols}`}>
+    {items.map((r: any) => (
+      <figure class={`rev${r.text.length > 300 ? " long" : ""}`}>
+        <span class="stars" aria-label="5 stars">★★★★★</span>
+        <blockquote>“{r.text}”</blockquote>
+        <figcaption>{r.author.replace(/^Google Review\s*[–-]\s*/i, "")}{r.source && ` · ${r.source}`}</figcaption>
+      </figure>
+    ))}
+  </div>
+)}

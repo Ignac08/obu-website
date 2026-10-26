@@ -1,0 +1,23 @@
+---
+import PageHead from "../components/PageHead.astro";
+import Duo from "../components/Duo.astro";
+import Member from "../components/Member.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { LOCATIONS, SITE } from "../lib/site";
+const { entry } = Astro.props;
+const d = entry.data;
+---
+<PageHead crumbs={[["About"]]} eyebrow={`Since ${SITE.foundedYear}`} title={d.h1} lead={d.lead}>
+  <Duo slot="side" />
+</PageHead>
+<section class="band"><div class="wrap split"><div class="stack"><p class="eyebrow">What drives us</p><h2>“{SITE.mission}”</h2></div>
+  <ul class="list"><li>IACP member, bonded and insured, WorkSafeBC coverage</li><li>BBB Accredited, A+ rating</li><li>Staff certified in dog handling (Dog Handler Academy) and K9 / Pet First Aid</li><li>Trainers complete 40+ hours of professional education every year</li><li>Official coordinators of BC Guide &amp; Service Dog assessments</li></ul></div></section>
+<section class="band tint"><div class="wrap stack" style="gap:28px"><h2>Leadership</h2>
+  <div class="team-full">{SITE.leadership.map((p) => <Member p={p} />)}</div>
+  <p><a href="/meet-the-trainer/" style="font-weight:700;color:var(--cta)">Read Andy's full background →</a></p>
+  <p class="muted">Meet each location's team:</p>
+  <div class="row">{LOCATIONS.map((l) => <a class="chip" href={l.teamPage} style="text-decoration:none">{l.name}</a>)}</div>
+</div></section>
+<section class="band"><div class="wrap split"><div class="stack"><p class="eyebrow">Giving back</p><h2>OBU-K9 search and rescue</h2><p class="lead">OBU-K9 is an independent not-for-profit search and recovery K9 team based in Mission, closely partnered with Obedience Unleashed.</p><a class="btn ghost" href="/obu-k9/" style="align-self:flex-start">About OBU-K9</a></div>
+<div class="stack"><p class="eyebrow">Province of BC</p><h2>Service dog assessments</h2><p class="lead">We coordinate BC Guide and Service Dog assessments for the Security Programs Division.</p><a class="btn ghost" href="/service-dog-assessments/" style="align-self:flex-start">Learn more</a></div></div></section>
+<LeadForm />

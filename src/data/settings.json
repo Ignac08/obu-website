@@ -1,0 +1,33 @@
+{
+  "businessName": "Obedience Unleashed Dog Training Inc.",
+  "shortName": "Obedience Unleashed",
+  "phone": "1-844-900-3647",
+  "phoneHours": "Mon–Fri, 9am–4pm (excluding stat holidays)",
+  "replyPromise": "We reply within one business day.",
+  "formRecipients": ["office.obedienceunleashed@gmail.com", "andy@obedienceunleashed.com"],
+  "googleRating": 4.8,
+  "googleReviewCount": 130,
+  "foundedYear": 2009,
+  "staffCount": "40+",
+  "portalUrl": "https://www.obedienceunleashedportal.com",
+  "coursesUrl": "https://www.obedienceunleashedportal.com/courses",
+  "instagram": "https://www.instagram.com/obedienceunleashedcochrane/",
+  "linkedin": "https://www.linkedin.com/in/andykrzus",
+  "mission": "To build and enhance the relationship between owners and their dogs.",
+  "credentials": ["IACP member", "BBB Accredited A+", "Bonded & insured", "WorkSafeBC coverage", "K9 / Pet First Aid certified", "Official BC service dog assessors"],
+  "busNote": "Home pick-up 8–10am and drop-off 4–6pm in Pitt Meadows, Maple Ridge and Mission. Book online with your daycare day. $2.50 per 5 km.",
+  "extras": "Vet transport $40/hr (2 hr minimum), bath from $45, supply or food run $20 + GST + items, daycare bus $2.50 per 5 km.",
+  "holidayPremium": "A $7.50/day holiday premium applies on holiday dates at Stave Falls (daycare and boarding) and Silverdale (boarding).",
+  "holidayDates": "To be announced",
+  "paymentNote": "Classes and consultations are paid at booking. Boarding and daycare are paid on the first day of the booking; multi-date daycare bookings are paid in full on the first date, and a cancelled daycare date becomes a credit. Service dog assessments are paid 7 days before.",
+  "consultPrice": 50,
+  "serviceDogFee": 200,
+  "walkPrices": "$15 drop-in · 5 for $50 · 10 for $80",
+  "leadership": [
+    {"name": "Andy Krzus", "role": "Founder, CEO, Head Trainer", "photo": "/img/p-andy.jpg", "bio": "Andy is a dog-training educator known for his relationship-centered training approach and his personalized teaching style. His background in psychology and public service coupled with years of experience training police, search & rescue and assistance dogs gives him an innovative perspective on dog obedience, behaviour & motivation in theory and practice."},
+    {"name": "Marie Therese Krzus", "role": "Founder, Owner, Office Manager", "photo": "/img/p-marie.jpg", "bio": "Marie has a Bachelor’s Degree in Business Administration and she handles everything from telephone calls and bookkeeping to scheduling and kennel management, on top of being a full-time mom. She particularly enjoys speaking with clients on the phone and assisting with any questions they may have in her cheerful and professional manner."},
+    {"name": "Thea", "role": "Administrative Assistant", "photo": "/img/p-thea.jpg", "bio": "Thea has worked for Obedience Unleashed since 2018 and is currently completing her university degree in Law Enforcement studies. Her dedication and experience with dogs is evident through 5+ years competing in 4H, Agility, Barn hunt and Sprinter. She is an avid volunteer for the AAC BC Agility Regional and National Competitions plus volunteers for the JIBC Police Academy. At home she enjoys spending time with her two dogs Ukee (Shepherd mix) and Hero (Golden/Lab)."}
+  ],
+  "googleTagManager": "GTM-MQT2GFD5",
+  "googleSiteVerification": "qQN4gIFuSNrYZ-OfgTesjANPrkxqoSklCecmqd4FTGg"
+}
