@@ -127,7 +127,7 @@ collections:
           - { name: one, label: 1 dog, widget: number, value_type: float, step: 0.01 }
           - { name: two, label: 2 dogs, widget: number, value_type: float, step: 0.01 }
           - { name: three, label: 3 dogs, widget: number, value_type: float, step: 0.01 }
-      - { name: boardTrain, label: Board and Train 4 weeks all-in, widget: number, value_type: float }
+      - { name: boardTrain, label: Board and Train 4 weeks all-in (0 = not offered here), widget: number, value_type: float }
       - name: classes
         label: Class prices (0 = not offered here)
         widget: object
@@ -144,6 +144,7 @@ collections:
       - { name: teamPage, widget: hidden }
       - { name: daycarePage, widget: hidden }
       - { name: boardingPage, widget: hidden }
+      - { name: leadership, label: "Leadership shown on this team page (names from Business settings)", widget: list, required: false }
       - name: team
         label: Team
         label_singular: team member

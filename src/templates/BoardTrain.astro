@@ -6,7 +6,7 @@ import LeadForm from "../components/LeadForm.astro";
 import { LOCATIONS, money, reviewsFor, SITE } from "../lib/site";
 const { entry, Content, hasBody } = Astro.props;
 const d = entry.data;
-const groups = [["Stave Falls & Silverdale", LOCATIONS.find((l) => l.key === "silverdale")!.boardTrain], ...LOCATIONS.filter((l) => !["stavefalls", "silverdale"].includes(l.key)).map((l) => [l.name, l.boardTrain])];
+const groups = LOCATIONS.filter((l) => l.boardTrain).map((l) => [l.key === "silverdale" ? "Silverdale (Maple Ridge / Mission)" : l.name, l.boardTrain]);
 const reviews = reviewsFor(entry.id, { service: "boardtrain", limit: 2 });
 ---
 <PageHead crumbs={[["Training", "/training/"], ["Board and Train"]]} eyebrow="4-week live-in program" title={d.h1} lead={d.lead}>
@@ -23,7 +23,7 @@ const reviews = reviewsFor(entry.id, { service: "boardtrain", limit: 2 });
   <div class="step"><h3>Four weeks with us</h3><p class="muted" style="margin-top:8px">Daily structure, training and exercise, with email and phone updates throughout.</p></div>
   <div class="step"><h3>Go-home lesson + 10 hours follow-up</h3><p class="muted" style="margin-top:8px">A 1-hour private lesson, 3 hours of Off Leash Freedom class and 6 hours of group walks.</p></div>
 </div></div></section>
-<section class="band deep"><div class="wrap stack" style="gap:24px"><h2>One price, everything included</h2><p class="lead">Four weeks of training, boarding and follow-up. Plus tax. Training supplies extra.</p>
+<section class="band deep"><div class="wrap stack" style="gap:24px"><h2>One price, everything included</h2><p class="lead">Four weeks of training, boarding and follow-up. Plus tax. Training supplies extra. For Maple Ridge / Mission, Board and Train runs at Silverdale; it is not offered at Stave Falls.</p>
   <div class="price-pills">{groups.map((x) => <div class="pp"><span class="muted">{x[0]}</span><b>{money(x[1] as number)}</b></div>)}</div>
   <figure class="rev" style="max-width:720px;margin-top:12px;color:var(--ink)"><span class="stars" aria-label="5 stars">★★★★★</span><blockquote>“Enrolling her in the Board and Train program was one of the best decisions we could have made.”</blockquote><figcaption>Jeep n Jay</figcaption></figure>
 </div></section>

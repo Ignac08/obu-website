@@ -8,7 +8,7 @@ import { SITE, schedule, money, minClassPrice, LOCATIONS } from "../lib/site";
 const { entry } = Astro.props;
 const d = entry.data;
 const from = (k: string) => `From ${money(minClassPrice(k))}.`;
-const bt = LOCATIONS.map((l) => l.boardTrain);
+const bt = LOCATIONS.map((l) => l.boardTrain).filter(Boolean);
 ---
 <PageHead crumbs={[["Training"]]} eyebrow="Training programs" title={d.h1} lead={d.lead}>
   <Pic slot="side" src="/img/training.jpg" alt="Group class in a field with dogs and handlers" eager />

@@ -14,7 +14,7 @@ export type Location = {
   blurb: string; dropOff: string; pickUp: string; bookingUrl: string; reviewUrl: string;
   daycare: Prices; daycareHours: number; boarding: Prices; boardTrain: number;
   classes: Record<"puppy" | "l1" | "l2" | "ol", number>; consult: boolean; classNote: string;
-  offers: string[]; bus: boolean; walks: string; team: Member[];
+  offers: string[]; bus: boolean; walks: string; team: Member[]; leadership?: string[];
   teamPage: string; daycarePage: string; boardingPage: string;
 };
 

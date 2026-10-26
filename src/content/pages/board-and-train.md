@@ -45,4 +45,4 @@ At Obedience Unleashed Dog Training Inc., each day your dog receives:
 
 \* Please contact us so we can help you assess your dog’s needs.
 
-The board and train or daycare and train program is offered in Maple Ridge/Mission, Chilliwack/Abbotsford, Kamloops and Cochrane
+The board and train or daycare and train program is offered at Silverdale (Maple Ridge / Mission), Chilliwack/Abbotsford, Kamloops and Cochrane. It is not offered at Stave Falls.

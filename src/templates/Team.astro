@@ -5,6 +5,7 @@ import LeadForm from "../components/LeadForm.astro";
 import { LOC, SITE, locUrl } from "../lib/site";
 const { entry } = Astro.props;
 const L = LOC[entry.data.location];
+const leaders = SITE.leadership.filter((p) => (L.leadership ?? []).includes(p.name));
 ---
 <PageHead crumbs={[["Locations", "/locations/"], [L.name, locUrl(L)], ["Team"]]} eyebrow={`${L.name} · ${L.area}`} title={entry.data.h1} lead={`Our team at ${L.name} is so excited to meet you and provide excellent training, boarding and daycare for your dog.`}>
   <div class="row"><a class="btn primary" href={L.bookingUrl} rel="noopener">Book at {L.name}</a><a class="btn ghost" href={locUrl(L)}>About this location</a></div>
@@ -13,8 +14,8 @@ const L = LOC[entry.data.location];
   <h2>{L.name} team</h2>
   <div class="team-full">{L.team.map((p) => <Member p={p} />)}</div>
 </div></section>
-<section class="band tint"><div class="wrap stack" style="gap:28px">
+{leaders.length > 0 && <section class="band tint"><div class="wrap stack" style="gap:28px">
   <h2>Leadership</h2>
-  <div class="team-full">{SITE.leadership.map((p) => <Member p={p} />)}</div>
-</div></section>
+  <div class="team-full">{leaders.map((p) => <Member p={p} />)}</div>
+</div></section>}
 <LeadForm title={`Questions for the ${L.name} team?`} loc={L.key} />
