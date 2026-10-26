@@ -11,9 +11,9 @@ const rows: [string, (l: any) => string][] = [
   ["Daycare (1 / 2 / 3 dogs)", (l) => p3(l.daycare)],
   ["Boarding (1 / 2 / 3 dogs)", (l) => p3(l.boarding)],
   ["Puppy Class (5 x 1 hr)", cp("puppy")],
-  ["Bootcamp Level 1", cp("l1")],
-  ["Bootcamp Level 2", cp("l2")],
-  ["Off Leash Freedom", cp("ol")],
+  ["Bootcamp Level 1 (5 x 1 hr)", cp("l1")],
+  ["Bootcamp Level 2 (5 x 1 hr)", cp("l2")],
+  ["Off Leash Freedom (5 x 1 hr)", cp("ol")],
   ["Behaviour consult", (l) => (l.consult ? money(SITE.consultPrice) : "at Silverdale")],
   ["Board and Train (4 wk, all-in)", (l) => money(l.boardTrain)],
 ];

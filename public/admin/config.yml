@@ -186,6 +186,7 @@ collections:
           - { name: paymentNote, label: Payment policy, widget: text }
           - { name: consultPrice, label: Behaviour consultation price, widget: number, value_type: float }
           - { name: serviceDogFee, label: Service dog assessment fee, widget: number, value_type: float }
+          - { name: serviceDogFormUrl, label: Service dog assessment form (Public Access Test PDF link), widget: string }
           - { name: walkPrices, label: Group walk prices, widget: string }
           - name: leadership
             label: Leadership (shown on every team page)

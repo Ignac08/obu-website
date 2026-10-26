@@ -8,12 +8,12 @@ const { entry, Content, hasBody } = Astro.props;
 const d = entry.data;
 ---
 <PageHead crumbs={[["Service Dog Assessments"]]} eyebrow="Province of BC" title={d.h1} lead={d.lead}>
-  <div class="row"><a class="btn primary" href="#lead">Ask about an assessment</a></div>
-  <Pic slot="side" src="/img/servicedogs.jpg" alt="A handler and her dog by the river" eager />
+  <div class="row"><a class="btn primary" href="#lead">Ask about an assessment</a><a class="btn ghost" href={SITE.serviceDogFormUrl} target="_blank" rel="noopener">View the assessment form (PDF)</a></div>
+  <Pic slot="side" src="/img/level2.jpg" alt="Three trained dogs holding a calm place-stay on a cot" eager />
 </PageHead>
 <section class="band"><div class="wrap side">
   <div class="stack" style="gap:28px">
-    <div class="stack"><h2>About the assessment</h2><p class="lead">Andy Krzus was contracted in 2015 to help write the test and hire and train validators. The assessment has 40 exercises and a team must pass all of them. It evaluates handler control, public safety, and calm, stable, reliable behaviour, on leash with regular collars only.</p></div>
+    <div class="stack"><h2>About the assessment</h2><p class="lead">Andy Krzus was contracted in 2015 to help write the test and hire and train validators. The assessment has 40 exercises and a team must pass all of them. It evaluates handler control, public safety, and calm, stable, reliable behaviour, on leash with regular collars only.</p><a class="btn ghost" style="align-self:flex-start" href={SITE.serviceDogFormUrl} target="_blank" rel="noopener">See all 40 exercises: Public Access Test form (PDF)</a></div>
     {hasBody && <div class="prose"><Content /></div>}
     <div class="stack"><h2>Meet the validator team</h2><div class="team">{VALIDATORS.map((v: any) => <Person p={v} />)}</div></div>
   </div>
