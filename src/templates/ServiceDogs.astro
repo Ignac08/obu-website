@@ -14,6 +14,7 @@ const d = entry.data;
 <section class="band"><div class="wrap side">
   <div class="stack" style="gap:28px">
     <div class="stack"><h2>About the assessment</h2><p class="lead">Andy Krzus was contracted in 2015 to help write the test and hire and train validators. The assessment has 40 exercises and a team must pass all of them. It evaluates handler control, public safety, and calm, stable, reliable behaviour, on leash with regular collars only.</p><a class="btn ghost" style="align-self:flex-start" href={SITE.serviceDogFormUrl} target="_blank" rel="noopener">See all 40 exercises: Public Access Test form (PDF)</a></div>
+    {SITE.serviceDogVideoUrl && <div class="stack"><h2>Sample video of the assessment</h2><div style="position:relative;aspect-ratio:16/9;border-radius:var(--r, 18px);overflow:hidden;background:#000"><iframe src={SITE.serviceDogVideoUrl} title="BC Guide &amp; Service Dog Assessment sample video" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div></div>}
     {hasBody && <div class="prose"><Content /></div>}
     <div class="stack"><h2>Meet the validator team</h2><div class="team">{VALIDATORS.map((v: any) => <Person p={v} />)}</div></div>
   </div>

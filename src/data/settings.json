@@ -22,6 +22,7 @@
   "paymentNote": "Classes and consultations are paid at booking. Boarding and daycare are paid on the first day of the booking; multi-date daycare bookings are paid in full on the first date, and a cancelled daycare date becomes a credit. Service dog assessments are paid 7 days before.",
   "consultPrice": 50,
   "serviceDogFee": 200,
+  "serviceDogVideoUrl": "https://player.vimeo.com/video/1220702577?h=35205cf202&dnt=1",
   "serviceDogFormUrl": "https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/human-rights/guide-animals/guide_dog_and_service_dog_assessment_form_-_oudt.pdf",
   "walkPrices": "$15 drop-in · 5 for $50 · 10 for $80",
   "leadership": [
