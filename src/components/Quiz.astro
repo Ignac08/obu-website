@@ -3,7 +3,7 @@
 import { LOCATIONS, classPrice, money, SVC, SITE } from "../lib/site";
 const data = LOCATIONS.map((l) => ({
   key: l.key, name: l.name,
-  daycare: money(l.daycare.one), boarding: money(l.boarding.one), bt: money(l.boardTrain),
+  daycare: money(l.daycare.one), boarding: money(l.boarding.one), bt: l.boardTrain ? money(l.boardTrain) : null,
   puppy: classPrice("puppy", l.key), l1: classPrice("l1", l.key), ol: classPrice("ol", l.key),
   locPage: `/locations/${l.slug}/`,
 }));
@@ -27,11 +27,11 @@ const pages = { puppy: SVC.puppy.page, l1: SVC.l1.page, ol: SVC.ol.page, bt: "/b
       const L = LOCS.find((l) => l.key === Q.loc);
       let name, price, link, why, need;
       if (Q.goal === "care") { name = "Daycare & Boarding"; need = "Daycare"; price = `${L.daycare}/day · ${L.boarding}/night`; link = L.locPage; why = "Playgroups, walks, rest and photo updates, with certified staff."; }
-      else if (Q.goal === "behaviour") { name = "Board and Train"; need = "Board and Train"; price = `${L.bt} all-in`; link = PAGES.bt; why = `Start with a ${el.dataset.consult} behaviour consultation so a trainer can confirm the best plan.`; }
+      else if (Q.goal === "behaviour") { const S = L.bt ? null : LOCS.find((l) => l.key === "silverdale"); name = "Board and Train"; need = "Board and Train"; price = `${(S || L).bt} all-in${S ? " at Silverdale" : ""}`; link = PAGES.bt; why = `Start with a ${el.dataset.consult} behaviour consultation so a trainer can confirm the best plan.`; }
       else if (Q.age === "puppy") { name = "Puppy Class"; need = "Puppy Class"; price = L.puppy ? money(L.puppy) : "Ask us"; link = PAGES.puppy; why = "5 one-hour classes, max 8 puppies, notes and video every week."; }
       else if (Q.goal === "recall" && L.ol) { name = "Off Leash Freedom"; need = "Off Leash Freedom"; price = money(L.ol); link = PAGES.ol; why = "Begins with a private consultation, then 5 one-hour sessions."; }
       else { name = "Obedience Bootcamp Level 1"; need = "Obedience Bootcamp"; price = L.l1 ? money(L.l1) : "Ask us"; link = PAGES.l1; why = "Loose-leash walking, recall and focus around distractions."; }
-      body = `<p class="qstep">Your recommendation</p><div class="result stack" style="gap:8px"><h3>${name}</h3><p class="price">${price}</p><p>${why}</p><p class="muted" style="font-size:14px">At ${L.name}${Q.loc === "stavefalls" && Q.goal !== "care" ? " (classes held at Silverdale)" : ""}</p></div>
+      body = `<p class="qstep">Your recommendation</p><div class="result stack" style="gap:8px"><h3>${name}</h3><p class="price">${price}</p><p>${why}</p><p class="muted" style="font-size:14px">At ${L.name}${Q.loc === "stavefalls" && Q.goal !== "care" ? (Q.goal === "behaviour" ? " (Board and Train runs at Silverdale)" : " (classes held at Silverdale)") : ""}</p></div>
         <div class="row"><a class="btn primary" href="#lead" data-prefill="${need}" data-loc="${L.name}">Get a call back</a><a class="btn ghost" href="${link}">Learn more</a></div><button class="linkish" type="button" data-a="reset">Start over</button>`;
     }
     el.innerHTML = `<div class="stack" style="gap:16px"><div class="row" style="justify-content:space-between"><span style="font-family:var(--display);font-weight:800;font-size:18px">Find the right program</span><span class="muted" style="font-size:14px">30 seconds</span></div><div class="progress" aria-hidden="true"><i style="width:${pct}%"></i></div>${body}</div>`;

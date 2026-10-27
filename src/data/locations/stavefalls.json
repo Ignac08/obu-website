@@ -13,7 +13,7 @@
   "country": "CA",
   "blurb": "On the north end of the Maple Ridge / Mission border: 10 acres of forest trails and open fields. A licensed and inspected commercial kennel with permits from the City of Mission and the Fraser Valley Regional District.",
   "dropOff": "7:45–10am",
-  "pickUp": "4:30–7:15pm",
+  "pickUp": "4:30–7pm",
   "bookingUrl": "https://obedienceunleashed.propetware.com",
   "daycare": {
     "one": 48,
@@ -26,7 +26,7 @@
     "two": 113.4,
     "three": 163.8
   },
-  "boardTrain": 4000,
+  "boardTrain": 0,
   "classes": {
     "puppy": 0,
     "l1": 0,
@@ -39,7 +39,6 @@
     "Daycare",
     "Boarding",
     "Daycare bus",
-    "Board and Train",
     "Group walks"
   ],
   "bus": true,
@@ -48,24 +47,6 @@
   "daycarePage": "/dog-daycare-maple-ridge-mission/",
   "boardingPage": "/dog-boarding-mission/",
   "team": [
-    {
-      "name": "Hannah",
-      "role": "Trainer",
-      "photo": "/img/team/stavefalls-hannah.jpg",
-      "bio": "Hannah has worked at Obedience Unleashed for 6 years as a Dog trainer and Senior Assistant at our Daycare/Boarding/Training facility. She brings rich multidisciplinary experience from her 8 years competing in 4H with dogs & llamas and 5 years as a professional handler for CKC show dogs competing in obedience, agility, conformation, and rally-obedience. She has earned her Excellent title in rally-obedience and is working toward her Master’s title with her current dog Oakley."
-    },
-    {
-      "name": "Melissa B.",
-      "role": "Trainer",
-      "photo": "/img/team/stavefalls-melissa-b.jpg",
-      "bio": "Melissa has a Bachelor’s Degree in Archaeology with a specialization in Forensics and enjoyed a successful 15 year career in Sales & Customer Service before deciding to become a Professional Dog Trainer in 2021. She brings 17 years of animal training and competition experience with horses in dressage. She grew up with dogs, has done agility training and earned Canine Good Citizen & Canine Good Neighbour titles. She currently competes actively with her dog Luna and most recently earned her novice and intermediate titles in rally-obedience."
-    },
-    {
-      "name": "Morgan",
-      "role": "Trainer",
-      "photo": "/img/team/stavefalls-morgan.jpg",
-      "bio": "Morgan’s true passion is working with dogs and she loves making owners feel comfortable with training dogs in our care. She brings 6+ years of dog industry experience to our team. She owns 2 dogs, Levi (Border Collie cross) and Georgia (St. Bernard cross), and is always trying new enrichment activities and obedience training for them. Morgan loves camping and hiking with her dogs (rain or shine), and she enjoys balancing outdoor activity with a good snuggle or movie on the couch."
-    },
     {
       "name": "Nadia",
       "role": "Senior Kennel Assistant",
@@ -145,5 +126,6 @@
       "bio": "Karson started working part time for Obedience Unleashed in 2025. He also works shifts at our Silverdale location so you may see him there. In his spare time he enjoys camping, hiking, fishing and playing hockey. At home he has a Labrador Retriever named Toby."
     }
   ],
-  "reviewUrl": ""
+  "reviewUrl": "",
+  "leadership": ["Andy Krzus", "Marie Therese Krzus", "Thea"]
 }

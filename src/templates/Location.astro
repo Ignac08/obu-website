@@ -6,7 +6,7 @@ import Person from "../components/Person.astro";
 import Reviews from "../components/Reviews.astro";
 import LeadForm from "../components/LeadForm.astro";
 import QRCode from "qrcode";
-import { LOC, SITE, PHONE_HREF, money, schedule, upcomingWalks, fmtDate, addressLine, mapsUrl, reviewsFor, SERVICE_LOCAL_PAGE, SVC } from "../lib/site";
+import { LOC, SITE, PHONE_HREF, money, schedule, upcomingWalks, fmtDate, addressLine, mapsUrl, reviewsFor, SERVICE_LOCAL_PAGE, SVC, locUrl } from "../lib/site";
 const { entry } = Astro.props;
 const L = LOC[entry.data.location];
 const sched = L.key === "stavefalls" ? [] : schedule((r) => r.location === L.key);
@@ -18,7 +18,7 @@ const links = [
   ["Daycare", L.daycarePage], ["Boarding", L.boardingPage],
   ...Object.keys(classNames).filter((k) => (L.classes as any)[k]).map((k) => [classNames[k], SERVICE_LOCAL_PAGE[k]?.[L.key] ?? SVC[k].page]),
   ...(L.consult ? [["Behaviour consult", SERVICE_LOCAL_PAGE.consult[L.key] ?? "/behavioural-consultation/"]] : []),
-  ["Board and Train", "/board-and-train/"], ["Meet the team", L.teamPage],
+  ...(L.boardTrain ? [["Board and Train", "/board-and-train/"]] : []), ["Meet the team", L.teamPage],
 ];
 ---
 <PageHead crumbs={[["Locations", "/locations/"], [L.name]]} eyebrow={`${L.area} · ${L.areaNote}`} title={`${L.name} dog training, daycare &amp; boarding`} lead={L.blurb}>
@@ -36,7 +36,8 @@ const links = [
           {L.consult && <div class="kv"><span>Behaviour consult</span><b>{money(SITE.consultPrice)}</b></div>}
           {L.classNote && <p class="muted">{L.classNote}</p>}
         </div>
-        <div class="infocard" style="box-shadow:none"><h3><a href="/board-and-train/" style="text-decoration:none">Board and Train</a></h3><p style="font-family:var(--display);font-size:40px;font-weight:900">{money(L.boardTrain)}</p><p class="muted" style="font-size:14px">4 weeks, all-in, boarding included</p></div>
+        {L.boardTrain ? <div class="infocard" style="box-shadow:none"><h3><a href="/board-and-train/" style="text-decoration:none">Board and Train</a></h3><p style="font-family:var(--display);font-size:40px;font-weight:900">{money(L.boardTrain)}</p><p class="muted" style="font-size:14px">4 weeks, all-in, boarding included</p></div>
+        : L.key === "stavefalls" && <div class="infocard" style="box-shadow:none"><h3><a href="/board-and-train/" style="text-decoration:none">Board and Train</a></h3><p class="muted">Not offered at Stave Falls. Board and Train for Maple Ridge / Mission runs at our <a href={locUrl(LOC.silverdale)} style="color:var(--cta)">Silverdale location</a>.</p></div>}
       </div><p class="muted" style="font-size:14px">All prices plus tax.</p>
     </div>
     {sched.length > 0 && <div class="stack"><h2>Upcoming classes</h2><SchedTable rows={sched} /></div>}

@@ -16,7 +16,7 @@ const posts = (await getCollection("blog")).sort((a, b) => +b.data.date - +a.dat
 const homePosts = [posts.find((p) => p.data.featured), posts.find((p) => p.id === "puppy-socialization-is-paramount"), posts.find((p) => p.id === "the-place-command-a-handy-trick")].filter(Boolean);
 const minDaycare = Math.min(...LOCATIONS.map((l) => l.daycare.one));
 const minBoarding = Math.min(...LOCATIONS.map((l) => l.boarding.one));
-const bt = [...new Set(LOCATIONS.map((l) => l.boardTrain))].sort((a, b) => b - a);
+const bt = [...new Set(LOCATIONS.map((l) => l.boardTrain).filter(Boolean))].sort((a, b) => b - a);
 const GALLERY = [["g-creek","Splash time in the Silverdale creek","big"],["g-bridge","Five friends, one bridge"],["g-frenchie","Field trip in Chilliwack"],["g-bus","The daycare bus, Maple Ridge to Mission","wide"],["g-birthday","Birthday boy at daycare","tall"],["g-run","Zoomies in the yard"],["g-class","Group class, everyone on place","wide"],["g-yard","Playgroup at Stave Falls"],["g-pond","Pond day at Stave Falls"],["g-ball","Indoor play in Cochrane"]];
 ---
 <section class="hero-photo"><div class="wrap hero">
