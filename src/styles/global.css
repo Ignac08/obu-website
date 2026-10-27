@@ -281,6 +281,7 @@ img{max-width:100%;height:auto}
 .prose img{border-radius:20px;margin:8px 0}
 .prose blockquote{margin:0;padding:16px 20px;border-left:4px solid var(--sun);background:var(--bg2);border-radius:12px}
 .prose table{min-width:0}
+@media (max-width:640px){.prose table{display:block;overflow-x:auto}.prose th,.prose td{padding:10px 12px}}
 .hp{position:absolute;left:-9999px}
 .fmsg.err{color:var(--cta)}
 .rev blockquote{white-space:pre-line}
