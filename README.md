@@ -11,7 +11,8 @@ Go to **/admin** on the site (e.g. https://obuk9.com/admin) and sign in with Git
 |---|---|
 | Class dates | Upcoming class starts on every class, location and home page. Past dates show "TBA". |
 | Group walks | Walk dates and places. |
-| Locations, prices & teams | Prices, hours, booking links, Google review link (QR code) and team members with photos and bios. |
+| Locations & prices | Prices, hours, booking links and Google review link (QR code). |
+| Staff | One entry per person: name, role, which locations they work at (tick boxes), photo upload and bio. Move or remove people here. |
 | Business settings | Phone, hours, policies, leadership bios, holiday premium. |
 | Reviews | Client reviews (real ones only, word for word). |
 | Training programs | What each class covers. |

@@ -12,9 +12,16 @@ backend:
 
 site_url: https://obuk9.com
 display_url: https://obuk9.com
-logo_url: /img/logo.png
+logo:
+  src: /img/logo.png
 media_folder: public/img/uploads
 public_folder: /img/uploads
+# Shrink phone photos on upload so pages stay fast.
+media_libraries:
+  default:
+    config:
+      transformations:
+        raster_image: { format: webp, quality: 85, width: 1600, height: 1600 }
 
 collections:
   # ---------------- Class dates ----------------
@@ -83,9 +90,9 @@ collections:
 
   # ---------------- Locations ----------------
   - name: locations
-    label: Locations, prices & teams
+    label: Locations & prices
     label_singular: location
-    description: Prices, hours, booking links and the team for each location.
+    description: Prices, hours and booking links for each location. Staff are edited in the Staff section.
     folder: src/data/locations
     format: json
     extension: json
@@ -145,16 +152,38 @@ collections:
       - { name: daycarePage, widget: hidden }
       - { name: boardingPage, widget: hidden }
       - { name: leadership, label: "Leadership shown on this team page (names from Business settings)", widget: list, required: false }
-      - name: team
-        label: Team
-        label_singular: team member
-        widget: list
-        summary: "{{fields.name}} · {{fields.role}}"
-        fields:
-          - { name: name, label: Name, widget: string }
-          - { name: role, label: Role, widget: string }
-          - { name: photo, label: Photo (square works best), widget: image, required: false }
-          - { name: bio, label: Bio, widget: text, required: false }
+
+  # ---------------- Staff ----------------
+  - name: staff
+    label: Staff
+    label_singular: staff member
+    description: "One entry per person. Tick the locations they work at and they appear on those team pages. To move someone, change their ticks; to remove someone, delete their entry. Trainers are not listed at Stave Falls."
+    folder: src/data/staff
+    format: json
+    extension: json
+    create: true
+    delete: true
+    slug: "{{name}}"
+    identifier_field: name
+    summary: "{{name}} · {{role}}"
+    sortable_fields: [name, role, order]
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: role, label: "Role (e.g. Trainer, Kennel Assistant)", widget: string }
+      - name: locations
+        label: Works at
+        widget: select
+        multiple: true
+        min: 1
+        options:
+          - { label: "Stave Falls (Maple Ridge / Mission)", value: stavefalls }
+          - { label: "Silverdale (Maple Ridge / Mission)", value: silverdale }
+          - { label: Chilliwack, value: chilliwack }
+          - { label: Kamloops, value: kamloops }
+          - { label: "Cochrane, AB", value: cochrane }
+      - { name: photo, label: "Photo (square, face centred, works best)", widget: image, required: false, media_folder: /public/img/team, public_folder: /img/team }
+      - { name: bio, label: Bio, widget: text, required: false }
+      - { name: order, label: "Order on the team page (lower shows first; managers 10, everyone else 50)", widget: number, value_type: int, default: 50 }
 
   # ---------------- Business settings ----------------
   - name: settings
