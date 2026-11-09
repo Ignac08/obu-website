@@ -185,6 +185,30 @@ collections:
       - { name: bio, label: Bio, widget: text, required: false }
       - { name: order, label: "Order on the team page (lower shows first; managers 10, everyone else 50)", widget: number, value_type: int, default: 50 }
 
+  # ---------------- Online courses ----------------
+  - name: courses
+    label: Online courses
+    description: "The course cards on the Online Courses page. Purchases happen on the OBU Portal, so paste each course's portal link into Buy link."
+    files:
+      - name: courses
+        label: Online courses
+        file: src/data/courses.json
+        fields:
+          - { name: intro, label: Intro text above the courses, widget: text }
+          - name: courses
+            label: Courses
+            label_singular: course
+            widget: list
+            summary: "{{fields.name}} — ${{fields.price}}"
+            fields:
+              - { name: name, label: Course name, widget: string }
+              - { name: tag, label: "Short tag (e.g. New puppy)", widget: string }
+              - { name: price, label: Price (CAD), widget: number, value_type: float, step: 0.01 }
+              - { name: summary, label: One or two sentence description, widget: text }
+              - { name: points, label: "Bullet points (e.g. 5+ hours of video)", widget: list, required: false, field: { name: point, label: Point, widget: string } }
+              - { name: image, label: Photo, widget: image, required: false }
+              - { name: url, label: Buy link (course page on the OBU Portal), widget: string }
+
   # ---------------- Business settings ----------------
   - name: settings
     label: Business settings

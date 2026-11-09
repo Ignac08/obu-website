@@ -297,3 +297,17 @@ nav.main a[aria-current="page"]{background:var(--bg2)}
 .member span{color:var(--muted);font-size:14px}
 .member p{font-size:15px;color:var(--muted)}
 .qr img{flex:none;width:96px;height:96px;border-radius:12px;background:#fff;padding:6px}
+/* Online courses */
+.course{padding:0;overflow:hidden;gap:12px}
+.course>*:not(.cimg){margin-inline:24px}
+.course .cimg{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
+.course .cpts{margin:0 24px;padding-left:20px;font-size:15px;display:grid;gap:4px}
+.course .cbuy{margin:auto 24px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:8px}
+.course .cprice{font-family:var(--display);font-weight:900;font-size:28px}
+.course .cprice small{font-size:13px;font-weight:700;color:var(--muted);font-family:var(--body)}
+.promo{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;background:var(--sunSoft);border-radius:24px;padding:24px 28px;text-decoration:none}
+.promo .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--sun);color:#0E2A47}
+@media (max-width:700px){.promo{grid-template-columns:1fr}}
+/* Ten menu items: tighten spacing on mid-size screens so the header never overflows */
+@media (min-width:1021px) and (max-width:1480px){nav.main{gap:0}nav.main a{padding:8px 8px}}
+@media (min-width:1021px) and (max-width:1200px){nav.main a{font-size:14px;padding:8px 5px}.hcta .phone{display:none}}
