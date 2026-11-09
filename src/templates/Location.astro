@@ -36,7 +36,7 @@ const links = [
           {L.consult && <div class="kv"><span>Behaviour consult</span><b>{money(SITE.consultPrice)}</b></div>}
           {L.classNote && <p class="muted">{L.classNote}</p>}
         </div>
-        {L.boardTrain ? <div class="infocard" style="box-shadow:none"><h3><a href="/board-and-train/" style="text-decoration:none">Board and Train</a></h3><p style="font-family:var(--display);font-size:40px;font-weight:900">{money(L.boardTrain)}</p><p class="muted" style="font-size:14px">4 weeks, all-in, boarding included</p></div>
+        {L.boardTrain ? <div class="infocard" style="box-shadow:none"><h3><a href="/board-and-train/" style="text-decoration:none">Board and Train</a></h3><p style="font-family:var(--display);font-size:40px;font-weight:900">{money(L.boardTrain)}</p><p class="muted" style="font-size:14px">4 weeks, boarding included. Plus tax and training supplies.</p></div>
         : L.key === "stavefalls" && <div class="infocard" style="box-shadow:none"><h3><a href="/board-and-train/" style="text-decoration:none">Board and Train</a></h3><p class="muted">Not offered at Stave Falls. Board and Train for Maple Ridge / Mission runs at our <a href={locUrl(LOC.silverdale)} style="color:var(--cta)">Silverdale location</a>.</p></div>}
       </div><p class="muted" style="font-size:14px">All prices plus tax.</p>
     </div>
