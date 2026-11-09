@@ -311,3 +311,9 @@ nav.main a[aria-current="page"]{background:var(--bg2)}
 /* Ten menu items: tighten spacing on mid-size screens so the header never overflows */
 @media (min-width:1021px) and (max-width:1480px){nav.main{gap:0}nav.main a{padding:8px 8px}}
 @media (min-width:1021px) and (max-width:1200px){nav.main a{font-size:14px;padding:8px 5px}.hcta .phone{display:none}}
+.grid.one .course{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto auto auto auto 1fr;column-gap:8px;max-width:1000px}
+.grid.one .course .cimg{grid-column:1;grid-row:1/-1;height:100%;aspect-ratio:auto;min-height:360px}
+.grid.one .course>*:not(.cimg){grid-column:2;margin-inline:24px 32px}
+.grid.one .course .tag{margin-top:28px}
+.grid.one .course .cpts{margin:0 32px 0 24px}
+@media (max-width:760px){.grid.one .course{display:flex}.grid.one .course .cimg{min-height:0;aspect-ratio:3/2}.grid.one .course .tag{margin-top:0}}

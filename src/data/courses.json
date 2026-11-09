@@ -1,8 +1,14 @@
 {
-  "intro": "Learn at your own pace with Andy's step-by-step video courses. Watch on your phone, practise at home, and keep lifetime access. Buy and watch on the Obedience Unleashed Portal.",
+  "intro": "Learn at your own pace with our step-by-step video lessons. Watch on your phone, practise at home, and keep lifetime access. Courses are bought and watched on the Obedience Unleashed Portal.",
   "courses": [
-    {"name": "Puppy Foundations", "tag": "New puppy", "price": 69, "summary": "SAMPLE: potty, crate, biting and the first commands, in short daily lessons.", "points": ["SAMPLE: 20 short video lessons", "Written notes for each step", "Lifetime access"], "image": "/img/puppy.jpg", "url": "https://www.obedienceunleashedportal.com/courses"},
-    {"name": "Obedience Bootcamp Level 1", "tag": "Pulls, won't listen", "price": 90, "summary": "SAMPLE: loose leash walking, recall, sit, down and place, the same curriculum as our group class.", "points": ["SAMPLE: 5+ hours of video", "Step-by-step notes", "Lifetime access"], "image": "/img/level1.jpg", "url": "https://www.obedienceunleashedportal.com/courses"},
-    {"name": "Off Leash Recall", "tag": "Runs off", "price": 120, "summary": "SAMPLE: build a recall you can trust at the park and on the trail.", "points": ["SAMPLE: 12 video lessons", "Distraction proofing plan", "Lifetime access"], "image": "/img/offleash.jpg", "url": "https://www.obedienceunleashedportal.com/courses"}
+    {
+      "name": "Obedience Unleashed Training Fundamentals",
+      "tag": "Beginner · puppies and dogs",
+      "price": 109,
+      "summary": "A complete guide to training your puppy with positive reinforcement. Covers basic commands, leash training, socialization and behavioural foundations.",
+      "points": ["31 video lessons, about 5 hours", "Clicker and marker training, place, heel, sit, down and recall", "Free preview lesson", "One-time payment, lifetime access"],
+      "image": "/img/level2.jpg",
+      "url": "https://www.obedienceunleashedportal.com/courses/8"
+    }
   ]
 }

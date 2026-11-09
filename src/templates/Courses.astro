@@ -7,12 +7,12 @@ const { entry } = Astro.props;
 const d = entry.data;
 ---
 <PageHead crumbs={[["Training", "/training/"], ["Online courses"]]} eyebrow="Online courses" title={d.h1} lead={d.lead}>
-  <div class="row" style="gap:12px;flex-wrap:wrap"><a class="btn primary" href="#courses">See the courses</a><a class="btn ghost" href={SITE.coursesUrl}>Already enrolled? Log in</a></div>
-  <Pic slot="side" src="/img/g-class.jpg" alt="Handler practising obedience with a dog" eager />
+  <div class="row" style="gap:12px;flex-wrap:wrap"><a class="btn primary" href="#courses">{COURSES.courses.length === 1 ? "See the course" : "See the courses"}</a><a class="btn ghost" href={`${SITE.portalUrl}/client/signin`}>Already enrolled? Log in</a></div>
+  <Pic slot="side" src="/img/g-pond.jpg" alt="Happy dog sitting on a dock by a lake" eager />
 </PageHead>
 <section class="band" id="courses"><div class="wrap stack" style="gap:28px">
-  <div class="stack" style="gap:10px"><h2>Choose a course</h2><p class="muted">{COURSES.intro}</p></div>
-  <div class="grid g3">
+  <div class="stack" style="gap:10px"><h2>{COURSES.courses.length === 1 ? "Our online course" : "Choose a course"}</h2><p class="muted">{COURSES.intro}</p></div>
+  <div class={COURSES.courses.length === 1 ? "grid one" : "grid g3"}>
     {COURSES.courses.map((c) => (
       <article class="tile course">
         {c.image && <img class="cimg" src={c.image} alt="" loading="lazy" width="600" height="400" />}

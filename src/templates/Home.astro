@@ -46,7 +46,7 @@ const GALLERY = [["g-creek","Splash time in the Silverdale creek","big"],["g-bri
     <Tile href="/off-leash-freedom/" icon="run" name="Off Leash Freedom" tag="Runs off" text="Recall you can trust at the park and on the trail." />
     <Tile href="/group-walks/" icon="tree" name="Group Walks" tag="Socialization" text="Weekend walks at local parks. $15 drop-in." />
   </div>
-  <a class="promo" href="/online-courses/"><span class="ic"><Icon name="play" /></span><span class="stack" style="gap:4px"><span class="tag" style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">Train at home</span><b style="font-size:20px">Online training courses, from {money(Math.min(...COURSES.courses.map((c) => c.price)))}</b><span class="muted">Step-by-step videos from Andy. Buy once, watch anywhere, keep lifetime access.</span></span><span class="btn primary">See online courses</span></a>
+  <a class="promo" href="/online-courses/"><span class="ic"><Icon name="play" /></span><span class="stack" style="gap:4px"><span class="tag" style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">Train at home</span><b style="font-size:20px">{COURSES.courses.length === 1 ? `Online training course, ${money(COURSES.courses[0].price)}` : `Online training courses, from ${money(Math.min(...COURSES.courses.map((c) => c.price)))}`}</b><span class="muted">Step-by-step video lessons you can watch anywhere. Buy once, keep lifetime access.</span></span><span class="btn primary">{COURSES.courses.length === 1 ? "See the course" : "See online courses"}</span></a>
 </div></section>
 
 <section class="band sun"><div class="wrap stack" style="gap:36px">
