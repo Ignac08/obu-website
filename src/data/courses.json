@@ -1,0 +1,14 @@
+{
+  "intro": "Learn at your own pace with our step-by-step video lessons. Watch on your phone, practise at home, and keep lifetime access. Courses are bought and watched on the Obedience Unleashed Portal.",
+  "courses": [
+    {
+      "name": "Obedience Unleashed Training Fundamentals",
+      "tag": "Beginner · puppies and dogs",
+      "price": 109,
+      "summary": "A complete guide to training your puppy with positive reinforcement. Covers basic commands, leash training, socialization and behavioural foundations.",
+      "points": ["31 video lessons, about 5 hours", "Clicker and marker training, place, heel, sit, down and recall", "Free preview lesson", "One-time payment, lifetime access"],
+      "image": "/img/level2.jpg",
+      "url": "https://www.obedienceunleashedportal.com/courses/8"
+    }
+  ]
+}

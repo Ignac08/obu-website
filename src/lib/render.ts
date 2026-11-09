@@ -17,16 +17,17 @@ import Contact from "../templates/Contact.astro";
 import Blog from "../templates/Blog.astro";
 import Thanks from "../templates/Thanks.astro";
 import NotFound from "../templates/NotFound.astro";
-import { LOC, LOCATIONS, SITE, SVC, addressLine, classPrice, type Location as Loc } from "./site";
+import Courses from "../templates/Courses.astro";
+import { COURSES, LOC, LOCATIONS, SITE, SVC, addressLine, classPrice, type Location as Loc } from "./site";
 
 export const TEMPLATES: Record<string, any> = {
   home: Home, training: Training, service: Service, "service-location": Service, care: Care, "care-location": Care,
   boardtrain: BoardTrain, walks: Walks, rates: Rates, servicedogs: ServiceDogs, locations: Locations, location: Location,
-  team: Team, about: About, prose: Prose, testimonials: Testimonials, contact: Contact, blog: Blog, thanks: Thanks, notfound: NotFound,
+  team: Team, about: About, prose: Prose, testimonials: Testimonials, contact: Contact, blog: Blog, thanks: Thanks, notfound: NotFound, courses: Courses,
 };
 
 const SECTION: Record<string, string> = {
-  training: "training", service: "training", "service-location": "training", walks: "training", boardtrain: "boardandtrain",
+  training: "training", courses: "courses", service: "training", "service-location": "training", walks: "training", boardtrain: "boardandtrain",
   rates: "rates", servicedogs: "servicedogs", locations: "locations", location: "locations", team: "locations",
   about: "about", prose: "about", testimonials: "about", blog: "blog",
 };
@@ -68,6 +69,20 @@ export function schemaFor(entry: any): any[] {
       provider: { "@id": `${BASE}/#org` }, description: d.description, url: BASE + path,
       areaServed: d.town ? { "@type": "City", name: d.town } : undefined,
       offers: locs.map((l) => ({ "@type": "Offer", price: classPrice(S.key, l.key), priceCurrency: "CAD", availableAtOrFrom: { "@id": `${BASE}/locations/${l.slug}/#business` } })),
+    });
+  }
+  if (d.template === "courses") {
+    out.push({
+      "@context": "https://schema.org", "@type": "ItemList", name: "Online dog training courses",
+      itemListElement: COURSES.courses.map((c, i) => ({
+        "@type": "ListItem", position: i + 1,
+        item: {
+          "@type": "Course", name: c.name, description: c.summary, url: c.url, image: c.image ? BASE + c.image : undefined,
+          provider: { "@id": `${BASE}/#org` },
+          offers: { "@type": "Offer", category: "Paid", price: c.price, priceCurrency: "CAD", url: c.url },
+          hasCourseInstance: { "@type": "CourseInstance", courseMode: "Online", courseWorkload: "PT1H" },
+        },
+      })),
     });
   }
   if (d.template !== "home") out.push(crumbs([[d.h1 || d.title, path]]));

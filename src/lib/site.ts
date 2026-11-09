@@ -5,6 +5,7 @@ import walksData from "../data/walks.json";
 import servicesData from "../data/services.json";
 import reviewsData from "../data/reviews.json";
 import validatorsData from "../data/validators.json";
+import coursesData from "../data/courses.json";
 
 export type Prices = { one: number; two: number; three: number };
 export type Member = { name: string; role: string; photo?: string; bio?: string };
@@ -31,6 +32,7 @@ export const LOC: Record<string, Location> = Object.fromEntries(LOCATIONS.map((l
 
 export const SITE = settings;
 export const SERVICES = servicesData.services;
+export const COURSES = coursesData as { intro: string; courses: { name: string; tag: string; price: number; summary: string; points?: string[]; image?: string; url: string }[] };
 export const SVC = Object.fromEntries(SERVICES.map((s) => [s.key, s]));
 export const MARKER = servicesData.markerTraining;
 export const REVIEWS = reviewsData.reviews;

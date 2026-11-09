@@ -22,7 +22,7 @@ const bt = LOCATIONS.map((l) => l.boardTrain).filter(Boolean);
   <Tile href="/behavioural-consultation/" icon="chat" name="Behaviour Consult" tag="Start here" text={`30–45 min plan of action. ${money(SITE.consultPrice)}.`} />
   <Tile href="/group-walks/" icon="tree" name="Group Walks" tag="Socialization" text="Weekend walks at local parks. $15 drop-in." />
   <Tile href="/service-dog-assessments/" icon="badge" name="Service Dog Assessments" tag="Province of BC" text={`Official BC Guide and Service Dog assessments. ${money(SITE.serviceDogFee)}.`} />
-  <a class="tile" href={SITE.coursesUrl}><span class="tag">Train at home</span><h3>Video courses</h3><p class="muted">Online training courses on the Obedience Unleashed portal.</p><span class="go">Go to courses →</span></a>
+  <Tile href="/online-courses/" icon="play" name="Online Courses" tag="Train at home" text="Step-by-step video courses with lifetime access. Start today." />
 </div></div></section>
 <section class="band tint"><div class="wrap stack" style="gap:24px"><h2>All upcoming class starts</h2><SchedTable rows={schedule()} /><p class="muted" style="font-size:14px">Maple Ridge / Mission classes are held at Silverdale, 9221 Woodward St. Prices plus tax.</p></div></section>
 <LeadForm />
