@@ -15,7 +15,7 @@ const rows: [string, (l: any) => string][] = [
   ["Bootcamp Level 2 (5 x 1 hr)", cp("l2")],
   ["Off Leash Freedom (5 x 1 hr)", cp("ol")],
   ["Behaviour consult", (l) => (l.consult ? money(SITE.consultPrice) : "at Silverdale")],
-  ["Board and Train (4 wk, all-in)", (l) => (l.boardTrain ? money(l.boardTrain) : l.key === "stavefalls" ? "at Silverdale" : "—")],
+  ["Board and Train (4 wk, plus training supplies)", (l) => (l.boardTrain ? money(l.boardTrain) : l.key === "stavefalls" ? "at Silverdale" : "—")],
 ];
 ---
 <PageHead crumbs={[["Rates"]]} eyebrow="Rates" title={d.h1} lead={d.lead}>

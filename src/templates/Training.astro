@@ -18,7 +18,7 @@ const bt = LOCATIONS.map((l) => l.boardTrain).filter(Boolean);
   <Tile href="/obedience-bootcamp-level-1/" icon="leash" name="Bootcamp Level 1" tag="7 mo – 10 yrs" text={`Loose leash, recall, distractions. ${from("l1")}`} />
   <Tile href="/obedience-bootcamp-level-2/" icon="badge" name="Bootcamp Level 2" tag="After Level 1" text={`Toy rewards and real-life proofing. ${from("l2")}`} />
   <Tile href="/off-leash-freedom/" icon="run" name="Off Leash Freedom" tag="After a consult" text={`Reliable off-leash recall. ${money(minClassPrice("ol"))}.`} />
-  <Tile href="/board-and-train/" icon="home" name="Board and Train" tag="Serious behaviour" text={`4 weeks all-in. ${money(Math.min(...bt))}–${money(Math.max(...bt))}.`} />
+  <Tile href="/board-and-train/" icon="home" name="Board and Train" tag="Serious behaviour" text={`4 weeks, boarding included. ${money(Math.min(...bt))}–${money(Math.max(...bt))} plus tax and training supplies.`} />
   <Tile href="/behavioural-consultation/" icon="chat" name="Behaviour Consult" tag="Start here" text={`30–45 min plan of action. ${money(SITE.consultPrice)}.`} />
   <Tile href="/group-walks/" icon="tree" name="Group Walks" tag="Socialization" text="Weekend walks at local parks. $15 drop-in." />
   <Tile href="/service-dog-assessments/" icon="badge" name="Service Dog Assessments" tag="Province of BC" text={`Official BC Guide and Service Dog assessments. ${money(SITE.serviceDogFee)}.`} />

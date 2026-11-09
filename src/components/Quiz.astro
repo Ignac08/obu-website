@@ -27,7 +27,7 @@ const pages = { puppy: SVC.puppy.page, l1: SVC.l1.page, ol: SVC.ol.page, bt: "/b
       const L = LOCS.find((l) => l.key === Q.loc);
       let name, price, link, why, need;
       if (Q.goal === "care") { name = "Daycare & Boarding"; need = "Daycare"; price = `${L.daycare}/day · ${L.boarding}/night`; link = L.locPage; why = "Playgroups, walks, rest and photo updates, with certified staff."; }
-      else if (Q.goal === "behaviour") { const S = L.bt ? null : LOCS.find((l) => l.key === "silverdale"); name = "Board and Train"; need = "Board and Train"; price = `${(S || L).bt} all-in${S ? " at Silverdale" : ""}`; link = PAGES.bt; why = `Start with a ${el.dataset.consult} behaviour consultation so a trainer can confirm the best plan.`; }
+      else if (Q.goal === "behaviour") { const S = L.bt ? null : LOCS.find((l) => l.key === "silverdale"); name = "Board and Train"; need = "Board and Train"; price = `${(S || L).bt} plus tax and training supplies${S ? " at Silverdale" : ""}`; link = PAGES.bt; why = `Start with a ${el.dataset.consult} behaviour consultation so a trainer can confirm the best plan.`; }
       else if (Q.age === "puppy") { name = "Puppy Class"; need = "Puppy Class"; price = L.puppy ? money(L.puppy) : "Ask us"; link = PAGES.puppy; why = "5 one-hour classes, max 8 puppies, notes and video every week."; }
       else if (Q.goal === "recall" && L.ol) { name = "Off Leash Freedom"; need = "Off Leash Freedom"; price = money(L.ol); link = PAGES.ol; why = "Begins with a private consultation, then 5 one-hour sessions."; }
       else { name = "Obedience Bootcamp Level 1"; need = "Obedience Bootcamp"; price = L.l1 ? money(L.l1) : "Ask us"; link = PAGES.l1; why = "Loose-leash walking, recall and focus around distractions."; }
