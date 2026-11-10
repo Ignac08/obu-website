@@ -5,12 +5,13 @@ import Pic from "../components/Pic.astro";
 import SchedTable from "../components/SchedTable.astro";
 import Reviews from "../components/Reviews.astro";
 import LeadForm from "../components/LeadForm.astro";
-import { LOCATIONS, LOC, SVC, SITE, MARKER, schedule, classPrice, money, reviewsFor, addressLine, mapsUrl, SERVICE_LOCAL_PAGE, locUrl } from "../lib/site";
+import { LOCATIONS, LOC, SVC, SITE, MARKER, classRows, classPrice, money, reviewsFor, addressLine, mapsUrl, SERVICE_LOCAL_PAGE, locUrl } from "../lib/site";
 const { entry, Content, hasBody } = Astro.props;
 const d = entry.data;
 const S = SVC[d.service];
 const L = d.location ? LOC[d.location] : null;
-const rows = schedule((r) => r.course === S.key && (!L || r.location === L.key));
+const rowsScope = { courses: [S.key], location: L?.key };
+const rows = S.key === "consult" ? [] : await classRows(rowsScope);
 const priceLocs = LOCATIONS.filter((l) => l.key !== "stavefalls" && classPrice(S.key, l.key));
 const needMap: Record<string, string> = { puppy: "Puppy Class", l1: "Obedience Bootcamp", l2: "Obedience Bootcamp", ol: "Off Leash Freedom", consult: "Behaviour consultation" };
 const reviews = reviewsFor(entry.id, { service: S.key, location: L?.key, limit: 3 });
@@ -31,7 +32,7 @@ const others = L ? Object.entries(SERVICE_LOCAL_PAGE[S.key] ?? {}).filter(([k, u
     {L && <p class="lead" style="max-width:none">{S.intro}</p>}
     <div class="stack"><h2>{S.key === "consult" ? "What happens at the consultation" : "What your dog learns"}</h2><ul class="list cols2">{S.learn.map((x: string) => <li>{x}</li>)}</ul></div>
     {S.qa.length > 0 && <div class="stack"><h2>Your questions, answered in class</h2><ul class="list cols2">{S.qa.map((x: string) => <li>{x}</li>)}</ul></div>}
-    {S.key !== "consult" && (rows.length > 0 ? <div class="stack"><h2>Upcoming starts{L && ` in ${L.key === "silverdale" ? "Maple Ridge / Mission" : L.name}`}</h2><SchedTable rows={rows} showCourse={false} /></div>
+    {S.key !== "consult" && (rows.length > 0 ? <div class="stack"><h2>Upcoming starts{L && ` in ${L.key === "silverdale" ? "Maple Ridge / Mission" : L.name}`}</h2><SchedTable rows={rows} scope={rowsScope} showCourse={false} /></div>
       : L && <div class="note-card"><b>New dates coming soon.</b> Send us a message below and we'll let you know when the next {S.name} starts at {L.name}.</div>)}
     {S.marker && <div class="stack"><h2>Our method: marker training</h2><p class="muted">{MARKER}</p></div>}
     {S.key === "consult" && (

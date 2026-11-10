@@ -6,6 +6,7 @@ import servicesData from "../data/services.json";
 import reviewsData from "../data/reviews.json";
 import validatorsData from "../data/validators.json";
 import coursesData from "../data/courses.json";
+import { COURSES as LIVE_COURSES, bcToday, fetchPortalRows, scheduleRows, type ClassRow, type SchedScope, type SchedSite, type ShownRow } from "./live-classes";
 
 export type Prices = { one: number; two: number; three: number };
 export type Member = { name: string; role: string; photo?: string; bio?: string };
@@ -112,3 +113,32 @@ export const SERVICE_LOCAL_PAGE: Record<string, Record<string, string>> = {
   l2: { silverdale: "/obedience-unleashed-bootcamp-level-2-mission/", chilliwack: "/obedience-bootcamp-level-2-chilliwack/" },
   consult: { silverdale: "/behavioural-consultation-maple-ridge-mission/", chilliwack: "/behavioural-consultation-chilliwack/", kamloops: "/behavioural-consultation-kamloops/", cochrane: "/behavioural-consultation-cochrane-ab/" },
 };
+
+// Class tables: the portal's classes for the locations it covers, the /admin dates for the rest
+// (src/lib/live-classes.ts). SCHED_SITE is also handed to the browser to refresh the tables.
+export const SCHED_SITE: SchedSite = {
+  today: bcToday(),
+  locations: Object.fromEntries(
+    LOCATIONS.map((l) => [l.key, { label: l.name, order: l.order, bookingUrl: l.bookingUrl, prices: { ...l.classes } }]),
+  ),
+  courses: Object.fromEntries(
+    LIVE_COURSES.filter((k) => SVC[k]).map((k) => [k, { name: SVC[k].name, page: SVC[k].page, localPages: SERVICE_LOCAL_PAGE[k] ?? {} }]),
+  ),
+};
+
+/** The class dates typed in /admin (Class dates). */
+export const ADMIN_ROWS: ClassRow[] = scheduleData.classes.map((c) => ({
+  course: c.course,
+  location: c.location,
+  start: c.start ?? "",
+  time: c.time ?? "",
+  dates: c.dates ?? "",
+}));
+
+let portalRowsAtBuild: Promise<ClassRow[] | null> | null = null;
+
+/** A class table's rows, with the portal's classes as they are when the site is built. */
+export async function classRows(scope: SchedScope): Promise<ShownRow[]> {
+  portalRowsAtBuild ??= fetchPortalRows();
+  return scheduleRows(scope, ADMIN_ROWS, await portalRowsAtBuild, SCHED_SITE);
+}

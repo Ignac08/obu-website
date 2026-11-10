@@ -4,7 +4,8 @@ import Pic from "../components/Pic.astro";
 import Tile from "../components/Tile.astro";
 import SchedTable from "../components/SchedTable.astro";
 import LeadForm from "../components/LeadForm.astro";
-import { SITE, schedule, money, minClassPrice, LOCATIONS } from "../lib/site";
+import { SITE, classRows, money, minClassPrice, LOCATIONS } from "../lib/site";
+const allRows = await classRows({});
 const { entry } = Astro.props;
 const d = entry.data;
 const from = (k: string) => `From ${money(minClassPrice(k))}.`;
@@ -24,5 +25,5 @@ const bt = LOCATIONS.map((l) => l.boardTrain).filter(Boolean);
   <Tile href="/service-dog-assessments/" icon="badge" name="Service Dog Assessments" tag="Province of BC" text={`Official BC Guide and Service Dog assessments. ${money(SITE.serviceDogFee)}.`} />
   <Tile href="/online-courses/" icon="play" name="Online Courses" tag="Train at home" text="Step-by-step video courses with lifetime access. Start today." />
 </div></div></section>
-<section class="band tint"><div class="wrap stack" style="gap:24px"><h2>All upcoming class starts</h2><SchedTable rows={schedule()} /><p class="muted" style="font-size:14px">Maple Ridge / Mission classes are held at Silverdale, 9221 Woodward St. Prices plus tax.</p></div></section>
+<section class="band tint"><div class="wrap stack" style="gap:24px"><h2>All upcoming class starts</h2><SchedTable rows={allRows} scope={{}} /><p class="muted" style="font-size:14px">Maple Ridge / Mission classes are held at Silverdale, 9221 Woodward St. Prices plus tax.</p></div></section>
 <LeadForm />
