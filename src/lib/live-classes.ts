@@ -7,9 +7,10 @@
 // site is built and again in the visitor's browser, so a class added in the portal shows without a
 // rebuild. If the portal can't be reached, every location falls back to the /admin dates.
 //
-// Each class and location shows once: a location with no upcoming start shows one "TBA" row (two
-// past Silverdale dates used to show as two identical TBA rows), and a class entered twice in the
-// portal (same class, place, day and time) shows once.
+// Each class and location shows once: a location with no upcoming start shows the class under way
+// there (owner, 2026-11-10: "the moment a new class is published" it shows instead), else one "TBA"
+// row (two past Silverdale dates used to show as two identical TBA rows); a class entered twice in
+// the portal (same class, place, day and time) shows once.
 //
 // No imports from site.ts: this file also runs in the browser, and site.ts pulls in every data file.
 
@@ -36,9 +37,10 @@ const LOCATION_BY_NAME: Record<string, string> = {
 
 export const COURSES: readonly string[] = ["puppy", "l1", "l2", "ol"];
 
-/** One class start as the tables show it; `start` is "YYYY-MM-DD", or "" when not set. */
-export type ClassRow = { course: string; location: string; start: string; time: string; dates: string };
-export type ShownRow = ClassRow & { tba: boolean };
+/** One class start as the tables show it; `start` is "YYYY-MM-DD", or "" when not set; `end` is its last class, from the portal. */
+export type ClassRow = { course: string; location: string; start: string; time: string; dates: string; end?: string };
+/** `running`: a class under way, shown while its location has no new start. */
+export type ShownRow = ClassRow & { tba: boolean; running?: boolean };
 
 /** Which rows a table shows. */
 export interface SchedScope {
@@ -65,6 +67,8 @@ export const bcToday = () => new Date().toLocaleDateString("en-CA", { timeZone: 
 /** "5:00 PM" → "5:00pm", as the /admin dates are written. */
 const shortTime = (t: unknown) => (typeof t === "string" ? t.trim().replace(/\s*([AP])M$/i, (_, m: string) => `${m.toLowerCase()}m`) : "");
 
+const isDay = (v: unknown): v is string => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
+
 /** The portal's list as table rows, or null when it isn't the expected shape. */
 export function portalRows(feed: unknown): ClassRow[] | null {
   const classes = (feed as { classes?: unknown })?.classes;
@@ -73,10 +77,12 @@ export function portalRows(feed: unknown): ClassRow[] | null {
   for (const c of classes as Record<string, unknown>[]) {
     const course = COURSE_BY_TYPE[String(c?.type ?? "")];
     const location = LOCATION_BY_NAME[String(c?.location ?? "").trim().toLowerCase()];
-    const start = typeof c?.startDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(c.startDate) ? c.startDate : "";
+    const start = isDay(c?.startDate) ? c.startDate : "";
     if (!course || !location || !start) continue;
     const sessions = Number(c.sessions);
-    rows.push({ course, location, start, time: shortTime(c.startTime), dates: sessions > 1 ? `${sessions} sessions` : "" });
+    const row: ClassRow = { course, location, start, time: shortTime(c.startTime), dates: sessions > 1 ? `${sessions} sessions` : "" };
+    if (isDay(c.endDate)) row.end = c.endDate;
+    rows.push(row);
   }
   return rows;
 }
@@ -90,8 +96,9 @@ function minutes(time: string): number {
 
 /**
  * The rows a table shows. Locations the portal covers take the portal's classes (when it answered,
- * `live` isn't null), with one TBA row for a class they offer but have no upcoming start for; other
- * locations keep the /admin dates. Dated rows come first by day and time, then TBA rows by location.
+ * `live` isn't null): the upcoming starts; for a class with none, the class under way there; else one
+ * TBA row for a class they offer. Other locations keep the /admin dates. Upcoming starts come first
+ * by day and time, then classes under way, then TBA rows by location.
  */
 export function scheduleRows(scope: SchedScope, adminRows: readonly ClassRow[], live: readonly ClassRow[] | null, site: SchedSite): ShownRow[] {
   const covered = new Set(live ? PORTAL_LOCATIONS : []);
@@ -101,29 +108,34 @@ export function scheduleRows(scope: SchedScope, adminRows: readonly ClassRow[], 
 
   const rows: ShownRow[] = [];
   const seen = new Set<string>();
-  const add = (r: ClassRow) => {
+  const add = (r: ClassRow, running = false) => {
     const location = classLocation(r.location);
-    const tba = !r.start || r.start < site.today;
+    const tba = !running && (!r.start || r.start < site.today);
     const key = tba ? `${r.course}|${location}|tba` : `${r.course}|${location}|${r.start}|${r.time}`;
     if (!wanted(r) || seen.has(key)) return;
     seen.add(key);
-    rows.push({ ...r, location, tba });
+    rows.push(running ? { ...r, location, tba, running } : { ...r, location, tba });
   };
 
+  const underWay = (live ?? []).filter((r) => r.start < site.today && !!r.end && r.end >= site.today);
   for (const r of live ?? []) if (r.start >= site.today) add(r);
   for (const r of adminRows) if (!covered.has(classLocation(r.location))) add(r);
   for (const location of covered) {
     for (const course of COURSES) {
-      const hasStart = rows.some((r) => !r.tba && r.course === course && r.location === location);
-      if (!hasStart && offered(course, location)) add({ course, location, start: "", time: "", dates: "" });
+      const hasStart = rows.some((r) => !r.tba && !r.running && r.course === course && r.location === location);
+      if (hasStart) continue;
+      const running = underWay.filter((r) => r.course === course && classLocation(r.location) === location);
+      for (const r of running) add(r, true);
+      if (running.length === 0 && offered(course, location)) add({ course, location, start: "", time: "", dates: "" });
     }
   }
 
   const order = (r: ShownRow) => site.locations[r.location]?.order ?? 99;
+  const rank = (r: ShownRow) => (r.tba ? 2 : r.running ? 1 : 0);
   const sorted = rows
-    .filter((r) => !scope.datedOnly || !r.tba)
+    .filter((r) => !scope.datedOnly || rank(r) === 0)
     .sort((a, b) => {
-      if (a.tba !== b.tba) return a.tba ? 1 : -1;
+      if (rank(a) !== rank(b)) return rank(a) - rank(b);
       if (!a.tba) return a.start.localeCompare(b.start) || minutes(a.time) - minutes(b.time) || order(a) - order(b);
       return order(a) - order(b) || COURSES.indexOf(a.course) - COURSES.indexOf(b.course);
     });
@@ -151,18 +163,22 @@ export function rowsHtml(rows: readonly ShownRow[], showCourse: boolean, site: S
       const price = loc?.prices[r.course] ?? 0;
       const label = r.location === "silverdale" ? "Silverdale (Maple Ridge / Mission)" : (loc?.label ?? r.location);
       const page = course?.localPages[r.location] ?? course?.page ?? "";
+      // A class under way: its first day, then when it ends; "Get notified" asks about the next one.
+      const note = r.running ? `In progress · last class ${fmtDate(r.end ?? "")}` : r.dates;
       const cells = [
         showCourse ? `<td><a href="${escapeHtml(page)}" style="text-decoration:none"><b>${escapeHtml((course?.name ?? r.course).replace("Obedience ", ""))}</b></a></td>` : "",
         `<td>${escapeHtml(label)}</td>`,
         r.tba
           ? '<td class="when"><span class="tba">TBA</span></td>'
-          : `<td class="when">${escapeHtml(fmtDate(r.start))}${r.time ? `, ${escapeHtml(r.time)}` : ""}${r.dates ? `<div class="muted" style="font-size:13px">${escapeHtml(r.dates)}</div>` : ""}</td>`,
+          : `<td class="when">${escapeHtml(fmtDate(r.start))}${r.time ? `, ${escapeHtml(r.time)}` : ""}${note ? `<div class="muted" style="font-size:13px">${escapeHtml(note)}</div>` : ""}</td>`,
         `<td class="num">${price ? escapeHtml(money(price)) : "—"}</td>`,
-        r.tba
+        r.tba || r.running
           ? `<td class="act"><a href="#lead" ${LINK}>Get notified</a></td>`
           : `<td class="act"><a href="${escapeHtml(loc?.bookingUrl ?? "#lead")}" rel="noopener" ${LINK}>Book</a></td>`,
       ];
-      return `<tr${r.tba ? "" : ` data-start="${escapeHtml(r.start)}"`}>${cells.join("")}</tr>`;
+      // The page turns a row whose start has passed into TBA (Base.astro); a class under way ends instead.
+      const marker = r.tba ? "" : r.running ? ` data-end="${escapeHtml(r.end ?? "")}"` : ` data-start="${escapeHtml(r.start)}"`;
+      return `<tr${marker}>${cells.join("")}</tr>`;
     })
     .join("");
 }

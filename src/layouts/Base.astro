@@ -110,10 +110,11 @@ const ld = [org, ...schema];
       });
     });
 
-    // Class dates that have passed since the last rebuild show as TBA.
+    // Class dates that have passed since the last rebuild show as TBA, and so does a class under
+    // way once its last class has passed.
     const today = new Date().toLocaleDateString("en-CA");
-    document.querySelectorAll<HTMLElement>("tr[data-start]").forEach((tr) => {
-      if (tr.dataset.start! >= today) return;
+    document.querySelectorAll<HTMLElement>("tr[data-start], tr[data-end]").forEach((tr) => {
+      if (tr.dataset.start ? tr.dataset.start >= today : tr.dataset.end! >= today) return;
       tr.querySelector(".when")!.innerHTML = '<span class="tba">TBA</span>';
       tr.querySelector(".act")!.innerHTML = '<a href="#lead" style="font-weight:700;color:var(--cta)">Get notified</a>';
     });
