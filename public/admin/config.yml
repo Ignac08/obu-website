@@ -27,7 +27,7 @@ collections:
   # ---------------- Class dates ----------------
   - name: schedule
     label: Class dates
-    description: Upcoming class start dates. A date in the past shows as “TBA” on the site until you add the next one.
+    description: Kamloops class start dates. Chilliwack, Maple Ridge / Mission and Cochrane now show the classes added in the Obedience Unleashed portal; their dates here are only used if the portal can't be reached. A date in the past shows as “TBA”.
     files:
       - name: schedule
         label: Class start dates

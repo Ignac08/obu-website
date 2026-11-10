@@ -9,7 +9,9 @@ import Quiz from "../components/Quiz.astro";
 import LeadForm from "../components/LeadForm.astro";
 import PostCard from "../components/PostCard.astro";
 import Icon from "../components/Icon.astro";
-import { LOCATIONS, SITE, REVIEWS, COURSES, schedule, money, minClassPrice, LOC } from "../lib/site";
+import { LOCATIONS, SITE, REVIEWS, COURSES, classRows, money, minClassPrice, LOC } from "../lib/site";
+const homeScope = { datedOnly: true, limit: 6 };
+const homeRows = await classRows(homeScope);
 import { getCollection } from "astro:content";
 const { entry } = Astro.props;
 const posts = (await getCollection("blog")).sort((a, b) => +b.data.date - +a.data.date);
@@ -79,7 +81,7 @@ const GALLERY = [["g-creek","Splash time in the Silverdale creek","big"],["g-bri
 
 <section class="band"><div class="wrap stack" style="gap:28px">
   <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="stack" style="gap:10px"><p class="eyebrow">Upcoming class starts</p><h2>Grab a spot before it fills</h2></div><p class="muted">Classes are capped. Puppy Class max 8.</p></div>
-  <SchedTable rows={schedule((r) => !r.tba).slice(0, 6)} />
+  <SchedTable rows={homeRows} scope={homeScope} />
   <a class="btn ghost" href="/training/" style="align-self:flex-start">All classes &amp; dates</a>
 </div></section>
 
