@@ -14,7 +14,16 @@
 //
 // No imports from site.ts: this file also runs in the browser, and site.ts pulls in every data file.
 
-export const PORTAL_CLASSES_URL = "https://obedienceunleashedportal.com/api/public/classes";
+export const PORTAL_ORIGIN = "https://obedienceunleashedportal.com";
+export const PORTAL_CLASSES_URL = `${PORTAL_ORIGIN}/api/public/classes`;
+/** The portal's Classes page, where clients sign up (signing in or creating an account first). */
+export const PORTAL_SIGN_UP_URL = `${PORTAL_ORIGIN}/client/classes`;
+
+/** A class's sign-up link from the portal's list, only in the shape the portal makes it. */
+export function portalSignUpUrl(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  return /^https:\/\/obedienceunleashedportal\.com\/client\/classes\?class=\d{1,9}$/.test(value) ? value : undefined;
+}
 
 /** The website's locations whose classes come from the portal. */
 export const PORTAL_LOCATIONS: readonly string[] = ["chilliwack", "silverdale", "cochrane"];
@@ -37,8 +46,12 @@ const LOCATION_BY_NAME: Record<string, string> = {
 
 export const COURSES: readonly string[] = ["puppy", "l1", "l2", "ol"];
 
-/** One class start as the tables show it; `start` is "YYYY-MM-DD", or "" when not set; `end` is its last class, from the portal. */
-export type ClassRow = { course: string; location: string; start: string; time: string; dates: string; end?: string };
+/**
+ * One class start as the tables show it; `start` is "YYYY-MM-DD", or "" when not set; `end` is its last
+ * class, from the portal. A portal class also has `url`, its sign-up page in the portal, and `full` when
+ * no spot is left (owner, 2026-11-22: class Sign up buttons go to the portal).
+ */
+export type ClassRow = { course: string; location: string; start: string; time: string; dates: string; end?: string; url?: string; full?: boolean };
 /** `running`: a class under way, shown while its location has no new start. */
 export type ShownRow = ClassRow & { tba: boolean; running?: boolean };
 
@@ -82,6 +95,9 @@ export function portalRows(feed: unknown): ClassRow[] | null {
     const sessions = Number(c.sessions);
     const row: ClassRow = { course, location, start, time: shortTime(c.startTime), dates: sessions > 1 ? `${sessions} sessions` : "" };
     if (isDay(c.endDate)) row.end = c.endDate;
+    const url = portalSignUpUrl(c.enrollUrl);
+    if (url) row.url = url;
+    if (typeof c.spotsLeft === "number" && c.spotsLeft <= 0) row.full = true;
     rows.push(row);
   }
   return rows;
@@ -174,7 +190,12 @@ export function rowsHtml(rows: readonly ShownRow[], showCourse: boolean, site: S
         `<td class="num">${price ? escapeHtml(money(price)) : "—"}</td>`,
         r.tba || r.running
           ? `<td class="act"><a href="#lead" ${LINK}>Get notified</a></td>`
-          : `<td class="act"><a href="${escapeHtml(loc?.bookingUrl ?? "#lead")}" rel="noopener" ${LINK}>Book</a></td>`,
+          : r.full
+            ? `<td class="act"><span class="muted">Full</span> · <a href="#lead" ${LINK}>Get notified</a></td>`
+            : r.url
+              ? // A portal class signs up in the portal (owner, 2026-11-22); Kamloops keeps ProPet.
+                `<td class="act"><a href="${escapeHtml(r.url)}" rel="noopener" ${LINK}>Sign up</a></td>`
+              : `<td class="act"><a href="${escapeHtml(loc?.bookingUrl ?? "#lead")}" rel="noopener" ${LINK}>Book</a></td>`,
       ];
       // The page turns a row whose start has passed into TBA (Base.astro); a class under way ends instead.
       const marker = r.tba ? "" : r.running ? ` data-end="${escapeHtml(r.end ?? "")}"` : ` data-start="${escapeHtml(r.start)}"`;
