@@ -18,7 +18,7 @@ LOCATIONS = {
         daycare={"one": 48, "two": 86.40, "three": 124.80}, daycareHours=12,
         boarding={"one": 63, "two": 113.40, "three": 163.80}, boardTrain=4000,
         classes={"puppy": 0, "l1": 0, "l2": 0, "ol": 0}, consult=False,
-        classNote="Maple Ridge / Mission group classes run at our Silverdale location, on the south end of the border.",
+        classNote="Maple Ridge / Mission group classes run at our Silverdale location.",
         offers=["Daycare", "Boarding", "Daycare bus", "Board and Train", "Group walks"], bus=True, walks="mission",
         teamPage="/meet-the-team-stave-falls/", daycarePage="/dog-daycare-maple-ridge-mission/", boardingPage="/dog-boarding-mission/"),
     "silverdale": loc(key="silverdale", order=2, name="Silverdale", slug="silverdale", area="Maple Ridge / Mission",
