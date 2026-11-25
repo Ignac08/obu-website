@@ -154,8 +154,11 @@ export const fmtDate = (d: string) =>
 
 const LINK = 'style="font-weight:700;color:var(--cta)"';
 
-/** The table body for rows: the same at build time and in the browser. */
-export function rowsHtml(rows: readonly ShownRow[], showCourse: boolean, site: SchedSite): string {
+/**
+ * The table body for rows: the same at build time and in the browser. `showLocation` false leaves
+ * out the Location column, for a table that is already one location's (the Training page).
+ */
+export function rowsHtml(rows: readonly ShownRow[], showCourse: boolean, site: SchedSite, showLocation = true): string {
   return rows
     .map((r) => {
       const loc = site.locations[r.location];
@@ -167,7 +170,7 @@ export function rowsHtml(rows: readonly ShownRow[], showCourse: boolean, site: S
       const note = r.running ? `In progress · last class ${fmtDate(r.end ?? "")}` : r.dates;
       const cells = [
         showCourse ? `<td><a href="${escapeHtml(page)}" style="text-decoration:none"><b>${escapeHtml((course?.name ?? r.course).replace("Obedience ", ""))}</b></a></td>` : "",
-        `<td>${escapeHtml(label)}</td>`,
+        showLocation ? `<td>${escapeHtml(label)}</td>` : "",
         r.tba
           ? '<td class="when"><span class="tba">TBA</span></td>'
           : `<td class="when">${escapeHtml(fmtDate(r.start))}${r.time ? `, ${escapeHtml(r.time)}` : ""}${note ? `<div class="muted" style="font-size:13px">${escapeHtml(note)}</div>` : ""}</td>`,

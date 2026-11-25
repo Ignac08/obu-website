@@ -4,12 +4,12 @@
 // (src/scripts/live-classes.ts).
 import { ADMIN_ROWS, SCHED_SITE } from "../lib/site";
 import { rowsHtml, type SchedScope, type ShownRow } from "../lib/live-classes";
-const { rows, scope = {}, showCourse = true } = Astro.props as { rows: ShownRow[]; scope?: SchedScope; showCourse?: boolean };
+const { rows, scope = {}, showCourse = true, showLocation = true } = Astro.props as { rows: ShownRow[]; scope?: SchedScope; showCourse?: boolean; showLocation?: boolean };
 const siteData = JSON.stringify({ site: SCHED_SITE, adminRows: ADMIN_ROWS }).replace(/</g, "\\u003c");
 ---
-<div class="tbox" data-sched={JSON.stringify({ scope, showCourse })}><table>
-  <thead><tr>{showCourse && <th>Class</th>}<th>Location</th><th>First class</th><th>Price</th><th><span class="sr">Book</span></th></tr></thead>
-  <tbody set:html={rowsHtml(rows, showCourse, SCHED_SITE)} />
+<div class="tbox" data-sched={JSON.stringify({ scope, showCourse, showLocation })}><table>
+  <thead><tr>{showCourse && <th>Class</th>}{showLocation && <th>Location</th>}<th>First class</th><th>Price</th><th><span class="sr">Book</span></th></tr></thead>
+  <tbody set:html={rowsHtml(rows, showCourse, SCHED_SITE, showLocation)} />
 </table></div>
 <script is:inline type="application/json" data-sched-site set:html={siteData}></script>
 <script>import "../scripts/live-classes";</script>

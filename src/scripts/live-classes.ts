@@ -13,11 +13,13 @@ if (tables.length > 0 && data?.textContent) {
   fetchPortalRows().then((live) => {
     if (!live) return;
     for (const table of tables) {
-      const { scope, showCourse } = JSON.parse(table.dataset.sched ?? "{}") as { scope?: SchedScope; showCourse?: boolean };
+      const { scope, showCourse, showLocation } = JSON.parse(table.dataset.sched ?? "{}") as { scope?: SchedScope; showCourse?: boolean; showLocation?: boolean };
       const rows = scheduleRows(scope ?? {}, adminRows, live, site);
       const body = table.querySelector("tbody");
-      if (body) body.innerHTML = rowsHtml(rows, showCourse !== false, site);
-      table.hidden = rows.length === 0;
+      if (body) body.innerHTML = rowsHtml(rows, showCourse !== false, site, showLocation !== false);
+      // A location's own table (the Training page) hides together with its heading.
+      const group = table.closest<HTMLElement>("[data-sched-group]");
+      (group ?? table).hidden = rows.length === 0;
     }
   });
 }
