@@ -2,23 +2,9 @@
 import PageHead from "../components/PageHead.astro";
 import Pic from "../components/Pic.astro";
 import Tile from "../components/Tile.astro";
-import SchedTable from "../components/SchedTable.astro";
+import SchedByLocation from "../components/SchedByLocation.astro";
 import LeadForm from "../components/LeadForm.astro";
 import { SITE, classRows, money, minClassPrice, LOCATIONS } from "../lib/site";
-import { classLocation } from "../lib/live-classes";
-// Upcoming starts grouped by location, so each family finds its own (owner, 2026-11-25: "classes
-// should be displayed by location so it's easy to find"). Stave Falls' classes run at Silverdale,
-// so it has no table of its own; a location that offers no classes has none either.
-const places = LOCATIONS.filter((l) => classLocation(l.key) === l.key && Object.values(l.classes ?? {}).some((p) => p > 0));
-const groups = (
-  await Promise.all(
-    places.map(async (l) => ({
-      key: l.key,
-      label: l.key === "silverdale" ? "Silverdale (Maple Ridge / Mission)" : l.name,
-      rows: await classRows({ location: l.key }),
-    })),
-  )
-).filter((g) => g.rows.length > 0);
 const { entry } = Astro.props;
 const d = entry.data;
 const from = (k: string) => `From ${money(minClassPrice(k))}.`;
@@ -40,13 +26,7 @@ const bt = LOCATIONS.map((l) => l.boardTrain).filter(Boolean);
 </div></div></section>
 <section class="band tint"><div class="wrap stack" style="gap:24px">
   <h2>Upcoming class starts by location</h2>
-  <p style="font-weight:700">{groups.map((g, i) => <>{i > 0 && <span class="muted"> · </span>}<a href={`#classes-${g.key}`} style="color:var(--cta)">{g.label}</a></>)}</p>
-  {groups.map((g) => (
-    <div class="stack" style="gap:12px" id={`classes-${g.key}`} data-sched-group>
-      <h3>{g.label}</h3>
-      <SchedTable rows={g.rows} scope={{ location: g.key }} showLocation={false} />
-    </div>
-  ))}
+  <SchedByLocation jump />
   <p class="muted" style="font-size:14px">Maple Ridge / Mission classes are held at Silverdale, 9221 Woodward St. Prices plus tax.</p>
 </div></section>
 <LeadForm />
