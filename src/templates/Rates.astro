@@ -7,11 +7,11 @@ const { entry } = Astro.props;
 const d = entry.data;
 const cp = (s: string) => (l: any) => (l.key === "stavefalls" ? "at Silverdale" : classPrice(s, l.key) ? money(classPrice(s, l.key)) : "—");
 // Daycare and boarding get a heading row and one row per number of dogs (reviewer, 2026-11:
-// "$48/$86.40/$124.80" in one cell was hard to read). A multi-dog price that isn't set reads "Ask us".
+// "$48/$86.40/$124.80" in one cell was hard to read). A multi-dog price that isn't offered is left blank (owner, 2026-11-26).
 const dogs = (type: "daycare" | "boarding"): [string, (l: any) => string, boolean?][] => [
   ["1 dog", (l) => (l[type].one ? money(l[type].one) : "—"), true],
-  ["2 dogs", (l) => (l[type].two ? money(l[type].two) : "Ask us"), true],
-  ["3 dogs", (l) => (l[type].three ? money(l[type].three) : "Ask us"), true],
+  ["2 dogs", (l) => (l[type].two ? money(l[type].two) : ""), true],
+  ["3 dogs", (l) => (l[type].three ? money(l[type].three) : ""), true],
 ];
 type Row = [string, ((l: any) => string) | null, boolean?];
 const rows: Row[] = [
