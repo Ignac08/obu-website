@@ -1,20 +1,20 @@
 /* Layout: bright, sunny bands; sticky header; every page ends in a lead form; mobile gets a fixed call/book bar */
 :root{
-  /* Nature palette (forest green), owner prefers it, 2026-11-26; replaces the navy */
-  --bg:#FFFFFF; --bg2:#EFF5EC; --sun:#FFC83D; --sunSoft:#FFF4D6; --mint:#DDF0DA;
-  --cta:#F2542D; --ctaInk:#FFFFFF; --ink:#1F3326; --muted:#4E6153; --line:#D9E5D4;
-  --card:#FFFFFF; --deep:#2E5339; --deepInk:#FFFFFF; --deepMuted:#CFE0CB; --star:#E7A300;
+  /* Sage nature palette, owner's pick 2026-11-26 (replaces the navy): sage bands, forest footer, pale sage sections */
+  --bg:#FFFFFF; --bg2:#DCE7DA; --sun:#F5C542; --sunSoft:#FFF4D6; --mint:#DCE7DA;
+  --cta:#E94E28; --ctaInk:#FFFFFF; --ink:#1F3326; --muted:#3F5446; --line:#C9D8C6;
+  --card:#FFFFFF; --deep:#789681; --deepInk:#FFFFFF; --deepMuted:#F2F6F1; --star:#E7A300; --foot:#527D60;
   --display:"Outfit", "Trebuchet MS", system-ui, sans-serif;
   --body:"Figtree", "Segoe UI", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0F1A13; --bg2:#15241A; --sun:#FFC83D; --sunSoft:#2A2614; --mint:#173323;
   --cta:#FF6B47; --ctaInk:#1A0A04; --ink:#E9F2EA; --muted:#A9C0AE; --line:#24392B;
-  --card:#182B1F; --deep:#0A130D; --deepInk:#FFFFFF; --deepMuted:#A9C0AE; --star:#FFC83D; color-scheme:dark}}
+  --card:#182B1F; --deep:#0A130D; --deepInk:#FFFFFF; --deepMuted:#A9C0AE; --star:#FFC83D; --foot:#0A130D; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F1A13; --bg2:#15241A; --sun:#FFC83D; --sunSoft:#2A2614; --mint:#173323;
   --cta:#FF6B47; --ctaInk:#1A0A04; --ink:#E9F2EA; --muted:#A9C0AE; --line:#24392B;
-  --card:#182B1F; --deep:#0A130D; --deepInk:#FFFFFF; --deepMuted:#A9C0AE; --star:#FFC83D; color-scheme:dark}
+  --card:#182B1F; --deep:#0A130D; --deepInk:#FFFFFF; --deepMuted:#A9C0AE; --star:#FFC83D; --foot:#0A130D; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
@@ -186,7 +186,7 @@ details p{margin-top:8px;color:var(--muted)}
 .qr .code{flex:none;width:96px;height:96px;border-radius:12px;background:#FFFFFF;display:grid;place-items:center;color:#1F3326;font-size:12px;font-weight:700}
 
 /* footer */
-footer.site{background:var(--deep);color:var(--deepMuted);padding-block:56px 110px;font-size:15px}
+footer.site{background:var(--foot);color:var(--deepMuted);padding-block:56px 110px;font-size:15px}
 footer.site h4{color:var(--deepInk);margin:0 0 8px;font-family:var(--display);font-size:16px}
 footer.site a{color:var(--deepMuted)}
 .fcols{display:grid;grid-template-columns:1.4fr repeat(5,minmax(0,1fr));gap:28px}
