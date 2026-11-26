@@ -34,7 +34,7 @@ To keep all dogs safe and healthy, Obedience Unleashed requires proof of up-to-d
 
 We accept all dogs, including intact dogs; however, intact dogs are unable to participate in group daycare play with other intact dogs.
 
-Puppies are welcome starting at 4 months, and upon completion of the current full puppy vaccine series.
+Puppies are welcome from about 4 months or once their full vaccine series is done.
 
 Please bring a copy of your dog’s vaccination records on the first day of drop-off, or email them in advance.
 
@@ -149,7 +149,7 @@ Our goal is to ensure the highest standard of client satisfaction and provide yo
 All dogs must be up to date on Rabies and DHPP vaccines prior to their first visit. Bordetella is optional, but requires a 3-week wait period if you choose to receive it before coming to Obedience Unleashed. Proof of vaccination is required on or before the first day of drop-off.
 
 ### At what age can my puppy start daycare?
-Puppies are welcome once they have completed their full puppy vaccination series, typically around 4 months of age. Please bring proof of completed vaccinations on the first visit.
+Puppies are welcome from about 4 months or once their full vaccine series is done. Please bring proof of completed vaccinations on the first visit.
 
 ### Does my dog need to be spayed or neutered?
 We accept all dogs at our facility, including intact dogs; however, intact dogs are unable to participate in group daycare play with other intact dogs.

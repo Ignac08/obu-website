@@ -1,0 +1,32 @@
+---
+// Class starts grouped under a heading per location, so each family finds its own (reviewer and
+// owner, 2026-11: one big table of every location was overwhelming). Stave Falls' classes run at
+// Silverdale, so it has no group of its own; a location that offers no classes has none either.
+// A group with no rows is left out at build time and hidden in the browser.
+import SchedTable from "./SchedTable.astro";
+import { classRows, LOCATIONS } from "../lib/site";
+import { classLocation, type SchedScope } from "../lib/live-classes";
+const { scope = {}, compact = false, jump = false } = Astro.props as { scope?: SchedScope; compact?: boolean; jump?: boolean };
+const places = LOCATIONS.filter((l) => classLocation(l.key) === l.key && Object.values(l.classes ?? {}).some((p) => p > 0));
+const groups = (
+  await Promise.all(
+    places.map(async (l) => {
+      const s = { ...scope, location: l.key };
+      return { key: l.key, label: l.key === "silverdale" ? "Silverdale (Maple Ridge / Mission)" : l.name, scope: s, rows: await classRows(s) };
+    }),
+  )
+).filter((g) => g.rows.length > 0);
+---
+{jump && <p style="font-weight:700">{groups.map((g, i) => <>{i > 0 && <span class="muted"> · </span>}<a href={`#classes-${g.key}`} style="color:var(--cta)">{g.label}</a></>)}</p>}
+<div class={compact ? "sched-groups compact" : "sched-groups"}>
+  {groups.map((g) => (
+    <div class="stack" style="gap:12px" id={`classes-${g.key}`} data-sched-group>
+      <h3>{g.label}</h3>
+      <SchedTable rows={g.rows} scope={g.scope} showLocation={false} />
+    </div>
+  ))}
+</div>
+<style>
+  .sched-groups{display:flex;flex-direction:column;gap:28px}
+  @media (min-width:1000px){.sched-groups.compact{display:grid;grid-template-columns:1fr 1fr;gap:28px 32px;align-items:start}}
+</style>

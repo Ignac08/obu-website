@@ -2,11 +2,13 @@
   "validators": [
     {
       "name": "Andy",
-      "role": "Validator - Lower Mainland"
+      "role": "Validator - Lower Mainland",
+      "photo": "/img/p-andy.jpg"
     },
     {
       "name": "Marie",
-      "role": "Office Manager"
+      "role": "Office Manager",
+      "photo": "/img/p-marie.jpg"
     },
     {
       "name": "Trever",
@@ -34,7 +36,8 @@
     },
     {
       "name": "Melissa",
-      "role": "Validator - Lower Mainland"
+      "role": "Validator - Lower Mainland",
+      "photo": "/img/team/silverdale-melissa-b.jpg"
     }
   ]
 }

@@ -209,6 +209,25 @@ collections:
               - { name: image, label: Photo, widget: image, required: false }
               - { name: url, label: Buy link (course page on the OBU Portal), widget: string }
 
+  # ---------------- Service dog validators ----------------
+  - name: validators
+    label: Service dog validators
+    description: "The 'Meet the validator team' list on the Service Dog Assessments page. Leave the photo empty for anyone who prefers not to be pictured; their initials show instead."
+    files:
+      - name: validators
+        label: Validator team
+        file: src/data/validators.json
+        fields:
+          - name: validators
+            label: Validators
+            label_singular: validator
+            widget: list
+            summary: "{{fields.name}} — {{fields.role}}"
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: role, label: "Role (e.g. Validator - Lower Mainland)", widget: string }
+              - { name: photo, label: "Photo (square, face centred, optional)", widget: image, required: false, media_folder: /public/img/team, public_folder: /img/team }
+
   # ---------------- Business settings ----------------
   - name: settings
     label: Business settings

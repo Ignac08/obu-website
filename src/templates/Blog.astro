@@ -41,4 +41,4 @@ const count = (k: string) => posts.filter((p) => p.data.category === k || p.data
     if (b.classList.contains("topic")) document.getElementById("articles")?.scrollIntoView({ behavior: "smooth" });
   });
 </script>
-<style>#bloglist .post[hidden]{display:none}</style>
+<style is:global>#bloglist .post[hidden]{display:none}</style>

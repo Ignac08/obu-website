@@ -6,10 +6,19 @@ import { LOCATIONS, SITE, money, classPrice } from "../lib/site";
 const { entry } = Astro.props;
 const d = entry.data;
 const cp = (s: string) => (l: any) => (l.key === "stavefalls" ? "at Silverdale" : classPrice(s, l.key) ? money(classPrice(s, l.key)) : "—");
-const p3 = (p: any) => [p.one, p.two, p.three].filter(Boolean).map(money).join(" / ");
-const rows: [string, (l: any) => string][] = [
-  ["Daycare (1 / 2 / 3 dogs)", (l) => p3(l.daycare)],
-  ["Boarding (1 / 2 / 3 dogs)", (l) => p3(l.boarding)],
+// Daycare and boarding get a heading row and one row per number of dogs (reviewer, 2026-11:
+// "$48/$86.40/$124.80" in one cell was hard to read). A multi-dog price that isn't offered is left blank (owner, 2026-11-26).
+const dogs = (type: "daycare" | "boarding"): [string, (l: any) => string, boolean?][] => [
+  ["1 dog", (l) => (l[type].one ? money(l[type].one) : "—"), true],
+  ["2 dogs", (l) => (l[type].two ? money(l[type].two) : ""), true],
+  ["3 dogs", (l) => (l[type].three ? money(l[type].three) : ""), true],
+];
+type Row = [string, ((l: any) => string) | null, boolean?];
+const rows: Row[] = [
+  ["Daycare (per day)", null],
+  ...dogs("daycare"),
+  ["Boarding (per night)", null],
+  ...dogs("boarding"),
   ["Puppy Class (5 x 1 hr)", cp("puppy")],
   ["Bootcamp Level 1 (5 x 1 hr)", cp("l1")],
   ["Bootcamp Level 2 (5 x 1 hr)", cp("l2")],
@@ -24,7 +33,10 @@ const rows: [string, (l: any) => string][] = [
 <section class="band"><div class="wrap stack" style="gap:24px">
   <div class="tbox"><table>
     <thead><tr><th>Service</th>{LOCATIONS.map((l) => <th>{l.name}</th>)}</tr></thead>
-    <tbody>{rows.map((r) => <tr><td><b>{r[0]}</b></td>{LOCATIONS.map((l) => <td class="num">{r[1](l)}</td>)}</tr>)}</tbody>
+    <tbody>{rows.map(([label, price, sub]) =>
+      price === null ? <tr class="rate-head"><td colspan={LOCATIONS.length + 1}><b>{label}</b></td></tr>
+      : sub ? <tr class="rate-sub"><td>{label}</td>{LOCATIONS.map((l) => <td class="num">{price(l)}</td>)}</tr>
+      : <tr><td><b>{label}</b></td>{LOCATIONS.map((l) => <td class="num">{price(l)}</td>)}</tr>)}</tbody>
   </table></div>
   <p class="muted" style="font-size:14px">All prices plus tax. Daycare is up to 12 hours at Stave Falls and Silverdale and up to 10 hours elsewhere; boarding is per 24 hours. Maple Ridge / Mission group classes, consultations and Board and Train run at Silverdale. Kamloops: private 15-minute training walk add-on $15. Cochrane: private 30-minute walk add-on $15.</p>
   <div class="grid g3">
@@ -35,3 +47,7 @@ const rows: [string, (l: any) => string][] = [
   <div class="note-card"><h3>Payment</h3><p class="muted" style="margin-top:6px">{SITE.paymentNote}</p></div>
 </div></section>
 <LeadForm />
+<style>
+  .rate-head td{background:var(--bg2);padding-top:14px}
+  .rate-sub td:first-child{padding-left:32px;color:var(--muted)}
+</style>
