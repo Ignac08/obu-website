@@ -2,12 +2,16 @@
 // Every page ends with this form. Netlify Forms receives it and emails the office (recipients are set in Netlify).
 import { LOCATIONS, SITE, PHONE_HREF } from "../lib/site";
 const {
-  title = "Talk to our team",
-  sub = "Tell us about your dog. Our office will call or email you back.",
+  title = "How can we help?",
+  sub = "Questions about daycare, boarding or training? Send us a note and one of our office staff will get back to you with answers and the best next step. No obligation.",
   loc = "",
   need = "",
 } = Astro.props;
-const needs = ["Puppy Class", "Obedience Bootcamp", "Off Leash Freedom", "Board and Train", "Behaviour consultation", "Daycare", "Boarding", "Group walks", "Service dog assessment", "Something else"];
+// Tick boxes, more than one allowed (owner, 2026-11-26). A page's `need` (e.g. "Puppy Class") pre-ticks
+// its box and is also sent as "topic", so the office still sees the exact program asked about.
+const interests = ["Daycare", "Boarding", "Training", "Board and Train", "Not sure"];
+const TRAINING = ["Puppy Class", "Obedience Bootcamp", "Off Leash Freedom", "Behaviour consultation"];
+const ticked = TRAINING.includes(need) ? "Training" : interests.includes(need) ? need : "";
 const page = Astro.url.pathname;
 ---
 <section class="band deep" id="lead"><div class="wrap split">
@@ -31,10 +35,20 @@ const page = Astro.url.pathname;
       <label>Dog's name &amp; age<input name="dog" placeholder="e.g. Milo, 2 years" /></label>
       <label>Email<input name="email" type="email" autocomplete="email" /></label>
       <label>Phone<input name="phone" type="tel" autocomplete="tel" /></label>
-      <label>Closest location<select name="location"><option value="">Choose…</option>{LOCATIONS.map((l) => <option value={l.name} selected={loc === l.key}>{l.name}{l.key === "stavefalls" || l.key === "silverdale" ? " (Maple Ridge / Mission)" : ""}</option>)}</select></label>
-      <label>I'm interested in<select name="interest"><option value="">Choose…</option>{needs.map((n) => <option selected={n === need}>{n}</option>)}</select></label>
-      <label class="full">What's going on with your dog?<textarea name="message" placeholder="Pulling on leash, reactive to other dogs, new puppy…"></textarea></label>
-      <div class="full stack" style="gap:10px"><button class="btn primary" type="submit">Send to our team</button><p class="fmsg muted" style="font-size:14px" aria-live="polite">{SITE.replyPromise}</p></div>
+      <label class="full">Closest location<select name="location"><option value="">Choose…</option>{LOCATIONS.map((l) => <option value={l.name} selected={loc === l.key}>{l.name}{l.key === "stavefalls" || l.key === "silverdale" ? " (Maple Ridge / Mission)" : ""}</option>)}</select></label>
+      <input type="hidden" name="topic" value={need} />
+      <fieldset class="full interests"><legend>What are you interested in? (tick all that apply)</legend>
+        {interests.map((n) => <label class="tick"><input type="checkbox" name="interest[]" value={n} checked={n === ticked} />{n}</label>)}
+      </fieldset>
+      <label class="full">Tell us a bit more<textarea name="message" placeholder="Dates you need daycare or boarding, training goals, questions…"></textarea></label>
+      <div class="full stack" style="gap:10px"><button class="btn primary" type="submit">Send to our office</button><p class="fmsg muted" style="font-size:14px" aria-live="polite">{SITE.replyPromise}</p></div>
     </div>
   </form>
 </div></section>
+<style>
+  .interests{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+  .interests legend{font-weight:600;font-size:15px;margin-bottom:8px;padding:0}
+  .interests .tick{display:inline-flex;flex-direction:row;align-items:center;gap:8px;font-weight:500;min-height:36px;cursor:pointer}
+  .interests input{width:20px;height:20px;min-height:0;margin:0;accent-color:var(--cta)}
+  .formcard .fmsg:not(.err){color:var(--muted)}
+</style>

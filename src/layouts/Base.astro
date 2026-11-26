@@ -88,7 +88,7 @@ const ld = [org, ...schema];
           msg.classList.add("err");
           return;
         }
-        const interest = (f.elements.namedItem("interest") as HTMLSelectElement).value;
+        const interest = Array.from(f.querySelectorAll<HTMLInputElement>('input[name="interest[]"]:checked')).map((c) => c.value).join(", ");
         const loc = (f.elements.namedItem("location") as HTMLSelectElement).value;
         (f.elements.namedItem("subject") as HTMLInputElement).value =
           `Website enquiry: ${name}${interest ? " · " + interest : ""}${loc ? " · " + loc : ""}`;
@@ -103,7 +103,7 @@ const ld = [org, ...schema];
           (window as any).dataLayer?.push({ event: "lead_form_submit", interest, location: loc });
         } catch {
           btn.disabled = false;
-          btn.textContent = "Send to our team";
+          btn.textContent = "Send to our office";
           msg.textContent = "Sorry, that didn't send. Please call us or try again.";
           msg.classList.add("err");
         }
@@ -125,9 +125,11 @@ const ld = [org, ...schema];
       if (!pf) return;
       const f = document.querySelector<HTMLFormElement>("form.lead-form");
       if (!f) return;
-      const s = f.elements.namedItem("interest") as HTMLSelectElement;
       const l = f.elements.namedItem("location") as HTMLSelectElement;
-      if (pf.dataset.prefill) s.value = pf.dataset.prefill;
+      const want = pf.dataset.prefill ?? "";
+      const box = ["Daycare", "Boarding", "Board and Train"].includes(want) ? want : want ? "Training" : "";
+      f.querySelectorAll<HTMLInputElement>('input[name="interest[]"]').forEach((c) => { if (c.value === box) c.checked = true; });
+      (f.elements.namedItem("topic") as HTMLInputElement).value = want;
       if (pf.dataset.loc) l.value = pf.dataset.loc;
     });
   </script>
