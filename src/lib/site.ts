@@ -10,7 +10,7 @@ import { COURSES as LIVE_COURSES, bcToday, fetchPortalRows, scheduleRows, type C
 
 export type Prices = { one: number; two: number; three: number };
 export type Member = { name: string; role: string; photo?: string; bio?: string };
-export type Staff = Member & { locations: string[]; order?: number };
+export type Staff = Member & { locations: string[]; order?: number; archived?: boolean };
 export type Location = {
   key: string; order: number; name: string; slug: string; area: string; areaNote: string; color: string;
   street: string; city: string; region: string; postal: string; country: string;
@@ -23,7 +23,8 @@ export type Location = {
 
 // Staff live one file per person (src/data/staff) so the office can move someone between locations in one edit.
 const staffFiles = import.meta.glob<Staff>("../data/staff/*.json", { eager: true, import: "default" });
-export const STAFF: Staff[] = Object.values(staffFiles).sort((a, b) => (a.order ?? 50) - (b.order ?? 50) || a.name.localeCompare(b.name));
+// Archived staff (on leave or gone) keep their file for the admin but never appear on the site.
+export const STAFF: Staff[] = Object.values(staffFiles).filter((s) => !s.archived).sort((a, b) => (a.order ?? 50) - (b.order ?? 50) || a.name.localeCompare(b.name));
 
 const locFiles = import.meta.glob<Omit<Location, "team">>("../data/locations/*.json", { eager: true, import: "default" });
 export const LOCATIONS: Location[] = Object.values(locFiles)
