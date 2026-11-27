@@ -158,7 +158,7 @@ collections:
   - name: staff
     label: Staff
     label_singular: staff member
-    description: "One entry per person. Tick the locations they work at and they appear on those team pages. To move someone, change their ticks; to remove someone, delete their entry. Trainers are not listed at Stave Falls."
+    description: "One entry per person. Tick the locations they work at and they appear on those team pages. To move someone, change their ticks. Someone on leave or no longer with us: switch on Archived and save. Their card disappears from the website but stays here, so you can switch it off again if they come back. Use Filter to see only Archived or only On website. Trainers are not listed at Stave Falls."
     folder: src/data/staff
     format: json
     extension: json
@@ -166,9 +166,13 @@ collections:
     delete: true
     slug: "{{name}}"
     identifier_field: name
-    summary: "{{name}} · {{role}}"
+    summary: "{{name}} · {{role}}{{archived | ternary(' · ARCHIVED (hidden from website)', '')}}"
     sortable_fields: [name, role, order]
+    view_filters:
+      - { label: "On website", field: archived, pattern: false }
+      - { label: "Archived (hidden from website)", field: archived, pattern: true }
     fields:
+      - { name: archived, label: "Archived: on leave or no longer with us. Switch on to hide this card from the website without deleting it.", widget: boolean, default: false, required: false }
       - { name: name, label: Name, widget: string }
       - { name: role, label: "Role (e.g. Trainer, Kennel Assistant)", widget: string }
       - name: locations
