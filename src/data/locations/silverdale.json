@@ -9,7 +9,7 @@
   "street": "9221 Woodward St",
   "city": "Mission",
   "region": "BC",
-  "postal": "",
+  "postal": "V4S 1H9",
   "country": "CA",
   "blurb": "On the south end of the Maple Ridge / Mission border. The Silverdale Doggy Vacation Lodge: 5 acres with 3 acres of outdoor yards, a 4,000 sq ft covered arena and a water park. Home of our Maple Ridge / Mission group classes.",
   "dropOff": "7–10am",
@@ -50,7 +50,8 @@
   "teamPage": "/meet-the-team-silverdale/",
   "daycarePage": "/dog-daycare-silverdale-mission/",
   "boardingPage": "/dog-boarding-silverdale-mission/",
-  "reviewUrl": "",
+  "placeId": "ChIJ-1B5IkMyhFQRjBgIpO0i2Gk",
+  "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJ-1B5IkMyhFQRjBgIpO0i2Gk",
   "leadership": [
     "Andy Krzus",
     "Marie Therese Krzus",

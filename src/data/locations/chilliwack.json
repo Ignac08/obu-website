@@ -50,7 +50,8 @@
   "teamPage": "/meet-the-team-chilliwack/",
   "daycarePage": "/dog-daycare-chilliwack/",
   "boardingPage": "/chilliwack-boarding-and-daycare/",
-  "reviewUrl": "",
+  "placeId": "ChIJRdBhnRU5hFQRAtIkBbi1JD8",
+  "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJRdBhnRU5hFQRAtIkBbi1JD8",
   "leadership": [
     "Andy Krzus",
     "Marie Therese Krzus"
