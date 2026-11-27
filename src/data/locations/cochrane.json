@@ -9,7 +9,7 @@
   "street": "#101 – 12 Griffin Industrial Point",
   "city": "Cochrane",
   "region": "AB",
-  "postal": "",
+  "postal": "T4C 0A2",
   "country": "CA",
   "blurb": "Opened in 2019, with about 2,000 sq ft of indoor play, rest kennels and an outdoor potty area. Double-gated entry and play groups by size and temperament.",
   "dropOff": "7:15–9am",
@@ -51,6 +51,7 @@
   "teamPage": "/meet-the-team-cochrane/",
   "daycarePage": "/dog-daycare-cochrane-ab/",
   "boardingPage": "/dog-boarding-cochrane/",
-  "reviewUrl": "",
+  "placeId": "ChIJCQD1Z_NBcVMRb6veGi9gtb4",
+  "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJCQD1Z_NBcVMRb6veGi9gtb4",
   "leadership": []
 }

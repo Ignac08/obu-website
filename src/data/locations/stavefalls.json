@@ -9,7 +9,7 @@
   "street": "12658 Powell St",
   "city": "Mission",
   "region": "BC",
-  "postal": "",
+  "postal": "V4S 1C1",
   "country": "CA",
   "blurb": "On the north end of the Maple Ridge / Mission border: 10 acres of forest trails and open fields. A licensed and inspected commercial kennel with permits from the City of Mission and the Fraser Valley Regional District.",
   "dropOff": "7:45–10am",
@@ -46,7 +46,8 @@
   "teamPage": "/meet-the-team-stave-falls/",
   "daycarePage": "/dog-daycare-maple-ridge-mission/",
   "boardingPage": "/dog-boarding-mission/",
-  "reviewUrl": "",
+  "placeId": "ChIJMXZP-3YuhFQRq5bZ-4xKw10",
+  "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJMXZP-3YuhFQRq5bZ-4xKw10",
   "leadership": [
     "Andy Krzus",
     "Marie Therese Krzus",

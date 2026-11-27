@@ -118,7 +118,8 @@ collections:
       - { name: dropOff, label: Drop-off hours, widget: string }
       - { name: pickUp, label: Pick-up hours, widget: string }
       - { name: bookingUrl, label: Online booking link, widget: string, hint: "Today: ProPetware. Later: the OBU Portal." }
-      - { name: reviewUrl, label: Google review link (shows a QR code when filled in), widget: string, required: false }
+      - { name: placeId, label: Google Place ID, widget: string, required: false, hint: "Pins the exact Google Maps listing for the Get directions buttons. Starts with ChIJ." }
+      - { name: reviewUrl, label: Google review link (shows a QR code when filled in), widget: string, required: false, hint: "https://search.google.com/local/writereview?placeid= followed by the Place ID" }
       - name: daycare
         label: Daycare price per day (0 = not offered)
         widget: object

@@ -14,7 +14,7 @@ export type Staff = Member & { locations: string[]; order?: number };
 export type Location = {
   key: string; order: number; name: string; slug: string; area: string; areaNote: string; color: string;
   street: string; city: string; region: string; postal: string; country: string;
-  blurb: string; dropOff: string; pickUp: string; bookingUrl: string; reviewUrl: string;
+  blurb: string; dropOff: string; pickUp: string; bookingUrl: string; reviewUrl: string; placeId?: string;
   daycare: Prices; daycareHours: number; boarding: Prices; boardTrain: number;
   classes: Record<"puppy" | "l1" | "l2" | "ol", number>; consult: boolean; classNote: string;
   offers: string[]; bus: boolean; walks: string; team: Member[]; leadership?: string[];
@@ -48,7 +48,11 @@ export const money = (n: number) =>
   "$" + (Number.isInteger(n) ? n.toLocaleString("en-CA") : n.toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
 export const addressLine = (l: Location) => `${l.street}, ${l.city}, ${l.region}${l.postal ? " " + l.postal : ""}`;
-export const mapsUrl = (l: Location) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`Obedience Unleashed ${addressLine(l)}`);
+// Opens turn-by-turn directions (the Maps app on phones). The Google Place ID pins the exact
+// listing; without one Maps falls back to the business name and address.
+export const mapsUrl = (l: Location) =>
+  "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(`Obedience Unleashed ${addressLine(l)}`) +
+  (l.placeId ? "&destination_place_id=" + encodeURIComponent(l.placeId) : "");
 export const locUrl = (l: Location) => `/locations/${l.slug}/`;
 
 // Classes for Stave Falls clients run at Silverdale.

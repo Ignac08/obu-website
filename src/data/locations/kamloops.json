@@ -9,7 +9,7 @@
   "street": "9015 Barnhartvale Rd",
   "city": "Kamloops",
   "region": "BC",
-  "postal": "",
+  "postal": "V2C 6W1",
   "country": "CA",
   "blurb": "6 acres in Barnhartvale with a dedicated 80 x 25 ft boarding building, 4 x 4 ft suites and a birch-chip yard.",
   "dropOff": "7:15–9am",
@@ -49,6 +49,7 @@
   "teamPage": "/meet-the-team-kamloops/",
   "daycarePage": "/dog-daycare-kamloops/",
   "boardingPage": "/dog-boarding-kamloops/",
-  "reviewUrl": "",
+  "placeId": "ChIJY0cY9sAwflMRSYeXVx_rnT0",
+  "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJY0cY9sAwflMRSYeXVx_rnT0",
   "leadership": []
 }
