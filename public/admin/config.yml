@@ -155,22 +155,54 @@ collections:
       - { name: leadership, label: "Leadership shown on this team page (names from Business settings)", widget: list, required: false }
 
   # ---------------- Staff ----------------
+  # Two lists over the same folder: "Staff" shows people on the website, "Archived staff" shows people switched to Archived.
   - name: staff
     label: Staff
     label_singular: staff member
-    description: "One entry per person. Tick the locations they work at and they appear on those team pages. To move someone, change their ticks. Someone on leave or no longer with us: switch on Archived and save. Their card disappears from the website but stays here, so you can switch it off again if they come back. Use Filter to see only Archived or only On website. Trainers are not listed at Stave Falls."
+    description: "Everyone shown on the website. Tick the locations they work at and they appear on those team pages. To move someone, change their ticks. Someone on leave or no longer with us: switch on Archived and save. They move to Archived staff (below) and disappear from the website, ready to bring back later. Trainers are not listed at Stave Falls."
     folder: src/data/staff
     format: json
     extension: json
     create: true
-    delete: true
+    delete: false
+    filter: { field: archived, value: false }
     slug: "{{name}}"
     identifier_field: name
-    summary: "{{name}} · {{role}}{{archived | ternary(' · ARCHIVED (hidden from website)', '')}}"
+    summary: "{{name}} · {{role}}"
     sortable_fields: [name, role, order]
-    view_filters:
-      - { label: "On website", field: archived, pattern: false }
-      - { label: "Archived (hidden from website)", field: archived, pattern: true }
+    fields:
+      - { name: archived, label: "Archived: on leave or no longer with us. Switch on to hide this card from the website without deleting it.", widget: boolean, default: false, required: false }
+      - { name: name, label: Name, widget: string }
+      - { name: role, label: "Role (e.g. Trainer, Kennel Assistant)", widget: string }
+      - name: locations
+        label: Works at
+        widget: select
+        multiple: true
+        min: 1
+        options:
+          - { label: "Stave Falls (Maple Ridge / Mission)", value: stavefalls }
+          - { label: "Silverdale (Maple Ridge / Mission)", value: silverdale }
+          - { label: Chilliwack, value: chilliwack }
+          - { label: Kamloops, value: kamloops }
+          - { label: "Cochrane, AB", value: cochrane }
+      - { name: photo, label: "Photo (square, face centred, works best)", widget: image, required: false, media_folder: /public/img/team, public_folder: /img/team }
+      - { name: bio, label: Bio, widget: text, required: false }
+      - { name: order, label: "Order on the team page (lower shows first; managers 10, everyone else 50)", widget: number, value_type: int, default: 50 }
+
+  - name: staff_archived
+    label: Archived staff
+    label_singular: archived staff member
+    description: "People on leave or no longer with us. They are hidden from the website but kept here with their photo and bio. To bring someone back, open them, switch off Archived and save; they move back to Staff. Delete only if you are sure they won't return."
+    folder: src/data/staff
+    format: json
+    extension: json
+    create: false
+    delete: true
+    filter: { field: archived, value: true }
+    slug: "{{name}}"
+    identifier_field: name
+    summary: "{{name}} · {{role}}"
+    sortable_fields: [name, role]
     fields:
       - { name: archived, label: "Archived: on leave or no longer with us. Switch on to hide this card from the website without deleting it.", widget: boolean, default: false, required: false }
       - { name: name, label: Name, widget: string }
