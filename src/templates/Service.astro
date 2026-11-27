@@ -6,6 +6,7 @@ import SchedTable from "../components/SchedTable.astro";
 import Reviews from "../components/Reviews.astro";
 import LeadForm from "../components/LeadForm.astro";
 import { LOCATIONS, LOC, SVC, SITE, MARKER, classRows, classPrice, money, reviewsFor, addressLine, mapsUrl, SERVICE_LOCAL_PAGE, locUrl } from "../lib/site";
+import { PORTAL_LOCATIONS, PORTAL_SIGN_UP_URL, classLocation } from "../lib/live-classes";
 const { entry, Content, hasBody } = Astro.props;
 const d = entry.data;
 const S = SVC[d.service];
@@ -18,10 +19,14 @@ const reviews = reviewsFor(entry.id, { service: S.key, location: L?.key, limit: 
 const where = L ? (L.key === "silverdale" ? "Silverdale, on the Maple Ridge / Mission border" : L.name) : "";
 const price = L ? classPrice(S.key, L.key) : 0;
 const others = L ? Object.entries(SERVICE_LOCAL_PAGE[S.key] ?? {}).filter(([k, u]) => k !== L.key && k !== "stavefalls" && u !== `/${entry.id}/`) : [];
+// Classes at the portal's locations sign up in the portal (owner, 2026-11-22): the buttons go to this
+// page's dates (each row links to its class), else the portal's Classes page. Kamloops keeps ProPet.
+const portalClasses = !!L && S.key !== "consult" && PORTAL_LOCATIONS.includes(classLocation(L.key));
+const signUpHref = portalClasses ? (rows.some((r) => !r.tba && !r.running) ? "#starts" : PORTAL_SIGN_UP_URL) : L?.bookingUrl;
 ---
 <PageHead crumbs={L ? [["Training", "/training/"], [S.name, S.page], [d.town || L.name]] : [["Training", "/training/"], [S.name]]} eyebrow={L ? `${S.tag} · ${d.town || L.name}` : S.tag} title={d.h1} lead={d.lead || S.intro}>
   <div class="row">
-    {L ? <a class="btn primary" href={L.bookingUrl} rel="noopener">Book at {L.name}</a> : <a class="btn primary" href="#lead">Ask about {S.name}</a>}
+    {L ? <a class="btn primary" href={signUpHref} rel="noopener">{portalClasses ? `Sign up at ${L.name}` : `Book at ${L.name}`}</a> : <a class="btn primary" href="#lead">Ask about {S.name}</a>}
     {L ? <a class="btn ghost" href="#lead">Ask a question</a> : <a class="btn ghost" href="/locations/">Book online</a>}
   </div>
   <Pic slot="side" src={S.image} alt={S.alt} eager />
@@ -32,7 +37,7 @@ const others = L ? Object.entries(SERVICE_LOCAL_PAGE[S.key] ?? {}).filter(([k, u
     {L && <p class="lead" style="max-width:none">{S.intro}</p>}
     <div class="stack"><h2>{S.key === "consult" ? "What happens at the consultation" : "What your dog learns"}</h2><ul class="list cols2">{S.learn.map((x: string) => <li>{x}</li>)}</ul></div>
     {S.qa.length > 0 && <div class="stack"><h2>Your questions, answered in class</h2><ul class="list cols2">{S.qa.map((x: string) => <li>{x}</li>)}</ul></div>}
-    {S.key !== "consult" && (rows.length > 0 ? <div class="stack"><h2>Upcoming starts{L && ` in ${L.key === "silverdale" ? "Maple Ridge / Mission" : L.name}`}</h2><SchedTable rows={rows} scope={rowsScope} showCourse={false} /></div>
+    {S.key !== "consult" && (rows.length > 0 ? <div class="stack" id="starts"><h2>Upcoming starts{L && ` in ${L.key === "silverdale" ? "Maple Ridge / Mission" : L.name}`}</h2><SchedTable rows={rows} scope={rowsScope} showCourse={false} /></div>
       : L && <div class="note-card"><b>New dates coming soon.</b> Send us a message below and we'll let you know when the next {S.name} starts at {L.name}.</div>)}
     {S.marker && <div class="stack"><h2>Our method: marker training</h2><p class="muted">{MARKER}</p></div>}
     {S.key === "consult" && (
@@ -51,7 +56,7 @@ const others = L ? Object.entries(SERVICE_LOCAL_PAGE[S.key] ?? {}).filter(([k, u
         <h3>{S.name} at {L.name}</h3>
         {price ? <p style="font-family:var(--display);font-size:40px;font-weight:900;line-height:1">{money(price)}</p> : <p class="muted">Ask us about availability.</p>}
         <p class="muted" style="font-size:14px">{S.length} · plus tax</p>
-        <a class="btn primary" href={L.bookingUrl} rel="noopener">Reserve a spot</a>
+        <a class="btn primary" href={signUpHref} rel="noopener">Reserve a spot</a>
         <div><p style="font-weight:700">{addressLine(L)}</p><p class="muted" style="font-size:14px">{L.areaNote}</p><a href={mapsUrl(L)} style="color:var(--cta);font-weight:600">Get directions</a></div>
         <ul class="list" style="font-size:15px">{S.requirements.map((x: string) => <li>{x}</li>)}</ul>
         <a href={locUrl(L)} style="font-weight:700;color:var(--cta)">About our {L.name} location →</a>
